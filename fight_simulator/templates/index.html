@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>MMA Fight Simulator</title>
+
+		<!-- CSS -->
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+
+		<!-- Fight Simulator -->
+        <link rel="stylesheet" href="../static/css/main.css">
+		
+		<!-- JavaScript -->
+		<!--jQuery -->
+		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+		<!-- Bootstrap -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+		<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+		    <div class="container">
+				<div class="navbar-header">
+			    	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+			    	</button>
+			    	<a class="navbar-brand" href="{{ url_for('welcome') }}">Home</a>
+			    </div>
+
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+
+						{% if not current_user.is_authenticated %}
+						<li><a href="{{ url_for('create_user_get') }}">Register</a></li>						
+						<li><a href="{{ url_for('login_get') }}">Login</a></li>
+						{% endif %}
+			    		
+			    		{% if current_user.is_authenticated %}
+			    		<li><a href="{{ url_for('fight') }}">Fight</a></li>
+			    		<li><a href="{{ url_for('logout') }}">Logout ({{ current_user.email }})</a></li>
+			    		{% endif %}
+
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			{% block content %}{% endblock %}
+		</div>
+	</body>
+</html>    

@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+{% block content %}
+
+<div class="jumbotron" id="jumbo">
+  	<div id="welcome" class="container-fluid">
+  		<h1>MMA Fight Simulator</h1>
+  		<p>Predict the outcome of a match between your favorite fighters</p>
+  		<p><a class="btn btn-primary btn-lg" href="{{ url_for('fight') }}" role="button">FIGHT!</a></p>
+  	</div>
+</div>
+
+{% endblock %}
+

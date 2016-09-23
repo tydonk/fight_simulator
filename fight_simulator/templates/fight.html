@@ -1,0 +1,189 @@
+{% extends "index.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">  
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h2 class="panel-title text-center">Red Corner</h2>
+                </div>
+                <div id="red_corner" class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <select id="red_gender" class="selectpicker" title="Gender" 
+                                                    data-size="10" data-width="100%">
+                                        <option data-icon="glyphicon glyphicon-queen">Female</option>
+                                        <option data-icon="glyphicon glyphicon-king">Male</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <select class="selectpicker" title="Promotion" 
+                                                    data-size="10" data-width="100%">
+                                        <option data-icon="glyphicon glyphicon-bullhorn">UFC</option>
+                                        <option data-icon="glyphicon glyphicon-bullhorn" disabled>Bellator MMA</option>
+                                        <option data-icon="glyphicon glyphicon-bullhorn" disabled>One FC</option>
+                                        <option data-icon="glyphicon glyphicon-bullhorn" disabled>World Series of Fighting</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <select class="selectpicker" title="Weight" 
+                                                    data-size="10" data-width="100%">
+                                        <option data-icon="glyphicon glyphicon-scale">Strawweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Flyweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Bantamweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Featherweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Lightweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Welterweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Middleweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Light-Heavyweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Heavyweight</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <select class="selectpicker" title="Fighter" data-size="10" 
+                                            data-width="100%" data-live-search="true" data-header="Select a fighter">
+                                        {% for fighter in fighter_data %}
+
+                                        <option data-subtext={{ fighter.promotion }} data-icon="glyphicon glyphicon-user">{{ fighter.last_name }}, {{ fighter.first_name }}</option>
+                                        
+                                        {% endfor %}
+                                    </select>    
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="http://i995.photobucket.com/albums/af77/gammadiary/Body-1.png" 
+                                class="img-responsive" alt="Responsive image">    
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 center-text">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">Fighter Info</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Name</li>
+                                        <li class="list-group-item">Nickname</li>
+                                        <li class="list-group-item">Age</li>
+                                        <li class="list-group-item">Weight</li>
+                                        <li class="list-group-item">Record</li>
+                                    </ul>
+                                </div>
+                            </div>        
+                        </div>    
+                    </div>
+                </div>
+            </div>    
+        </div>
+        <div class="col-md-2">
+            <h1 id="vs" class="text-center">VS.</h1>
+            <button type="button" class="btn btn-danger btn-lg btn-block">FIGHT!</button>   
+        </div>
+        <div class="col-md-5">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h2 class="panel-title text-center">Blue Corner</h2>
+                </div>
+                <div id="blue_corner" class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <select class="selectpicker" title="Gender" 
+                                                    data-size="10" data-width="100%">
+                                        <option data-icon="glyphicon glyphicon-queen">Female</option>
+                                        <option data-icon="glyphicon glyphicon-king">Male</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <select class="selectpicker" title="Promotion" 
+                                                    data-size="10" data-width="100%">
+                                        <option data-icon="glyphicon glyphicon-bullhorn">UFC</option>
+                                        <option data-icon="glyphicon glyphicon-bullhorn" disabled>Bellator MMA</option>
+                                        <option data-icon="glyphicon glyphicon-bullhorn" disabled>One FC</option>
+                                        <option data-icon="glyphicon glyphicon-bullhorn" disabled>World Series of Fighting</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <select class="selectpicker" title="Weight" 
+                                                    data-size="10" data-width="100%">
+                                        <option data-icon="glyphicon glyphicon-scale">Strawweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Flyweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Bantamweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Featherweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Lightweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Welterweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Middleweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Light-Heavyweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Heavyweight</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <select class="selectpicker" title="Fighter" data-size="10" 
+                                            data-width="100%" data-live-search="true" data-header="Select a fighter">
+                                        {% for fighter in fighter_data %}
+
+                                        <option data-subtext={{ fighter.promotion }} data-icon="glyphicon glyphicon-user">{{ fighter.last_name }}, {{ fighter.first_name }}</option>
+                                        
+                                        {% endfor %}
+                                    </select>    
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="http://i995.photobucket.com/albums/af77/gammadiary/Body-1.png" 
+                                class="img-responsive" alt="Responsive image">    
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 center-text">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">Fighter Info</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Name</li>
+                                        <li class="list-group-item">Nickname</li>                                        
+                                        <li class="list-group-item">Age</li>
+                                        <li class="list-group-item">Weight</li>
+                                        <li class="list-group-item">Record</li>
+                                    </ul>
+                                </div>
+                            </div>        
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">Results</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">Winner</li>
+                        <li class="list-group-item">Round</li>
+                        <li class="list-group-item">Time</li>
+                        <li class="list-group-item">Method</li>
+                    </ul>
+                </div>
+            </div>    
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>    
+</div>
+
+{% endblock %} 

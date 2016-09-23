@@ -1,0 +1,46 @@
+div.metadata {
+	margin-top: 20px;
+	font-size: 1em;
+}
+
+#blue_corner {
+	background-color: #2980B9; 
+}
+
+#red_corner {
+	background-color: #C0392B; 
+}
+
+#vs {
+	padding-top: 3em;
+	padding-bottom: 1em;
+	font-size: 6em;
+	color: #ECF0F1;
+}
+
+body {
+	background-color: #1C2833;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
+#jumbo {
+	background-image: url("/../static/images/MMAfight.jpg");
+	background-size: 120em auto;
+	background-position: -4em -4em;
+}
+
+.jumbotron {
+	min-height: 50em;
+}
+
+#welcome {
+	position: relative;
+	top: 20em;
+	right: 2em;
+	color: white;
+}
