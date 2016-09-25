@@ -32,16 +32,17 @@ fighter_schema = {
                     ]
 }
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def welcome():
     return render_template("welcome.html")
-
-
 
 @app.route("/fight", methods=["GET"])
 #@login_required
 @decorators.accept("application/json")
 def fight():
+    #fighter_data = session.query(Fighter)
+    #return render_template("fight.html", 
+    #    data=json.dumps([fighter.as_dictionary() for fighter in fighter_data]))
     fighter_data = session.query(Fighter)
     fighter_data = fighter_data.order_by(Fighter.last_name.asc())
     for fighter in fighter_data:
@@ -51,7 +52,7 @@ def fight():
         loss = fighter.loss
         draw = fighter.draw
         weight = fighter.weight       
-    '''return render_template("fight.html", 
+    return render_template("fight.html", 
                     data=fighter_data, 
                     first_name=first_name, 
                     last_name=last_name,
@@ -59,29 +60,21 @@ def fight():
                     loss = loss,
                     draw = draw,
                     weight = weight,
-                    )'''
-  
-    
-    data = json.dumps([fighter.as_dictionary()
-                        for fighter in fighter_data])
-    return render_template("fight.html", data=data)
-    #return Response(data, 200, mimetype="application/json")'''
+                    )
 
-@app.route("/fight/gender", methods=["POST"])
-    def selected_gender():
-        if request.form("red_gender") == "Female":
-            female_fighters = session.query(Fighter).filter(Fighter.gender == "female").all()
-            data = json.dumps([fighter.as_dictionary()
-                                for fighter in female_fighters])
-
-        if request.form("red_gender") == "Male":
-            male_fighters = session.query(Fighter).filter(Fighter.gender == "male").all() 
-            data = json.dumps([fighter.as_dictionary()
-                                for fighter in female_fighters])
-
+@app.route("/fight", methods=["GET", "POST"])
+def selected_gender():
+    if request.form["red_gender"] == "Female":
+        female_fighters = session.query(Fighter).filter(Fighter.gender == "female").all()
+        return render_template("fight.html", 
+            data = json.dumps([fighter.as_dictionary() for fighter in female_fighters]))
 
 @app.route("/fight/promotion", methods=["POST"])
-    def selected_promotion():
+def selected_promotion():
+    if request.form["red_promo"] == "UFC":
+        ufc_fighters = session.query(Fighter).filter(Fighter.promotion == "UFC").all()
+        data = json.dumps([fighter.as_dictionary()
+                            for fighter in ufc_fighters])
 
 
 @app.route("/login", methods=["GET"])
