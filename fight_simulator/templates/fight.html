@@ -1,43 +1,6 @@
 {% extends "index.html" %}
 {% block content %}
 
-<script>
-$.ajax({
-            type: "POST",
-            url: urlPath,
-            success: function(data)
-            {
-                helpers.buildDropdown(
-                    jQuery.parseJSON(data),
-                    $('#red_gender'),
-                    'Select a gender'
-                );
-            }
-        });
-
-var helpers =
-{
-    buildDropdown: function(result, red_gender, emptyMessage)
-    {
-        // Remove current options
-        red_gender.html('');
-
-        // Add the empty option with the empty message
-        red_gender.append('<option value="">' + emptyMessage + '</option>');
-
-        // Check result isnt empty
-        if(result != '')
-        {
-            // Loop through each of the results and append the option to the dropdown
-            $.each(result, function(k, v) {
-                red_gender.append('<option value="' + v.id + '">' + v.name + '</option>');
-            });
-        }
-    }
-}        
-</script>
-
-
 <div class="container">
     <div class="row">
         <div class="col-md-5">  
@@ -50,15 +13,16 @@ var helpers =
                         <div class="col-md-6">
                             <ul class="list-group">
                                 <form action="{{ url_for('fight') }}" method="POST">
-                                    <li class="list-group-item">
-                                        <select id="red_gender" class="selectpicker" title="Gender" 
-                                                        data-size="10" data-width="100%">         
-                                            <option data-icon="glyphicon glyphicon-queen">Female</option>
-                                            <option data-icon="glyphicon glyphicon-king">Male</option>
+                                    <li id="dropdowns" class="list-group-item">
+                                        <select class="selectpicker step1" title="Select gender" value=""
+                                                        data-size="10" data-width="100%" name="typeId">
+
+                                            <option>Female</option>
+                                            <option>Male</option>
                                         </select>
                                     </li>
                                     <li class="list-group-item">
-                                        <select id="red_promotion" class="selectpicker" title="Promotion" 
+                                        <select id="step2" class="selectpicker" title="Promotion" 
                                                         data-size="10" data-width="100%">
                                             <option data-icon="glyphicon glyphicon-bullhorn">UFC</option>
                                             <option data-icon="glyphicon glyphicon-bullhorn">Bellator MMA</option>
@@ -67,7 +31,7 @@ var helpers =
                                         </select>
                                     </li>
                                     <li class="list-group-item">
-                                        <select id="red_weight" class="selectpicker" title="Weight" 
+                                        <select id="step3" class="selectpicker" title="Weight" 
                                                         data-size="10" data-width="100%">
                                             <option data-icon="glyphicon glyphicon-scale">Strawweight</option>
                                             <option data-icon="glyphicon glyphicon-scale">Flyweight</option>

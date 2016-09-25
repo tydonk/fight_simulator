@@ -40,10 +40,10 @@ def welcome():
 #@login_required
 @decorators.accept("application/json")
 def fight():
-    #fighter_data = session.query(Fighter)
-    #return render_template("fight.html", 
-    #    data=json.dumps([fighter.as_dictionary() for fighter in fighter_data]))
     fighter_data = session.query(Fighter)
+    return render_template("fight.html", 
+        data=json.dumps([fighter.as_dictionary() for fighter in fighter_data]))
+    '''fighter_data = session.query(Fighter)
     fighter_data = fighter_data.order_by(Fighter.last_name.asc())
     for fighter in fighter_data:
         first_name = fighter.first_name
@@ -60,7 +60,7 @@ def fight():
                     loss = loss,
                     draw = draw,
                     weight = weight,
-                    )
+                    )'''
 
 @app.route("/fight", methods=["GET", "POST"])
 def selected_gender():
