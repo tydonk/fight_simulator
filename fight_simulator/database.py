@@ -11,15 +11,16 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 class Fighter(Base):
-    __tablename__ = "fighter"
+    __tablename__ = "fighters"
 
     id = Column(Integer, primary_key=True)
     first_name = Column(String(1024), nullable=False)
     last_name = Column(String(1024), nullable=False)
-    #nickname = Column(String(1024))
+    nickname = Column(String(1024))
     gender = Column(String(128))
     #age = Column(Integer)
     promotion = Column(String(1024))
+    fighter_image = Column(String(1024))
     #height = Column(Integer)
     weight = Column(String(128))
     win = Column(Integer)
@@ -27,8 +28,24 @@ class Fighter(Base):
     draw = Column(Integer)
     #no_contest = Column(Integer)
 
+    def as_dictionary(self):
+        fighter = {
+            "id": self.id,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "nickname": self.nickname,
+            "gender": self.gender,
+            "promotion": self.promotion,
+            "fighter_image": self.fighter_image,
+            "weight": self.weight,
+            "win": self.win,
+            "loss": self.loss,
+            "draw": self.draw,    
+        }
+        return fighter
+
 class User(Base, UserMixin):
-    __tablename__ = "user"
+    __tablename__ = "users"
     
     id = Column(Integer, primary_key=True)
     email = Column(String(1024), unique=True, nullable=False)
@@ -49,6 +66,6 @@ class History(Base):
     end_round = Column(Integer, nullable=False)
     end_time = Column(Integer, nullable=False)
 
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
 Base.metadata.create_all(engine)

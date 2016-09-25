@@ -17,7 +17,9 @@ for fighter in fighters:
                         fighter = Fighter(
                             first_name=fighter['first_name'], 
                             last_name=fighter['last_name'],
+                            nickname=fighter['nickname'],
                             promotion="UFC",
+                            fighter_image=fighter['profile_image'],
                             gender = "", 
                             weight=fighter['weight_class'], 
                             win=fighter['wins'], 

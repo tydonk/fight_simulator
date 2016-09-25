@@ -1,39 +1,49 @@
-from flask import render_template, request, redirect, url_for, flash
+import json
+from flask import render_template, request, redirect, url_for, flash, Response
 from . import app, decorators
 from .database import session, User, Fighter, History
 from flask_login import login_required, login_user, current_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
-from getpass import getpass
+from jsonschema import validate, ValidationError
 
-'''fighter_schema = {
+
+fighter_schema = {
     "properties":{
         "first_name": {"type" : "string"},
         "last_name": {"type" : "string"},
+        "nickname": {"type" : "string"},
+        "gender": {"type" : "string"},
+        "promotion": {"type" : "string"},
+        "fighter_image": {"type" : "string"},
         "weight": {"type" : "string"},
         "win": {"type" : "number"},
         "loss": {"type" : "number"},
         "draw": {"type" : "number"},
-        }
+        },
         "required": [
                     "first_name",
                     "last_name",
+                    "gender",
+                    "promotion"
                     "weight",
                     "win",
                     "loss",
                     "draw",
                     ]
-}'''
+}
 
 @app.route("/")
 def welcome():
     return render_template("welcome.html")
 
+
+
 @app.route("/fight", methods=["GET"])
 #@login_required
+@decorators.accept("application/json")
 def fight():
     fighter_data = session.query(Fighter)
     fighter_data = fighter_data.order_by(Fighter.last_name.asc())
-    count = session.query(Fighter).count()
     for fighter in fighter_data:
         first_name = fighter.first_name
         last_name = fighter.last_name
@@ -41,16 +51,38 @@ def fight():
         loss = fighter.loss
         draw = fighter.draw
         weight = fighter.weight       
-    return render_template("fight.html", 
-                    fighter_data=fighter_data, 
+    '''return render_template("fight.html", 
+                    data=fighter_data, 
                     first_name=first_name, 
                     last_name=last_name,
                     win = win,
                     loss = loss,
                     draw = draw,
                     weight = weight,
-                    count=count
-                    )
+                    )'''
+  
+    
+    data = json.dumps([fighter.as_dictionary()
+                        for fighter in fighter_data])
+    return render_template("fight.html", data=data)
+    #return Response(data, 200, mimetype="application/json")'''
+
+@app.route("/fight/gender", methods=["POST"])
+    def selected_gender():
+        if request.form("red_gender") == "Female":
+            female_fighters = session.query(Fighter).filter(Fighter.gender == "female").all()
+            data = json.dumps([fighter.as_dictionary()
+                                for fighter in female_fighters])
+
+        if request.form("red_gender") == "Male":
+            male_fighters = session.query(Fighter).filter(Fighter.gender == "male").all() 
+            data = json.dumps([fighter.as_dictionary()
+                                for fighter in female_fighters])
+
+
+@app.route("/fight/promotion", methods=["POST"])
+    def selected_promotion():
+
 
 @app.route("/login", methods=["GET"])
 def login_get():
@@ -76,8 +108,7 @@ def create_user_get():
 def create_user_post():
     email = request.form["email"]
     if session.query(User).filter_by(email=email).first():
-        flash("User with that email address already exists", "danger")
-        return 
+        return redirect(url_for("create_user_get"))
     
     password = request.form["password"]
 
@@ -85,10 +116,8 @@ def create_user_post():
         user = User(email=email, password=generate_password_hash(password))
         session.add(user)
         session.commit()
-        flash("User created")
         return redirect(url_for("login_get"))
     else:
-        flash("Password must be at least 8 characters", "danger")
         return    
          
 @app.route("/logout")

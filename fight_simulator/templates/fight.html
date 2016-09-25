@@ -12,24 +12,25 @@
                     <div class="row">
                         <div class="col-md-6">
                             <ul class="list-group">
+                                <form method="POST">
                                 <li class="list-group-item">
                                     <select id="red_gender" class="selectpicker" title="Gender" 
-                                                    data-size="10" data-width="100%">
+                                                    data-size="10" data-width="100%">         
                                         <option data-icon="glyphicon glyphicon-queen">Female</option>
                                         <option data-icon="glyphicon glyphicon-king">Male</option>
                                     </select>
                                 </li>
                                 <li class="list-group-item">
-                                    <select class="selectpicker" title="Promotion" 
+                                    <select id="red_promotion" class="selectpicker" title="Promotion" 
                                                     data-size="10" data-width="100%">
                                         <option data-icon="glyphicon glyphicon-bullhorn">UFC</option>
-                                        <option data-icon="glyphicon glyphicon-bullhorn" disabled>Bellator MMA</option>
-                                        <option data-icon="glyphicon glyphicon-bullhorn" disabled>One FC</option>
-                                        <option data-icon="glyphicon glyphicon-bullhorn" disabled>World Series of Fighting</option>
+                                        <option data-icon="glyphicon glyphicon-bullhorn">Bellator MMA</option>
+                                        <option data-icon="glyphicon glyphicon-bullhorn">One FC</option>
+                                        <option data-icon="glyphicon glyphicon-bullhorn">World Series of Fighting</option>
                                     </select>
                                 </li>
                                 <li class="list-group-item">
-                                    <select class="selectpicker" title="Weight" 
+                                    <select id="red_weight" class="selectpicker" title="Weight" 
                                                     data-size="10" data-width="100%">
                                         <option data-icon="glyphicon glyphicon-scale">Strawweight</option>
                                         <option data-icon="glyphicon glyphicon-scale">Flyweight</option>
@@ -43,15 +44,18 @@
                                     </select>
                                 </li>
                                 <li class="list-group-item">
-                                    <select class="selectpicker" title="Fighter" data-size="10" 
+                                    <select id="red_fighters" class="selectpicker" title="Fighter" data-size="10" 
                                             data-width="100%" data-live-search="true" data-header="Select a fighter">
-                                        {% for fighter in fighter_data %}
+                                        {% for fighter in data %}
 
-                                        <option data-subtext={{ fighter.promotion }} data-icon="glyphicon glyphicon-user">{{ fighter.last_name }}, {{ fighter.first_name }}</option>
+                                        <option data-subtext={{ fighter.promotion }} data-icon="glyphicon glyphicon-user">
+                                            {{ fighter['last_name'] }}, {{ fighter['first_name'] }}
+                                        </option>
                                         
                                         {% endfor %}
                                     </select>    
                                 </li>
+                            </form>
                             </ul>
                         </div>
                         <div class="col-md-6">
@@ -126,9 +130,9 @@
                                 <li class="list-group-item">
                                     <select class="selectpicker" title="Fighter" data-size="10" 
                                             data-width="100%" data-live-search="true" data-header="Select a fighter">
-                                        {% for fighter in fighter_data %}
+                                        {% for fighter in data %}
 
-                                        <option data-subtext={{ fighter.promotion }} data-icon="glyphicon glyphicon-user">{{ fighter.last_name }}, {{ fighter.first_name }}</option>
+                                        <option data-icon="glyphicon glyphicon-user">{{ fighter.last_name }}, {{ fighter.first_name }}</option>
                                         
                                         {% endfor %}
                                     </select>    
