@@ -8,59 +8,74 @@
                 <div class="panel-heading">
                     <h2 class="panel-title text-center">Red Corner</h2>
                 </div>
+
+                {% block purejs %}
+                <script>
+                var GLOBAL_JS_VAR = [{{ data|safe }}];
+                var red_gender = document.getElementById("red_gender");
+                if (red_gender == "Female") {
+                    for (fighter in GLOBAL_JS_VAR) {
+                        if (fighter_gender == "female") return
+                    }
+
+                    }
+                }
+                </script>
+                {% endblock %}
+
                 <div id="red_corner" class="panel-body">
                     <div class="row">
                         <div class="col-md-6">
                             <ul class="list-group">
-                                <form action="{{ url_for('fight') }}" method="POST">
-                                    <li id="dropdowns" class="list-group-item">
-                                        <select class="selectpicker step1" title="Select gender" value=""
-                                                        data-size="10" data-width="100%" name="typeId">
+                                <li id="dropdowns" class="list-group-item">
+                                    <select id="red_gender" class="selectpicker step" title="Select gender" value=""
+                                                    data-size="10" data-width="100%" name="typeId">
 
-                                            <option>Female</option>
-                                            <option>Male</option>
-                                        </select>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <select id="step2" class="selectpicker" title="Promotion" 
-                                                        data-size="10" data-width="100%">
-                                            <option data-icon="glyphicon glyphicon-bullhorn">UFC</option>
-                                            <option data-icon="glyphicon glyphicon-bullhorn">Bellator MMA</option>
-                                            <option data-icon="glyphicon glyphicon-bullhorn">One FC</option>
-                                            <option data-icon="glyphicon glyphicon-bullhorn">World Series of Fighting</option>
-                                        </select>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <select id="step3" class="selectpicker" title="Weight" 
-                                                        data-size="10" data-width="100%">
-                                            <option data-icon="glyphicon glyphicon-scale">Strawweight</option>
-                                            <option data-icon="glyphicon glyphicon-scale">Flyweight</option>
-                                            <option data-icon="glyphicon glyphicon-scale">Bantamweight</option>
-                                            <option data-icon="glyphicon glyphicon-scale">Featherweight</option>
-                                            <option data-icon="glyphicon glyphicon-scale">Lightweight</option>
-                                            <option data-icon="glyphicon glyphicon-scale">Welterweight</option>
-                                            <option data-icon="glyphicon glyphicon-scale">Middleweight</option>
-                                            <option data-icon="glyphicon glyphicon-scale">Light-Heavyweight</option>
-                                            <option data-icon="glyphicon glyphicon-scale">Heavyweight</option>
-                                        </select>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <select id="red_fighters" class="selectpicker" title="Fighter" data-size="10" 
-                                                data-width="100%" data-live-search="true" data-header="Select a fighter">
-                                            {% for fighter in data %}
-
-                                            <option data-subtext={{ fighter.promotion }} data-icon="glyphicon glyphicon-user">
-                                                {{ fighter['last_name'] }}, {{ fighter['first_name'] }}
-                                            </option>
-                                            
-                                            {% endfor %}
-                                        </select>    
-                                    </li>
-                                </form>
+                                        <option>Female</option>
+                                        <option>Male</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <select class="selectpicker" title="Promotion" 
+                                                    data-size="10" data-width="100%">
+                                        <option data-icon="glyphicon glyphicon-bullhorn">UFC</option>
+                                        <option data-icon="glyphicon glyphicon-bullhorn">Bellator MMA</option>
+                                        <option data-icon="glyphicon glyphicon-bullhorn">One FC</option>
+                                        <option data-icon="glyphicon glyphicon-bullhorn">World Series of Fighting</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <select class="selectpicker" title="Weight" 
+                                                    data-size="10" data-width="100%">
+                                        <option data-icon="glyphicon glyphicon-scale">Strawweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Flyweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Bantamweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Featherweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Lightweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Welterweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Middleweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Light-Heavyweight</option>
+                                        <option data-icon="glyphicon glyphicon-scale">Heavyweight</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <select id="red_fighters" class="selectpicker" title="Fighter" data-size="10" 
+                                            data-width="100%" data-live-search="true" data-header="Select a fighter">
+                                        {% for fighter in data %}
+                                        {}
+        
+                                        <option data-subtext={{ fighter.promotion }} data-icon="glyphicon glyphicon-user">
+                                            {{ fighter['last_name'] }}, {{ fighter['first_name'] }}
+                                        </option>
+                    
+                                        
+                                        {% endfor %}
+                                    </select>    
+                                </li>
                             </ul>
                         </div>
                         <div class="col-md-6">
-                            <img src="http://i995.photobucket.com/albums/af77/gammadiary/Body-1.png" 
+                            <img src="../static/images/Body-1.png" 
                                 class="img-responsive" alt="Responsive image">    
                         </div>
                     </div>
@@ -141,7 +156,7 @@
                             </ul>
                         </div>
                         <div class="col-md-6">
-                            <img src="http://i995.photobucket.com/albums/af77/gammadiary/Body-1.png" 
+                            <img src="../static/images/Body-1.png" 
                                 class="img-responsive" alt="Responsive image">    
                         </div>
                     </div>
@@ -191,4 +206,4 @@
     </div>    
 </div>
 
-{% endblock %} 
+{% endblock content %} 
