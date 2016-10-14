@@ -12,14 +12,6 @@
                 {% block purejs %}
                 <script>
                 var GLOBAL_JS_VAR = [{{ data|safe }}];
-                var red_gender = document.getElementById("red_gender");
-                if (red_gender == "Female") {
-                    for (fighter in GLOBAL_JS_VAR) {
-                        if (fighter_gender == "female") return
-                    }
-
-                    }
-                }
                 </script>
                 {% endblock %}
 
