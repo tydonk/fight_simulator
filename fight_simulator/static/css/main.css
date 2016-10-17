@@ -44,3 +44,11 @@ body {
 	right: 2em;
 	color: white;
 }
+
+#result_row {
+	padding-top: 1em;
+}
+
+#results {
+	background-color: #7BAC81;
+}

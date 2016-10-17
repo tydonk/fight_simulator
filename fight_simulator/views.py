@@ -14,9 +14,13 @@ def welcome():
 #@login_required
 @decorators.accept("application/json")
 def fight():
-    fighter_data = session.query(Fighter)
+    data = []
+    fighter_data = session.query(Fighter).all()
+    #fighter_data = fighter_data[0:10]
+    for fighter in fighter_data:
+        data.append(fighter.as_dictionary())   
     return Response(render_template("fight.html", 
-                    data=fighter_data, mimetype="application/json"))
+                    data=data, mimetype="application/json"))
 
 @app.route("/login", methods=["GET"])
 def login_get():
