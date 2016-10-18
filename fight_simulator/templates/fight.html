@@ -2,53 +2,48 @@
 {% block content %}
 
 <script>
-var None = "";
-var fighterData = [{{ data|safe }}];
-var male = [];
-var female = [];
-for (var i=0; i<fighterData.length; i++) {
-    var data = fighterData[i];
-    for (var j=0; j<data.length; j++) {
-        var fighters = data[j];
-        if (fighters['gender'] == "male") {
-            male.push(fighters);
-        }
-        else if (fighters['gender'] == "female") {
-            female.push(fighters);
-        }
-    }
-}
-
-$(document).ready(function() {            
+$(document).ready(function() {
+    var None = "";
+    var fighterData = [{{ data|safe }}];
+    var male = [];
+    var female = [];
     var $red_gender = $('#red_gender');
     var $red_weight = $('#red_weight');
     var $red_promotion = $('#red_promotion'); 
     var $red_fighter = $('#red_fighter');
 
-    $('.selectpicker').selectpicker();
-    $red_gender.on('change', function(){
-        if (($red_gender).val() == "Female") {
-            $red_fighter.empty();
-            function femaleAppend() {
-                for (var i=0; i<female.length; i++) {
-                $red_fighter.append('<option>' + female[i].last_name + ", " + female[i].first_name +'</option>').selectpicker('refresh');
-                }
+    for (var i=0; i<fighterData.length; i++) {
+        var data = fighterData[i];
+        for (var i=0; i<data.length; i++) {
+            var fighters = data[i];
+            if (fighters['gender'] == "male") {
+                male.push(fighters);
+                $('.selectpicker').selectpicker();
+                $red_gender.on('change', function(){
+                    if (($red_gender).val() == "Male") {
+                        $red_fighter.empty();    
+                        for (var i=0; i<male.length; i++) {
+                            $red_fighter.append('<option>' + male[i].last_name + ", " + male[i].first_name +'</option>')
+                                    .selectpicker('refresh');
+                        }
+                    }
+                });
             }
-            femaleAppend();
-            $red_weight.on('change', function(){
-                if (($red_weight).val() == "Bantamweight") {
-                    femaleAppend();
-                }    
-            });
-        }
-        else if (($red_gender).val() == "Male") {
-            $red_fighter.empty();    
-            for (var i=0; i<male.length; i++) {
-                $red_fighter.append('<option>' + male[i].last_name + ", " + male[i].first_name +'</option>').selectpicker('refresh');
-            }
+            else if (fighters['gender'] == "female") {
+                female.push(fighters);
+                $('.selectpicker').selectpicker();
+                $red_gender.on('change', function(){
+                    if (($red_gender).val() == "Female") {
+                        $red_fighter.empty();
+                        for (var i=0; i<female.length; i++) {
+                            $red_fighter.append('<option>' + female[i].last_name + ", " + female[i].first_name +'</option>')
+                                    .selectpicker('refresh');
+                        }
+                    }
+                });
+            }            
         }                              
-    });
-
+    }
     $('#fight').click(function() {
         $('#results').slideToggle('fast');
     });
