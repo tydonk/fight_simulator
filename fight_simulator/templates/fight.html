@@ -2,179 +2,168 @@
 {% block content %}
 
 <script>
+var None = "";
+var fighterData = [{{ data|safe }}];
+var male = [];
+var female = [];
+var male_flyweight = [];
+var male_bantamweight = [];
+var male_featherweight = [];
+var male_lightweight = [];
+var male_welterweight = [];
+var male_middleweight = [];
+var male_lhweight = [];
+var male_heavyweight = [];
+var female_strawweight = [];
+var female_bantamweight = [];
+
 $(document).ready(function() {
-    var None = "";
-    var fighterData = [{{ data|safe }}];
-    var male = [];
-    var female = [];
-    var male_flyweight = [];
-    var male_bantamweight = [];
-    var male_featherweight = [];
-    var male_lightweight = [];
-    var male_welterweight = [];
-    var male_middleweight = [];
-    var male_lhweight = [];
-    var male_heavyweight = [];
-    var female_strawweight = [];
-    var female_bantamweight = [];
+    $('#fight').click(function() {
+        $('#results').slideToggle('fast');
+    });
+    for (var i=0; i<fighterData.length; i++) {
+        var data = fighterData[i];
+        for (var i=0; i<data.length; i++) {
+            var fighters = data[i];        
+            if (fighters['gender'] == "male") {
+                male.push(fighters);
+                if (fighters['weight'] == "Flyweight") {
+                    male_flyweight.push(fighters);
+                }
+                else if (fighters['weight'] == "Bantamweight") {
+                    male_bantamweight.push(fighters);
+                }
+                else if (fighters['weight'] == "Featherweight") {
+                    male_featherweight.push(fighters);
+                }
+                else if (fighters['weight'] == "Lightweight") {
+                    male_lightweight.push(fighters);
+                } 
+                else if (fighters['weight'] == "Welterweight") {
+                    male_welterweight.push(fighters);
+                }
+                else if (fighters['weight'] == "Middleweight") {
+                    male_middleweight.push(fighters);
+                }
+                else if (fighters['weight'] == "Light_Heavyweight") {
+                    male_lhweight.push(fighters);
+                }
+                else if (fighters['weight'] == "Heavyweight") {
+                    male_heavyweight.push(fighters);
+                }                
+            }
+            else if (fighters['gender'] == "female") {
+                female.push(fighters);
+                if (fighters['weight'] == "Women_Strawweight") {
+                    female_strawweight.push(fighters);
+                }
+                else if (fighters['weight'] == "Women_Bantamweight") {
+                    female_bantamweight.push(fighters);
+                }
+            }             
+        }
+    }
     var $red_gender = $('#red_gender');
     var $red_weight = $('#red_weight');
     var $red_promotion = $('#red_promotion'); 
     var $red_fighter = $('#red_fighter');
-
-    for (var i=0; i<fighterData.length; i++) {
-        var data = fighterData[i];
-        for (var i=0; i<data.length; i++) {
-            var fighters = data[i];          
-            if (fighters['gender'] == "male") {
-                male.push(fighters);
-                $red_gender.on('change', function(){
-                    $red_fighter.empty();
-                    if (($red_gender).val() == "Male") {
-                        for (var i=0; i<male.length; i++) {
-                            $red_fighter.append('<option>' + male[i].last_name + ", " + male[i].first_name +'</option>')
-                                    .selectpicker('refresh');
-                        }
-                    }
-                });                
-                if (fighters['weight'] == "Flyweight") {
-                    male_flyweight.push(fighters);
-                    $red_weight.on('change', function(){
-                        if (($red_weight).val() == "Flyweight") {
-                            $red_fighter.empty();
-                            for (var i=0; i<male_flyweight.length; i++) {
-                                $red_fighter.append('<option>' + male_flyweight[i].last_name + ", " + male_flyweight[i].first_name +'</option>')
-                                        .selectpicker('refresh');
-                            }                            
-                        }
-                    });    
-                }
-                else if (fighters['weight'] == "Bantamweight") {
-                    male_bantamweight.push(fighters);
-                    $red_weight.on('change', function(){
-                        if (($red_weight).val() == "Bantamweight") {
-                            $red_fighter.empty();
-                            for (var i=0; i<male_bantamweight.length; i++) {
-                                $red_fighter.append('<option>' + male_bantamweight[i].last_name + ", " + male_bantamweight[i].first_name +'</option>')
-                                        .selectpicker('refresh');
-                            }                            
-                        }
-                    });    
-                }
-                else if (fighters['weight'] == "Featherweight") {
-                    male_featherweight.push(fighters);
-                    $red_weight.on('change', function(){
-                        if (($red_weight).val() == "Featherweight") {
-                            $red_fighter.empty();
-                            for (var i=0; i<male_featherweight.length; i++) {
-                                $red_fighter.append('<option>' + male_featherweight[i].last_name + ", " + male_featherweight[i].first_name +'</option>')
-                                        .selectpicker('refresh');
-                            }                            
-                        }
-                    });    
-                }
-                else if (fighters['weight'] == "Lightweight") {
-                    male_lightweight.push(fighters);
-                    $red_weight.on('change', function(){
-                        if (($red_weight).val() == "Lightweight") {
-                            $red_fighter.empty();
-                            for (var i=0; i<male_lightweight.length; i++) {
-                                $red_fighter.append('<option>' + male_lightweight[i].last_name + ", " + male_lightweight[i].first_name +'</option>')
-                                        .selectpicker('refresh');
-                            }                            
-                        }
-                    });    
-                } 
-                else if (fighters['weight'] == "Welterweight") {
-                    male_welterweight.push(fighters);
-                    $red_weight.on('change', function(){
-                        if (($red_weight).val() == "Welterweight") {
-                            $red_fighter.empty();
-                            for (var i=0; i<male_welterweight.length; i++) {
-                                $red_fighter.append('<option>' + male_welterweight[i].last_name + ", " + male_welterweight[i].first_name +'</option>')
-                                        .selectpicker('refresh');
-                            }                            
-                        }
-                    });    
-                }
-                else if (fighters['weight'] == "Middleweight") {
-                    male_middleweight.push(fighters);
-                    $red_weight.on('change', function(){
-                        if (($red_weight).val() == "Middleweight") {
-                            $red_fighter.empty();
-                            for (var i=0; i<male_middleweight.length; i++) {
-                                $red_fighter.append('<option>' + male_middleweight[i].last_name + ", " + male_middleweight[i].first_name +'</option>')
-                                        .selectpicker('refresh');
-                            }                            
-                        }
-                    });    
-                }
-                else if (fighters['weight'] == "Light_Heavyweight") {
-                    male_lhweight.push(fighters);
-                    $red_weight.on('change', function(){
-                        if (($red_weight).val() == "Light Heavyweight") {
-                            $red_fighter.empty();
-                            for (var i=0; i<male_lhweight.length; i++) {
-                                $red_fighter.append('<option>' + male_lhweight[i].last_name + ", " + male_lhweight[i].first_name +'</option>')
-                                        .selectpicker('refresh');
-                            }                            
-                        }
-                    });    
-                }
-                else if (fighters['weight'] == "Heavyweight") {
-                    male_heavyweight.push(fighters);
-                    $red_weight.on('change', function(){
-                        if (($red_weight).val() == "Heavyweight") {
-                            $red_fighter.empty();
-                            for (var i=0; i<male_heavyweight.length; i++) {
-                                $red_fighter.append('<option>' + male_heavyweight[i].last_name + ", " + male_heavyweight[i].first_name +'</option>')
-                                        .selectpicker('refresh');
-                            }                            
-                        }
-                    });    
-                }                                                                                                               
+    $red_gender.on('change', function(){
+        if (($red_gender).val() == "Male") {
+            console.log("ok"); 
+            $red_fighter.empty();  
+            for (var i=0; i<male.length; i++) {
+                $red_fighter.append('<option>' + male[i].last_name + ", " + male[i].first_name +'</option>').selectpicker('refresh');
             }
-            else if (fighters['gender'] == "female") {
-                female.push(fighters);
-                $red_gender.on('change', function(){
-                    $red_fighter.empty();                    
-                    if (($red_gender).val() == "Female") {
-                        for (var i=0; i<female.length; i++) {
-                            $red_fighter.append('<option>' + female[i].last_name + ", " + female[i].first_name +'</option>')
-                                    .selectpicker('refresh');
-                        }
-                    }
-                });
-                if (fighters['weight'] == "Women_Strawweight") {
-                    female_strawweight.push(fighters);
-                    $red_weight.on('change', function(){
-                        if (($red_weight).val() == "Strawweight") {
-                            $red_fighter.empty();
-                            for (var i=0; i<female_strawweight.length; i++) {
-                                $red_fighter.append('<option>' + female_strawweight[i].last_name + ", " + female_strawweight[i].first_name +'</option>')
-                                        .selectpicker('refresh');
-                            }                            
-                        }
-                    });    
+            $red_weight.on('change', function(){
+                if (($red_weight).val() == "Flyweight") {
+                    $red_fighter.empty();
+                    for (var i=0; i<male_flyweight.length; i++) {
+                        $red_fighter.append('<option>' + male_flyweight[i].last_name + ", " + male_flyweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
                 }
-                else if (fighters['weight'] == "Women_Bantamweight") {
-                    female_bantamweight.push(fighters);
-                    $red_weight.on('change', function(){
-                        if (($red_weight).val() == "Bantamweight") {
-                            $red_fighter.empty();
-                            for (var i=0; i<female_bantamweight.length; i++) {
-                                $red_fighter.append('<option>' + female_bantamweight[i].last_name + ", " + female_bantamweight[i].first_name +'</option>')
-                                        .selectpicker('refresh');
-                            }                            
-                        }
-                    });    
-                }                
-            }            
-        }                              
-    }
-    $('#fight').click(function() {
-        $('#results').slideToggle('fast');
+            });
+            $red_weight.on('change', function(){
+                if (($red_weight).val() == "Bantamweight") {
+                    $red_fighter.empty();
+                    for (var i=0; i<male_bantamweight.length; i++) {
+                        $red_fighter.append('<option>' + male_bantamweight[i].last_name + ", " + male_bantamweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+            });
+            $red_weight.on('change', function(){
+                if (($red_weight).val() == "Featherweight") {
+                    $red_fighter.empty();
+                    for (var i=0; i<male_featherweight.length; i++) {
+                        $red_fighter.append('<option>' + male_featherweight[i].last_name + ", " + male_featherweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+            });    
+            $red_weight.on('change', function(){
+                if (($red_weight).val() == "Lightweight") {
+                    $red_fighter.empty();
+                    for (var i=0; i<male_lightweight.length; i++) {
+                        $red_fighter.append('<option>' + male_lightweight[i].last_name + ", " + male_lightweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+            });    
+            $red_weight.on('change', function(){
+                if (($red_weight).val() == "Welterweight") {
+                    $red_fighter.empty();
+                    for (var i=0; i<male_welterweight.length; i++) {
+                        $red_fighter.append('<option>' + male_welterweight[i].last_name + ", " + male_welterweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+            });    
+            $red_weight.on('change', function(){
+                if (($red_weight).val() == "Middleweight") {
+                    $red_fighter.empty();
+                    for (var i=0; i<male_middleweight.length; i++) {
+                        $red_fighter.append('<option>' + male_middleweight[i].last_name + ", " + male_middleweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+            });    
+            $red_weight.on('change', function(){
+                if (($red_weight).val() == "Light Heavyweight") {
+                    $red_fighter.empty();
+                    for (var i=0; i<male_lhweight.length; i++) {
+                        $red_fighter.append('<option>' + male_lhweight[i].last_name + ", " + male_lhweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+            });    
+            $red_weight.on('change', function(){
+                if (($red_weight).val() == "Heavyweight") {
+                    $red_fighter.empty();
+                    for (var i=0; i<male_heavyweight.length; i++) {
+                        $red_fighter.append('<option>' + male_heavyweight[i].last_name + ", " + male_heavyweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+            });            
+        }
     });
+    $red_gender.on('change', function(){
+        if (($red_gender).val() == "Female") {
+            $red_fighter.empty();
+            for (var i=0; i<female.length; i++) {
+                $red_fighter.append('<option>' + female[i].last_name + ", " + female[i].first_name +'</option>').selectpicker('refresh');
+            }
+            $red_weight.on('change', function(){
+                if (($red_weight).val() == "Strawweight") {
+                    $red_fighter.empty();
+                    for (var i=0; i<female_strawweight.length; i++) {
+                        $red_fighter.append('<option>' + female_strawweight[i].last_name + ", " + female_strawweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+            });
+            $red_weight.on('change', function(){
+                if (($red_weight).val() == "Bantamweight") {
+                    $red_fighter.empty();
+                    for (var i=0; i<female_bantamweight.length; i++) {
+                        $red_fighter.append('<option>' + female_bantamweight[i].last_name + ", " + female_bantamweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+            });                        
+        }
+    });                                                                                                                                                 
 });
 </script>
 
