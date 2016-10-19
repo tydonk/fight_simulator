@@ -67,10 +67,20 @@ $(document).ready(function() {
     var $red_weight = $('#red_weight');
     var $red_promotion = $('#red_promotion'); 
     var $red_fighter = $('#red_fighter');
+    var $red_info = $('#red_info');
+
     $red_gender.on('change', function(){
-        if (($red_gender).val() == "Male") {
-            console.log("ok"); 
-            $red_fighter.empty();  
+        if (($red_gender).val() == "Male") { 
+            $red_fighter.empty();
+            $red_weight.empty();
+            $red_weight.append('<option>Flyweight</option>').selectpicker('refresh');
+            $red_weight.append('<option>Bantamweight</option>').selectpicker('refresh');
+            $red_weight.append('<option>Featherweight</option>').selectpicker('refresh');
+            $red_weight.append('<option>Lightweight</option>').selectpicker('refresh');
+            $red_weight.append('<option>Welterweight</option>').selectpicker('refresh');
+            $red_weight.append('<option>Middleweight</option>').selectpicker('refresh');
+            $red_weight.append('<option>Light Heavyweight</option>').selectpicker('refresh');
+            $red_weight.append('<option>Heavyweight</option>').selectpicker('refresh');                                     
             for (var i=0; i<male.length; i++) {
                 $red_fighter.append('<option>' + male[i].last_name + ", " + male[i].first_name +'</option>').selectpicker('refresh');
             }
@@ -143,6 +153,9 @@ $(document).ready(function() {
     $red_gender.on('change', function(){
         if (($red_gender).val() == "Female") {
             $red_fighter.empty();
+            $red_weight.empty();
+            $red_weight.append('<option>Strawweight</option>').selectpicker('refresh');
+            $red_weight.append('<option>Bantamweight</option>').selectpicker('refresh');            
             for (var i=0; i<female.length; i++) {
                 $red_fighter.append('<option>' + female[i].last_name + ", " + female[i].first_name +'</option>').selectpicker('refresh');
             }
@@ -163,7 +176,9 @@ $(document).ready(function() {
                 }
             });                        
         }
-    });                                                                                                                                                 
+    });
+
+
 });
 </script>
 
@@ -212,6 +227,9 @@ $(document).ready(function() {
                                 <li class="list-group-item">
                                     <select id="red_fighter" class="selectpicker" title="Fighter" data-size="10" 
                                             data-width="100%" data-live-search="true">
+                                        {% for fighter in data %}
+                                        <option data-icon="glyphicon glyphicon-user">{{ fighter.last_name }}, {{ fighter.first_name }}</option>
+                                        {% endfor %}                                            
                                     </select>    
                                 </li>
                             </ul>
@@ -228,7 +246,7 @@ $(document).ready(function() {
                                     <h4 class="panel-title">Fighter Info</h4>
                                 </div>
                                 <div class="panel-body">
-                                    <ul class="list-group">
+                                    <ul id="red_info" class="list-group">
                                         <li class="list-group-item">Name</li>
                                         <li class="list-group-item">Nickname</li>
                                         <li class="list-group-item">Weight Class</li>
@@ -288,9 +306,7 @@ $(document).ready(function() {
                                     <select class="selectpicker" title="Fighter" data-size="10" 
                                             data-width="100%" data-live-search="true" data-header="Select a fighter">
                                         {% for fighter in data %}
-
                                         <option data-icon="glyphicon glyphicon-user">{{ fighter.last_name }}, {{ fighter.first_name }}</option>
-                                        
                                         {% endfor %}
                                     </select>    
                                 </li>
