@@ -181,6 +181,123 @@ $(document).ready(function() {
             }
         }
     });
+
+    var $blue_gender = $('#blue_gender');
+    var $blue_weight = $('#blue_weight');
+    var $blue_promotion = $('#blue_promotion'); 
+    var $blue_fighter = $('#blue_fighter');
+    var $blue_info = $('#blue_info');
+
+    $blue_gender.on('change', function(){
+        if (($blue_gender).val() == "Male") { 
+            $blue_fighter.empty();
+            $blue_weight.empty();
+            var weight_classes = ["Flyweight", "Bantamweight", "Featherweight", "Lightweight", 
+                                    "Welterweight", "Middleweight", "Light Heavyweight", "Heavyweight"];
+            for (var i=0; i<weight_classes.length; i++) {
+                $blue_weight.append('<option>' + weight_classes[i] + '</option>').selectpicker('refresh');
+            }                                              
+            for (var i=0; i<male.length; i++) {
+                $blue_fighter.append('<option>' + male[i].last_name + ", " + male[i].first_name +'</option>').selectpicker('refresh');
+            }
+            $blue_weight.on('change', function(){
+                if (($blue_weight).val() == "Flyweight") {
+                    $blue_fighter.empty();
+                    for (var i=0; i<male_flyweight.length; i++) {
+                        $blue_fighter.append('<option>' + male_flyweight[i].last_name + ", " + male_flyweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+                else if (($blue_weight).val() == "Bantamweight") {
+                    $blue_fighter.empty();
+                    for (var i=0; i<male_bantamweight.length; i++) {
+                        $blue_fighter.append('<option>' + male_bantamweight[i].last_name + ", " + male_bantamweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+                else if (($blue_weight).val() == "Featherweight") {
+                    $blue_fighter.empty();
+                    for (var i=0; i<male_featherweight.length; i++) {
+                        $blue_fighter.append('<option>' + male_featherweight[i].last_name + ", " + male_featherweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+                else if (($blue_weight).val() == "Lightweight") {
+                    $blue_fighter.empty();
+                    for (var i=0; i<male_lightweight.length; i++) {
+                        $blue_fighter.append('<option>' + male_lightweight[i].last_name + ", " + male_lightweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+                else if (($blue_weight).val() == "Welterweight") {
+                    $blue_fighter.empty();
+                    for (var i=0; i<male_welterweight.length; i++) {
+                        $blue_fighter.append('<option>' + male_welterweight[i].last_name + ", " + male_welterweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+                else if (($blue_weight).val() == "Middleweight") {
+                    $blue_fighter.empty();
+                    for (var i=0; i<male_middleweight.length; i++) {
+                        $blue_fighter.append('<option>' + male_middleweight[i].last_name + ", " + male_middleweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+                else if (($blue_weight).val() == "Light Heavyweight") {
+                    $blue_fighter.empty();
+                    for (var i=0; i<male_lhweight.length; i++) {
+                        $blue_fighter.append('<option>' + male_lhweight[i].last_name + ", " + male_lhweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+                else if (($blue_weight).val() == "Heavyweight") {
+                    $blue_fighter.empty();
+                    for (var i=0; i<male_heavyweight.length; i++) {
+                        $blue_fighter.append('<option>' + male_heavyweight[i].last_name + ", " + male_heavyweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+            });            
+        }
+    });
+    $blue_gender.on('change', function(){
+        if (($blue_gender).val() == "Female") {
+            $blue_fighter.empty();
+            $blue_weight.empty();
+            var weight_classes = ["Strawweight", "Bantamweight"];
+            for (var i=0; i<weight_classes.length; i++) {
+                $blue_weight.append('<option>' + weight_classes[i] + '</option>').selectpicker('refresh');
+            }              
+            for (var i=0; i<female.length; i++) {
+                $blue_fighter.append('<option>' + female[i].last_name + ", " + female[i].first_name +'</option>').selectpicker('refresh');
+            }
+            $blue_weight.on('change', function(){
+                if (($blue_weight).val() == "Strawweight") {
+                    $blue_fighter.empty();
+                    for (var i=0; i<female_strawweight.length; i++) {
+                        $blue_fighter.append('<option>' + female_strawweight[i].last_name + ", " + female_strawweight[i].first_name +'</option>').selectpicker('refresh');
+                    }
+                }                      
+                else if (($blue_weight).val() == "Bantamweight") {
+                    $blue_fighter.empty();
+                    for (var i=0; i<female_bantamweight.length; i++) {
+                        $blue_fighter.append('<option>' + female_bantamweight[i].last_name + ", " + female_bantamweight[i].first_name +'</option>').selectpicker('refresh');
+                    }                            
+                }
+            });                        
+        }
+    });
+    $blue_fighter.on('change', function(){
+        $('#blue_info_name').html("");
+        $('#blue_info_nickname').html("");
+        $('#blue_info_weight').html("");
+        $('#blue_info_record').html("");
+        var selected = $blue_fighter.val();
+        for (var i=0; i<fighterData.length; i++) {
+            var data = fighterData[i];
+            for (var i=0; i<data.length; i++) {
+                var fighters = data[i];
+                if (selected == (fighters.last_name + ", " + fighters.first_name)) {
+                    $('#blue_info_name').append(fighters.first_name + " " + fighters.last_name);
+                    $('#blue_info_nickname').append(fighters.nickname);
+                    $('#blue_info_weight').append(fighters.weight);
+                    $('#blue_info_record').append(fighters.win + "-" + fighters.loss + "-" + fighters.draw)                                        
+                }
+            }
+        }
+    });    
 });
 </script>
 
@@ -296,7 +413,7 @@ $(document).ready(function() {
                                     </select>
                                 </li>
                                 <li class="list-group-item">
-                                    <select class="selectpicker" title="Promotion" 
+                                    <select id="blue_promotion" class="selectpicker" title="Promotion" 
                                                     data-size="10" data-width="100%">
                                         <option>UFC</option>
                                         <option>Bellator MMA</option>
@@ -305,7 +422,7 @@ $(document).ready(function() {
                                     </select>
                                 </li>
                                 <li class="list-group-item">
-                                    <select class="selectpicker" title="Weight" 
+                                    <select id="blue_weight" class="selectpicker" title="Weight" 
                                                     data-size="10" data-width="100%">
                                         <option>Strawweight</option>
                                         <option>Flyweight</option>
@@ -319,7 +436,7 @@ $(document).ready(function() {
                                     </select>
                                 </li>
                                 <li class="list-group-item">
-                                    <select class="selectpicker" title="Fighter" data-size="10" 
+                                    <select id="blue_fighter" class="selectpicker" title="Fighter" data-size="10" 
                                             data-width="100%" data-live-search="true" data-header="Select a fighter">
                                         {% for fighter in data %}
                                         <option>{{ fighter.last_name }}, {{ fighter.first_name }}</option>
@@ -340,12 +457,26 @@ $(document).ready(function() {
                                     <h4 class="panel-title">Fighter Info</h4>
                                 </div>
                                 <div class="panel-body">
-                                    <ul class="list-group">
-                                        <li class="list-group-item">Name</li>
-                                        <li class="list-group-item">Nickname</li>                                        
-                                        <li class="list-group-item">Weight Class</li>
-                                        <li class="list-group-item">Record</li>
-                                    </ul>
+                                    <table class="table table-hover table-bordered table-responsive">
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-md-4"><b>Name</b></td>
+                                                <td id="blue_info_name"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-md-4"><b>Nickname</b></td>
+                                                <td id="blue_info_nickname"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-md-4"><b>Weight Class</b></td>
+                                                <td id="blue_info_weight"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-md-4"><b>Record</b></td>
+                                                <td id="blue_info_record"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>        
                         </div>    
