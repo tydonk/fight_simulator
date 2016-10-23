@@ -10,6 +10,10 @@ from jsonschema import validate, ValidationError
 def welcome():
     return render_template("welcome.html")
 
+@app.route("/howitworks", methods=["GET"])
+def how_it_works():
+    return render_template("how_it_works.html")   
+
 @app.route("/fight", methods=["GET"])
 #@login_required
 @decorators.accept("application/json")

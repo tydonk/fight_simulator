@@ -36,7 +36,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 			    	</button>
-			    	<a class="navbar-brand" href="{{ url_for('welcome') }}">Home</a>
+			    	<a class="navbar-brand" href="{{ url_for('welcome') }}"><img class="navbar-brand alt="Brand" src="../static/images/logo.png"></a>
 			    </div>
 
 				<div class="collapse navbar-collapse">
@@ -45,6 +45,7 @@
 						{% if not current_user.is_authenticated %}
 						<li><a href="{{ url_for('create_user_get') }}">Register</a></li>						
 						<li><a href="{{ url_for('login_get') }}">Login</a></li>
+						<li><a href="{{ url_for('how_it_works') }}">How It Works</a></li>
 						{% endif %}
 			    		
 			    		{% if current_user.is_authenticated %}

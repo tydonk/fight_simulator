@@ -52,3 +52,17 @@ body {
 #results {
 	background-color: #7BAC81;
 }
+
+.navbar-brand {
+  padding: 0px; /* firefox bug fix */
+}
+
+.navbar-brand>img {
+  height: 120%;
+  padding: 0.5em; /* firefox bug fix */
+  width: auto;
+}
+
+#how-it-works {
+	color: white;
+}
