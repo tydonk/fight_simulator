@@ -26,10 +26,10 @@ $(document).ready(function() {
     for (var i=0; i<fighterData.length; i++) {
         var data = fighterData[i];
         for (var i=0; i<data.length; i++) {
-            var fighters = data[i];        
+            var fighters = data[i];                  
             // Male fighter filters
             if (fighters['gender'] == "male") {
-                male.push(fighters);
+                male.push(fighters);               
                 if (fighters['weight'] == "Flyweight") {
                     male_flyweight.push(fighters);
                 }
@@ -92,7 +92,7 @@ $(document).ready(function() {
             $blue_gender.empty();
             $blue_gender.append('<option disabled>Female</option>');
             $blue_gender.append('<option>Male</option>').selectpicker('refresh');
-            $blue_gender.selectpicker('val', 'Male');            
+            $blue_gender.selectpicker('val', 'Male').change();                    
             // Modify weight class dropdown to only have male weight classes once gender is chosen
             var weight_classes = ["Flyweight", "Bantamweight", "Featherweight", "Lightweight", 
                                     "Welterweight", "Middleweight", "Light Heavyweight", "Heavyweight"];
@@ -163,12 +163,12 @@ $(document).ready(function() {
             $blue_gender.empty();
             $blue_gender.append('<option>Female</option>');
             $blue_gender.append('<option disabled>Male</option>').selectpicker('refresh');
-            $blue_gender.selectpicker('val', 'Female');
+            $blue_gender.selectpicker('val', 'Female').change();            
             // Modify weight class dropdown to only have female weight classes once gender is chosen
             var weight_classes = ["Strawweight", "Bantamweight"];
             for (var i=0; i<weight_classes.length; i++) {
                 $red_weight.append('<option>' + weight_classes[i] + '</option>').selectpicker('refresh');
-            }              
+            }             
             for (var i=0; i<female.length; i++) {
                 $red_fighter.append('<option>' + female[i].last_name + ", " + female[i].first_name +'</option>').selectpicker('refresh');
             }
@@ -215,10 +215,7 @@ $(document).ready(function() {
         if (($blue_gender).val() == "Male") { 
             $blue_fighter.empty();
             $blue_weight.empty();
-            $red_gender.empty();
-            $red_gender.append('<option disabled>Female</option>');
-            $red_gender.append('<option>Male</option>').selectpicker('refresh');
-            $red_gender.selectpicker('val', 'Male');                        
+            $red_gender.empty();                                                        
             var weight_classes = ["Flyweight", "Bantamweight", "Featherweight", "Lightweight", 
                                     "Welterweight", "Middleweight", "Light Heavyweight", "Heavyweight"];
             for (var i=0; i<weight_classes.length; i++) {
@@ -283,10 +280,7 @@ $(document).ready(function() {
         if (($blue_gender).val() == "Female") {
             $blue_fighter.empty();
             $blue_weight.empty();
-            $red_gender.empty();
-            $red_gender.append('<option>Female</option>');
-            $red_gender.append('<option disabled>Male</option>').selectpicker('refresh');
-            $red_gender.selectpicker('val', 'Female');                        
+            $red_gender.empty();                                                
             var weight_classes = ["Strawweight", "Bantamweight"];
             for (var i=0; i<weight_classes.length; i++) {
                 $blue_weight.append('<option>' + weight_classes[i] + '</option>').selectpicker('refresh');
@@ -440,38 +434,38 @@ $(document).ready(function() {
                                 <li class="list-group-item">
                                     <select id="blue_gender" class="selectpicker" title="Gender" 
                                                     data-size="10" data-width="100%">
-                                        <option>Female</option>
-                                        <option>Male</option>
+                                        <option disabled>Female</option>
+                                        <option disabled>Male</option>
                                     </select>
                                 </li>
                                 <li class="list-group-item">
                                     <select id="blue_promotion" class="selectpicker" title="Promotion" 
                                                     data-size="10" data-width="100%">
-                                        <option>UFC</option>
-                                        <option>Bellator MMA</option>
-                                        <option>One FC</option>
-                                        <option>World Series of Fighting</option>
+                                        <option disabled>UFC</option>
+                                        <option disabled>Bellator MMA</option>
+                                        <option disabled>One FC</option>
+                                        <option disabled>World Series of Fighting</option>
                                     </select>
                                 </li>
                                 <li class="list-group-item">
                                     <select id="blue_weight" class="selectpicker" title="Weight" 
                                                     data-size="10" data-width="100%">
-                                        <option>Strawweight</option>
-                                        <option>Flyweight</option>
-                                        <option>Bantamweight</option>
-                                        <option>Featherweight</option>
-                                        <option>Lightweight</option>
-                                        <option>Welterweight</option>
-                                        <option>Middleweight</option>
-                                        <option>Light Heavyweight</option>
-                                        <option>Heavyweight</option>
+                                        <option disabled>Strawweight</option>
+                                        <option disabled>Flyweight</option>
+                                        <option disabled>Bantamweight</option>
+                                        <option disabled>Featherweight</option>
+                                        <option disabled>Lightweight</option>
+                                        <option disabled>Welterweight</option>
+                                        <option disabled>Middleweight</option>
+                                        <option disabled>Light Heavyweight</option>
+                                        <option disabled>Heavyweight</option>
                                     </select>
                                 </li>
                                 <li class="list-group-item">
                                     <select id="blue_fighter" class="selectpicker" title="Fighter" data-size="10" 
                                             data-width="100%" data-live-search="true" data-header="Select a fighter">
                                         {% for fighter in data %}
-                                        <option>{{ fighter.last_name }}, {{ fighter.first_name }}</option>
+                                        <option disabled>{{ fighter.last_name }}, {{ fighter.first_name }}</option>
                                         {% endfor %}
                                     </select>    
                                 </li>
