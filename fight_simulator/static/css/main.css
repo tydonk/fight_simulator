@@ -59,7 +59,7 @@ body {
 
 .navbar-brand>img {
   height: 120%;
-  padding: 0.5em; /* firefox bug fix */
+  padding: 15px; /* firefox bug fix */
   width: auto;
 }
 
