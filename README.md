@@ -41,8 +41,4 @@ Fighters from other organizations will be added later as currently they don't of
 
 #License
 
-<<<<<<< HEAD
 See [license file](license.md)
-=======
-See [license file](license.md)
->>>>>>> 0546b3b699bbb91a5a6ef6afdda5d70253cf5a4d
