@@ -109,6 +109,7 @@ $(document).ready(function() {
             $red_fighter.empty();
             $red_weight.empty();
             $blue_gender.empty();
+            $red_promotion.empty();
             $blue_gender.append('<option disabled>Female</option>');
             $blue_gender.append('<option>Male</option>').selectpicker('refresh');
             $blue_gender.selectpicker('val', 'Male').change();
@@ -185,6 +186,7 @@ $(document).ready(function() {
             $('#red_img').attr("src", "../static/images/Body-1.png");                 
             $red_fighter.empty();
             $red_weight.empty();
+            $red_promotion.empty();
             $blue_gender.empty();
             $blue_gender.append('<option>Female</option>');
             $blue_gender.append('<option disabled>Male</option>').selectpicker('refresh');
@@ -231,7 +233,9 @@ $(document).ready(function() {
                     $('#red_info_nickname').append(fighters.nickname);
                     $('#red_info_weight').append(fighters.weight);
                     $('#red_info_record').append(fighters.win + "-" + fighters.loss + "-" + fighters.draw)
-                    $('#red_img').attr("src", fighters.fighter_image);                                        
+                    $('#red_img').attr("src", fighters.fighter_image);
+                    $red_promotion.val(fighters.promotion).selectpicker('refresh');
+                    $red_weight.val(fighters.promotion).selectpicker('refresh');                                        
                 }
             }
         }
