@@ -227,6 +227,8 @@ $(document).ready(function() {
             for (var i=0; i<data.length; i++) {
                 var fighters = data[i];
                 if (selected == (fighters.last_name + ", " + fighters.first_name)) {
+                    $red_promotion.val(fighters.promotion);
+                    $red_weight.val(fighters.weight);
                     $('#red_info_name').append(fighters.first_name + " " + fighters.last_name);
                     $('#red_info_nickname').append(fighters.nickname);
                     $('#red_info_weight').append(fighters.weight);
@@ -353,6 +355,8 @@ $(document).ready(function() {
             for (var i=0; i<data.length; i++) {
                 var fighters = data[i];
                 if (selected == (fighters.last_name + ", " + fighters.first_name)) {
+                    $blue_promotion.val(fighters.promotion);
+                    $blue_weight.val(fighters.weight);                    
                     $('#blue_info_name').append(fighters.first_name + " " + fighters.last_name);
                     $('#blue_info_nickname').append(fighters.nickname);
                     $('#blue_info_weight').append(fighters.weight);
