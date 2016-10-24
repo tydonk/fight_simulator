@@ -7,6 +7,8 @@ var None = "";
 var fighterData = [{{ data|safe }}];
 var male = [];
 var female = [];
+var male_promotion = [];
+var female_promotion = [];
 var male_flyweight = [];
 var male_bantamweight = [];
 var male_featherweight = [];
@@ -19,57 +21,65 @@ var female_strawweight = [];
 var female_bantamweight = [];
 
 $(document).ready(function() {
-    $('#fight').click(function() {
-        $('#results').slideToggle('fast');
-    });
+    $('#blue_corner').hide();
     // Loops and conditionals to filter fighter data into arrays based on drop down menus
     for (var i=0; i<fighterData.length; i++) {
         var data = fighterData[i];
         for (var i=0; i<data.length; i++) {
             var fighters = data[i];                  
             // Male fighter filters
+            // Filter by gender
             if (fighters['gender'] == "male") {
-                male.push(fighters);               
-                if (fighters['weight'] == "Flyweight") {
-                    male_flyweight.push(fighters);
-                }
-                else if (fighters['weight'] == "Bantamweight") {
-                    male_bantamweight.push(fighters);
-                }
-                else if (fighters['weight'] == "Featherweight") {
-                    male_featherweight.push(fighters);
-                }
-                else if (fighters['weight'] == "Lightweight") {
-                    male_lightweight.push(fighters);
-                } 
-                else if (fighters['weight'] == "Welterweight") {
-                    male_welterweight.push(fighters);
-                }
-                else if (fighters['weight'] == "Middleweight") {
-                    male_middleweight.push(fighters);
-                }
-                else if (fighters['weight'] == "Light_Heavyweight") {
-                    male_lhweight.push(fighters);
-                }
-                else if (fighters['weight'] == "Heavyweight") {
-                    male_heavyweight.push(fighters);
+                male.push(fighters);
+                // Filter by promotion
+                if (fighters['promotion'] == "UFC") {
+                    male_promotion.push(fighters);
+                    // Filter by weight class               
+                    if (fighters['weight'] == "Flyweight") {
+                        male_flyweight.push(fighters);
+                    }
+                    else if (fighters['weight'] == "Bantamweight") {
+                        male_bantamweight.push(fighters);
+                    }
+                    else if (fighters['weight'] == "Featherweight") {
+                        male_featherweight.push(fighters);
+                    }
+                    else if (fighters['weight'] == "Lightweight") {
+                        male_lightweight.push(fighters);
+                    } 
+                    else if (fighters['weight'] == "Welterweight") {
+                        male_welterweight.push(fighters);
+                    }
+                    else if (fighters['weight'] == "Middleweight") {
+                        male_middleweight.push(fighters);
+                    }
+                    else if (fighters['weight'] == "Light_Heavyweight") {
+                        male_lhweight.push(fighters);
+                    }
+                    else if (fighters['weight'] == "Heavyweight") {
+                        male_heavyweight.push(fighters);
+                    }
                 }                
             }
             // Female fighter filters
             else if (fighters['gender'] == "female") {
                 female.push(fighters);
-                if (fighters['weight'] == "Women_Strawweight") {
-                    female_strawweight.push(fighters);
-                }
-                else if (fighters['weight'] == "Women_Bantamweight") {
-                    female_bantamweight.push(fighters);
+                // Filter by promotion
+                if (fighters['promotion'] == "UFC") {
+                    female_promotion.push(fighters);
+                    // Filter by weight class
+                    if (fighters['weight'] == "Women_Strawweight") {
+                        female_strawweight.push(fighters);
+                    }
+                    else if (fighters['weight'] == "Women_Bantamweight") {
+                        female_bantamweight.push(fighters);
+                    }
                 }
             }             
         }
     }    
 
     // Each corner has its own variables and filter function
-    // Both corners are identical
     // Comments for red corner apply to blue corner as well
 
     // jQuery variables for dropdown selectors    
@@ -86,13 +96,23 @@ $(document).ready(function() {
 
     // Function to filter fighters when 'male' is selected
     $red_gender.on('change', function(){
-        if (($red_gender).val() == "Male") { 
+        var promotions = ["UFC"];
+        for (var i=0; i<promotions.length; i++) {
+            $red_promotion.append('<option>' + promotions[i] + '</option>').selectpicker('refresh');
+        }        
+        if (($red_gender).val() == "Male") {
+            $('#red_info_name').html("");
+            $('#red_info_nickname').html("");
+            $('#red_info_weight').html("");
+            $('#red_info_record').html("");
+            $('#red_img').attr("src", "../static/images/Body-1.png");         
             $red_fighter.empty();
             $red_weight.empty();
             $blue_gender.empty();
             $blue_gender.append('<option disabled>Female</option>');
             $blue_gender.append('<option>Male</option>').selectpicker('refresh');
-            $blue_gender.selectpicker('val', 'Male').change();                    
+            $blue_gender.selectpicker('val', 'Male').change();
+            $('#blue_corner').show();
             // Modify weight class dropdown to only have male weight classes once gender is chosen
             var weight_classes = ["Flyweight", "Bantamweight", "Featherweight", "Lightweight", 
                                     "Welterweight", "Middleweight", "Light Heavyweight", "Heavyweight"];
@@ -158,12 +178,18 @@ $(document).ready(function() {
     // Function to filter fighters when 'female' is selected
     $red_gender.on('change', function(){
         if (($red_gender).val() == "Female") {
+            $('#red_info_name').html("");
+            $('#red_info_nickname').html("");
+            $('#red_info_weight').html("");
+            $('#red_info_record').html("");
+            $('#red_img').attr("src", "../static/images/Body-1.png");                 
             $red_fighter.empty();
             $red_weight.empty();
             $blue_gender.empty();
             $blue_gender.append('<option>Female</option>');
             $blue_gender.append('<option disabled>Male</option>').selectpicker('refresh');
-            $blue_gender.selectpicker('val', 'Female').change();            
+            $blue_gender.selectpicker('val', 'Female').change();
+            $('#blue_corner').show();          
             // Modify weight class dropdown to only have female weight classes once gender is chosen
             var weight_classes = ["Strawweight", "Bantamweight"];
             for (var i=0; i<weight_classes.length; i++) {
@@ -212,12 +238,20 @@ $(document).ready(function() {
     });
 
     $blue_gender.on('change', function(){
-        if (($blue_gender).val() == "Male") { 
+        var promotions = ["UFC"];
+        for (var i=0; i<promotions.length; i++) {
+            $blue_promotion.append('<option>' + promotions[i] + '</option>').selectpicker('refresh');
+        } 
+        if (($blue_gender).val() == "Male") {
+            $('#blue_info_name').html("");
+            $('#blue_info_nickname').html("");
+            $('#blue_info_weight').html("");
+            $('#blue_info_record').html("");
+            $('#blue_img').attr("src", "../static/images/Body-1.png");         
             $blue_fighter.empty();
-            $blue_weight.empty();
-            $red_gender.empty();                                                        
+            $blue_weight.empty();                                                      
             var weight_classes = ["Flyweight", "Bantamweight", "Featherweight", "Lightweight", 
-                                    "Welterweight", "Middleweight", "Light Heavyweight", "Heavyweight"];
+                                    "Welterweight", "Middleweight", "Light Heavyweight", "Heavyweight"];                   
             for (var i=0; i<weight_classes.length; i++) {
                 $blue_weight.append('<option>' + weight_classes[i] + '</option>').selectpicker('refresh');
             }                                              
@@ -278,9 +312,13 @@ $(document).ready(function() {
     });
     $blue_gender.on('change', function(){
         if (($blue_gender).val() == "Female") {
+            $('#blue_info_name').html("");
+            $('#blue_info_nickname').html("");
+            $('#blue_info_weight').html("");
+            $('#blue_info_record').html("");
+            $('#blue_img').attr("src", "../static/images/Body-1.png");             
             $blue_fighter.empty();
-            $blue_weight.empty();
-            $red_gender.empty();                                                
+            $blue_weight.empty();                                                
             var weight_classes = ["Strawweight", "Bantamweight"];
             for (var i=0; i<weight_classes.length; i++) {
                 $blue_weight.append('<option>' + weight_classes[i] + '</option>').selectpicker('refresh');
@@ -349,31 +387,18 @@ $(document).ready(function() {
                                 <li class="list-group-item">
                                     <select id="red_promotion" class="selectpicker" title="Promotion" 
                                                     data-size="10" data-width="100%">
-                                        <option>UFC</option>
-                                        <option>Bellator MMA</option>
-                                        <option>One FC</option>
-                                        <option>World Series of Fighting</option>
                                     </select>
                                 </li>
                                 <li class="list-group-item">
                                     <select id="red_weight" class="selectpicker" title="Weight" 
                                                     data-size="10" data-width="100%">
-                                        <option>Strawweight</option>
-                                        <option>Flyweight</option>
-                                        <option>Bantamweight</option>
-                                        <option>Featherweight</option>
-                                        <option>Lightweight</option>
-                                        <option>Welterweight</option>
-                                        <option>Middleweight</option>
-                                        <option>Light Heavyweight</option>
-                                        <option>Heavyweight</option>
                                     </select>
                                 </li>
                                 <li class="list-group-item">
                                     <select id="red_fighter" class="selectpicker" title="Fighter" data-size="10" 
                                             data-width="100%" data-live-search="true">
                                         {% for fighter in data %}
-                                        <option>{{ fighter.last_name }}, {{ fighter.first_name }}</option>
+                                        <!--<option>{{ fighter.last_name }}, {{ fighter.first_name }}</option>-->
                                         {% endfor %}                                            
                                     </select>    
                                 </li>
@@ -441,31 +466,18 @@ $(document).ready(function() {
                                 <li class="list-group-item">
                                     <select id="blue_promotion" class="selectpicker" title="Promotion" 
                                                     data-size="10" data-width="100%">
-                                        <option disabled>UFC</option>
-                                        <option disabled>Bellator MMA</option>
-                                        <option disabled>One FC</option>
-                                        <option disabled>World Series of Fighting</option>
                                     </select>
                                 </li>
                                 <li class="list-group-item">
                                     <select id="blue_weight" class="selectpicker" title="Weight" 
                                                     data-size="10" data-width="100%">
-                                        <option disabled>Strawweight</option>
-                                        <option disabled>Flyweight</option>
-                                        <option disabled>Bantamweight</option>
-                                        <option disabled>Featherweight</option>
-                                        <option disabled>Lightweight</option>
-                                        <option disabled>Welterweight</option>
-                                        <option disabled>Middleweight</option>
-                                        <option disabled>Light Heavyweight</option>
-                                        <option disabled>Heavyweight</option>
                                     </select>
                                 </li>
                                 <li class="list-group-item">
                                     <select id="blue_fighter" class="selectpicker" title="Fighter" data-size="10" 
                                             data-width="100%" data-live-search="true" data-header="Select a fighter">
                                         {% for fighter in data %}
-                                        <option disabled>{{ fighter.last_name }}, {{ fighter.first_name }}</option>
+                                        <!--<option>{{ fighter.last_name }}, {{ fighter.first_name }}</option>-->
                                         {% endfor %}
                                     </select>    
                                 </li>
