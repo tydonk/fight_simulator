@@ -96,6 +96,7 @@ $(document).ready(function() {
 
     // Function to filter fighters when 'male' is selected
     $red_gender.on('change', function(){
+        $red_promotion.empty();
         var promotions = ["UFC"];
         for (var i=0; i<promotions.length; i++) {
             $red_promotion.append('<option>' + promotions[i] + '</option>').selectpicker('refresh');
@@ -125,48 +126,88 @@ $(document).ready(function() {
             // Function to filter fighters by weight class selected
             $red_weight.on('change', function(){
                 if (($red_weight).val() == "Flyweight") {
+                    $('#red_info_name').html("");
+                    $('#red_info_nickname').html("");
+                    $('#red_info_weight').html("");
+                    $('#red_info_record').html("");
+                    $('#red_img').attr("src", "../static/images/Body-1.png");                    
                     $red_fighter.empty();
                     for (var i=0; i<male_flyweight.length; i++) {
                         $red_fighter.append('<option>' + male_flyweight[i].last_name + ", " + male_flyweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($red_weight).val() == "Bantamweight") {
+                    $('#red_info_name').html("");
+                    $('#red_info_nickname').html("");
+                    $('#red_info_weight').html("");
+                    $('#red_info_record').html("");
+                    $('#red_img').attr("src", "../static/images/Body-1.png");                    
                     $red_fighter.empty();
                     for (var i=0; i<male_bantamweight.length; i++) {
                         $red_fighter.append('<option>' + male_bantamweight[i].last_name + ", " + male_bantamweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($red_weight).val() == "Featherweight") {
+                    $('#red_info_name').html("");
+                    $('#red_info_nickname').html("");
+                    $('#red_info_weight').html("");
+                    $('#red_info_record').html("");
+                    $('#red_img').attr("src", "../static/images/Body-1.png");                    
                     $red_fighter.empty();
                     for (var i=0; i<male_featherweight.length; i++) {
                         $red_fighter.append('<option>' + male_featherweight[i].last_name + ", " + male_featherweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($red_weight).val() == "Lightweight") {
+                    $('#red_info_name').html("");
+                    $('#red_info_nickname').html("");
+                    $('#red_info_weight').html("");
+                    $('#red_info_record').html("");
+                    $('#red_img').attr("src", "../static/images/Body-1.png");                    
                     $red_fighter.empty();
                     for (var i=0; i<male_lightweight.length; i++) {
                         $red_fighter.append('<option>' + male_lightweight[i].last_name + ", " + male_lightweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($red_weight).val() == "Welterweight") {
+                    $('#red_info_name').html("");
+                    $('#red_info_nickname').html("");
+                    $('#red_info_weight').html("");
+                    $('#red_info_record').html("");
+                    $('#red_img').attr("src", "../static/images/Body-1.png");                    
                     $red_fighter.empty();
                     for (var i=0; i<male_welterweight.length; i++) {
                         $red_fighter.append('<option>' + male_welterweight[i].last_name + ", " + male_welterweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($red_weight).val() == "Middleweight") {
+                    $('#red_info_name').html("");
+                    $('#red_info_nickname').html("");
+                    $('#red_info_weight').html("");
+                    $('#red_info_record').html("");
+                    $('#red_img').attr("src", "../static/images/Body-1.png");                    
                     $red_fighter.empty();
                     for (var i=0; i<male_middleweight.length; i++) {
                         $red_fighter.append('<option>' + male_middleweight[i].last_name + ", " + male_middleweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($red_weight).val() == "Light Heavyweight") {
+                    $('#red_info_name').html("");
+                    $('#red_info_nickname').html("");
+                    $('#red_info_weight').html("");
+                    $('#red_info_record').html("");
+                    $('#red_img').attr("src", "../static/images/Body-1.png");                    
                     $red_fighter.empty();
                     for (var i=0; i<male_lhweight.length; i++) {
                         $red_fighter.append('<option>' + male_lhweight[i].last_name + ", " + male_lhweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($red_weight).val() == "Heavyweight") {
+                    $('#red_info_name').html("");
+                    $('#red_info_nickname').html("");
+                    $('#red_info_weight').html("");
+                    $('#red_info_record').html("");
+                    $('#red_img').attr("src", "../static/images/Body-1.png");                    
                     $red_fighter.empty();
                     for (var i=0; i<male_heavyweight.length; i++) {
                         $red_fighter.append('<option>' + male_heavyweight[i].last_name + ", " + male_heavyweight[i].first_name +'</option>').selectpicker('refresh');
@@ -177,6 +218,11 @@ $(document).ready(function() {
     });
     // Function to filter fighters when 'female' is selected
     $red_gender.on('change', function(){
+        $red_promotion.empty();
+        var promotions = ["UFC"];
+        for (var i=0; i<promotions.length; i++) {
+            $red_promotion.append('<option>' + promotions[i] + '</option>').selectpicker('refresh');
+        }        
         if (($red_gender).val() == "Female") {
             $('#red_info_name').html("");
             $('#red_info_nickname').html("");
@@ -201,12 +247,22 @@ $(document).ready(function() {
             // Function to filter fighters by weight class selected
             $red_weight.on('change', function(){
                 if (($red_weight).val() == "Strawweight") {
+                    $('#red_info_name').html("");
+                    $('#red_info_nickname').html("");
+                    $('#red_info_weight').html("");
+                    $('#red_info_record').html("");
+                    $('#red_img').attr("src", "../static/images/Body-1.png");                    
                     $red_fighter.empty();
                     for (var i=0; i<female_strawweight.length; i++) {
                         $red_fighter.append('<option>' + female_strawweight[i].last_name + ", " + female_strawweight[i].first_name +'</option>').selectpicker('refresh');
                     }
                 }                      
                 else if (($red_weight).val() == "Bantamweight") {
+                    $('#red_info_name').html("");
+                    $('#red_info_nickname').html("");
+                    $('#red_info_weight').html("");
+                    $('#red_info_record').html("");
+                    $('#red_img').attr("src", "../static/images/Body-1.png");                    
                     $red_fighter.empty();
                     for (var i=0; i<female_bantamweight.length; i++) {
                         $red_fighter.append('<option>' + female_bantamweight[i].last_name + ", " + female_bantamweight[i].first_name +'</option>').selectpicker('refresh');
@@ -240,6 +296,7 @@ $(document).ready(function() {
     });
 
     $blue_gender.on('change', function(){
+        $blue_promotion.empty();
         var promotions = ["UFC"];
         for (var i=0; i<promotions.length; i++) {
             $blue_promotion.append('<option>' + promotions[i] + '</option>').selectpicker('refresh');
@@ -262,48 +319,88 @@ $(document).ready(function() {
             }
             $blue_weight.on('change', function(){
                 if (($blue_weight).val() == "Flyweight") {
+                    $('#blue_info_name').html("");
+                    $('#blue_info_nickname').html("");
+                    $('#blue_info_weight').html("");
+                    $('#blue_info_record').html("");
+                    $('#blue_img').attr("src", "../static/images/Body-1.png");                    
                     $blue_fighter.empty();
                     for (var i=0; i<male_flyweight.length; i++) {
                         $blue_fighter.append('<option>' + male_flyweight[i].last_name + ", " + male_flyweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($blue_weight).val() == "Bantamweight") {
+                    $('#blue_info_name').html("");
+                    $('#blue_info_nickname').html("");
+                    $('#blue_info_weight').html("");
+                    $('#blue_info_record').html("");
+                    $('#blue_img').attr("src", "../static/images/Body-1.png");                    
                     $blue_fighter.empty();
                     for (var i=0; i<male_bantamweight.length; i++) {
                         $blue_fighter.append('<option>' + male_bantamweight[i].last_name + ", " + male_bantamweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($blue_weight).val() == "Featherweight") {
+                    $('#blue_info_name').html("");
+                    $('#blue_info_nickname').html("");
+                    $('#blue_info_weight').html("");
+                    $('#blue_info_record').html("");
+                    $('#blue_img').attr("src", "../static/images/Body-1.png");                    
                     $blue_fighter.empty();
                     for (var i=0; i<male_featherweight.length; i++) {
                         $blue_fighter.append('<option>' + male_featherweight[i].last_name + ", " + male_featherweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($blue_weight).val() == "Lightweight") {
+                    $('#blue_info_name').html("");
+                    $('#blue_info_nickname').html("");
+                    $('#blue_info_weight').html("");
+                    $('#blue_info_record').html("");
+                    $('#blue_img').attr("src", "../static/images/Body-1.png");                    
                     $blue_fighter.empty();
                     for (var i=0; i<male_lightweight.length; i++) {
                         $blue_fighter.append('<option>' + male_lightweight[i].last_name + ", " + male_lightweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($blue_weight).val() == "Welterweight") {
+                    $('#blue_info_name').html("");
+                    $('#blue_info_nickname').html("");
+                    $('#blue_info_weight').html("");
+                    $('#blue_info_record').html("");
+                    $('#blue_img').attr("src", "../static/images/Body-1.png");                    
                     $blue_fighter.empty();
                     for (var i=0; i<male_welterweight.length; i++) {
                         $blue_fighter.append('<option>' + male_welterweight[i].last_name + ", " + male_welterweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($blue_weight).val() == "Middleweight") {
+                    $('#blue_info_name').html("");
+                    $('#blue_info_nickname').html("");
+                    $('#blue_info_weight').html("");
+                    $('#blue_info_record').html("");
+                    $('#blue_img').attr("src", "../static/images/Body-1.png");                    
                     $blue_fighter.empty();
                     for (var i=0; i<male_middleweight.length; i++) {
                         $blue_fighter.append('<option>' + male_middleweight[i].last_name + ", " + male_middleweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($blue_weight).val() == "Light Heavyweight") {
+                    $('#blue_info_name').html("");
+                    $('#blue_info_nickname').html("");
+                    $('#blue_info_weight').html("");
+                    $('#blue_info_record').html("");
+                    $('#blue_img').attr("src", "../static/images/Body-1.png");                    
                     $blue_fighter.empty();
                     for (var i=0; i<male_lhweight.length; i++) {
                         $blue_fighter.append('<option>' + male_lhweight[i].last_name + ", " + male_lhweight[i].first_name +'</option>').selectpicker('refresh');
                     }                            
                 }
                 else if (($blue_weight).val() == "Heavyweight") {
+                    $('#blue_info_name').html("");
+                    $('#blue_info_nickname').html("");
+                    $('#blue_info_weight').html("");
+                    $('#blue_info_record').html("");
+                    $('#blue_img').attr("src", "../static/images/Body-1.png");                    
                     $blue_fighter.empty();
                     for (var i=0; i<male_heavyweight.length; i++) {
                         $blue_fighter.append('<option>' + male_heavyweight[i].last_name + ", " + male_heavyweight[i].first_name +'</option>').selectpicker('refresh');
@@ -313,6 +410,11 @@ $(document).ready(function() {
         }
     });
     $blue_gender.on('change', function(){
+        $blue_promotion.empty();
+        var promotions = ["UFC"];
+        for (var i=0; i<promotions.length; i++) {
+            $blue_promotion.append('<option>' + promotions[i] + '</option>').selectpicker('refresh');
+        }        
         if (($blue_gender).val() == "Female") {
             $('#blue_info_name').html("");
             $('#blue_info_nickname').html("");
@@ -330,12 +432,22 @@ $(document).ready(function() {
             }
             $blue_weight.on('change', function(){
                 if (($blue_weight).val() == "Strawweight") {
+                    $('#blue_info_name').html("");
+                    $('#blue_info_nickname').html("");
+                    $('#blue_info_weight').html("");
+                    $('#blue_info_record').html("");
+                    $('#blue_img').attr("src", "../static/images/Body-1.png");                    
                     $blue_fighter.empty();
                     for (var i=0; i<female_strawweight.length; i++) {
                         $blue_fighter.append('<option>' + female_strawweight[i].last_name + ", " + female_strawweight[i].first_name +'</option>').selectpicker('refresh');
                     }
                 }                      
                 else if (($blue_weight).val() == "Bantamweight") {
+                    $('#blue_info_name').html("");
+                    $('#blue_info_nickname').html("");
+                    $('#blue_info_weight').html("");
+                    $('#blue_info_record').html("");
+                    $('#blue_img').attr("src", "../static/images/Body-1.png");                    
                     $blue_fighter.empty();
                     for (var i=0; i<female_bantamweight.length; i++) {
                         $blue_fighter.append('<option>' + female_bantamweight[i].last_name + ", " + female_bantamweight[i].first_name +'</option>').selectpicker('refresh');
@@ -365,11 +477,16 @@ $(document).ready(function() {
                 }
             }
         }
-    });    
+    });
 });
 </script>
 
+<div id="test"></div>
+
 <div class="container">
+    <div class="row">
+        <h3 class="page-header text-center">Begin by selecting the gender for the Red Corner</h3>
+    </div>
     <div class="row">
         <div class="col-md-5">  
             <div class="panel panel-danger">
