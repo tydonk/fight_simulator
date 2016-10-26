@@ -63,6 +63,7 @@ body {
   width: auto;
 }
 
-#how-it-works {
+.page-header {
 	color: white;
+	margin-top: 1em;
 }
