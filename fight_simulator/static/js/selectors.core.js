@@ -8,7 +8,7 @@ BLUE_CORNER = false;
 // and is based on the existance of a 'class named corner' on
 // both fighter corners. updating that html may require an update
 // of this function
-function clear_player_selection(corner) {
+function clear_fighter_selection(corner) {
   // clear gender
   var RED_CORNER = true;
   var BLUE_CORNER = false;
@@ -55,9 +55,19 @@ function filter_by_gender(corner) {
   $('.gender_menu').change(function() {
     var gender_sel = $(this).val().toLowerCase();
     if (gender_sel === "male") {
-      console.log(get_fighters_by_gender(gender_sel));
+      $('select.fighter_menu').empty().selectpicker('refresh');
+      var male_fighters = get_fighters_by_gender(gender_sel);
+      for (var i=0; i<male_fighters.length; i++) {
+        var full_name = (male_fighters[i].last_name + ", " + male_fighters[i].first_name);
+        $('select.fighter_menu').append('<option>' + full_name + '</option>').selectpicker('refresh');        
+      }
     } else if (gender_sel === "female") {
-      console.log(get_fighters_by_gender(gender_sel));
+      $('select.fighter_menu').empty().selectpicker('refresh');
+      var female_fighters = get_fighters_by_gender(gender_sel);
+      for (var i=0; i<female_fighters.length; i++) {
+        var full_name = (female_fighters[i].last_name + ", " + female_fighters[i].first_name);
+        $('select.fighter_menu').append('<option>' + full_name + '</option>').selectpicker('refresh');        
+      }
     }
   });
 }
