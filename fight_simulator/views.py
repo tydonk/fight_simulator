@@ -20,10 +20,10 @@ def how_it_works():
 def fight():
     data = []
     fighter_data = session.query(Fighter).all()
-    #fighter_data = fighter_data[0:10]
+    fighter_data = fighter_data[0:59]
     for fighter in fighter_data:
         data.append(fighter.as_dictionary())   
-    return Response(render_template("fight.html", 
+    return Response(render_template("new_fight.html", 
                     data=data, mimetype="application/json"))
 
 @app.route("/login", methods=["GET"])
