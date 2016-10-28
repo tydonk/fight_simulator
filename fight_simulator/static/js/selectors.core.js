@@ -56,29 +56,39 @@ function filter_by_gender(corner) {
     var gender_sel = $(this).val().toLowerCase();
     if (gender_sel === "male") {
       $('select.fighter_menu').empty().selectpicker('refresh');
-      var male_fighters = get_fighters_by_gender(gender_sel);
-      for (var i=0; i<male_fighters.length; i++) {
-        var full_name = (male_fighters[i].last_name + ", " + male_fighters[i].first_name);
+      var males = get_fighters_by_gender(gender_sel);
+      for (var i=0; i<males.length; i++) {
+        var full_name = (males[i].last_name + ", " + males[i].first_name);
         $('select.fighter_menu').append('<option>' + full_name + '</option>').selectpicker('refresh');        
       }
     } else if (gender_sel === "female") {
       $('select.fighter_menu').empty().selectpicker('refresh');
-      var female_fighters = get_fighters_by_gender(gender_sel);
-      for (var i=0; i<female_fighters.length; i++) {
-        var full_name = (female_fighters[i].last_name + ", " + female_fighters[i].first_name);
+      var females = get_fighters_by_gender(gender_sel);
+      for (var i=0; i<females.length; i++) {
+        var full_name = (females[i].last_name + ", " + females[i].first_name);
         $('select.fighter_menu').append('<option>' + full_name + '</option>').selectpicker('refresh');        
       }
     }
   });
 }
 
-function filter_by_promotion(corner) {
+function filter_by_promotion(corner) {  
   $('.promotion_menu').change(function() {
     var promotion_sel = $(this).val();
     if (promotion_sel === "UFC") {
-      console.log(get_fighters_by_promotion(promotion_sel));
+      $('select.fighter_menu').empty().selectpicker('refresh');
+      var ufc = get_fighters_by_promotion(promotion_sel);
+      for (var i=0; i<ufc.length; i++) {
+        var full_name = (ufc[i].last_name + ", " + ufc[i].first_name);
+        $('select.fighter_menu').append('<option>' + full_name + '</option>').selectpicker('refresh');        
+      }
     } else if (promotion_sel === "Bellator") {
-      console.log(get_fighters_by_promotion(promotion_sel));
+      $('select.fighter_menu').empty().selectpicker('refresh');
+      var bellator = get_fighters_by_promotion(promotion_sel);
+      for (var i=0; i<bellator.length; i++) {
+        var full_name = (bellator[i].last_name + ", " + bellator[i].first_name);
+        $('select.fighter_menu').append('<option>' + full_name + '</option>').selectpicker('refresh');        
+      }
     }
   });
 }
@@ -105,6 +115,13 @@ function filter_by_weight(corner) {
     } else if (weight_sel === "heavyweight") {
       console.log(weight_sel);
     }      
+  });
+}
+
+function load_fighter_info(corner) {
+  $('.fighter_menu').change(function() {
+    var fighter_sel = $(this).val();
+
   });
 }
 
