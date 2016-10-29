@@ -1,13 +1,13 @@
-// clean corner
-
-RED_CORNER = true;
-BLUE_CORNER = false;
-
 // True is for red corner, False is for blue corner
 // NOTE this function expects a consistent html structure
 // and is based on the existance of a 'class named corner' on
 // both fighter corners. updating that html may require an update
 // of this function
+
+RED_CORNER = true;
+BLUE_CORNER = false;
+
+// clear all dropdown menus in corner
 function clear_fighter_selection(corner) {
   // clear gender
   var RED_CORNER = true;
@@ -35,98 +35,160 @@ function clear_fighter_selection(corner) {
 
   // clear the image
   $('.corner')[side].getElementsByTagName('img')[0].src = "../static/images/Body-1.png";
-  // clear fighter info text
 
   var _name = 1;
   var _nickname = 3;
   var _weightclass = 5;
   var _record = 7;
   
+  // clear fighter info text
   finfo_txt = $('.corner')[side].getElementsByTagName('td');
   finfo_txt[_name].innerHTML = "";
   finfo_txt[_nickname].innerHTML = "";
   finfo_txt[_weightclass].innerHTML = "";
   finfo_txt[_record].innerHTML = "";
+} // end of clear_player_selection
+
+// capture menu selection event including which corner is chosen
+function which_menu(evt, corner) {
+
+  var corner_name = corner === true ? "red corner" : "blue corner";
+  var reverse_side = corner === true ? 1 : 0;
+
+  // array default indexes
+  var _gender = 0;
+  var _promotion = 1;
+  var _weight = 2;
+  var _fighter = 3;
+
+  reverse_sel = $('.corner')[reverse_side].getElementsByTagName('select');
+
+  if (evt.target.classList.contains("gender_menu")) {
+    console.log(corner_name + ", gender menu selected");
+    // use jQuery to extract the data via selectpicker from evt.target
+    // which is an object menu
+    var gender_val = $(evt.target).selectpicker('val');
+    var reverse_val = $(reverse_sel[_gender]).selectpicker('val');
+
+    if (gender_val !== reverse_val && reverse_val != "") {
+      // corner is just true and false, so we flip with a negation using '!'
+      var ok = confirm(
+        "Fighters must be the same gender. Choose 'OK' to erase the " +
+        (corner === true ? "blue corner" : "red corner") +
+        " selection or choose 'Cancel' to keep the current gender");
+
+      if (true === ok) {
+        // apply the filter to the current corner
+        clear_fighter_selection(!corner);
+        $(reverse_sel[_gender]).selectpicker('val', gender_val);
+        ui_apply_gender_filter(!corner, gender_val.toLowerCase());
+        ui_set_weight_by_gender(!corner, gender_val.toLowerCase());
+      } else {
+        clear_fighter_selection(corner);
+        return;
+      }
+    } // end of gender_menu
+    ui_apply_gender_filter(corner, gender_val.toLowerCase());
+    ui_set_weight_by_gender(corner, gender_val.toLowerCase());
+    return;
+  }
+
+  if (evt.target.classList.contains("promotion_menu")) {
+    console.log(corner_name + ", promotion menu selected");
+    return;
+  } // end of promotion_menu
+
+  if (evt.target.classList.contains("weight_menu")) {
+    console.log(corner_name + ", weight menu selected");
+    return;
+  } // end of weight_menu
+
+  if (evt.target.classList.contains("fighter_menu")) {
+    console.log(corner_name + ", fighter menu selected");
+    return;
+  } // end of fighter_menu
+
+  console.log(corner_name + ", something changes, can't say what");
+  return;
 }
-// end of clear_player_selection
+
+// determine which corner is being acted on
+function corner_event_handler(evtData) {
+  var evt = evtData;
+
+  if (evt.currentTarget.classList.contains("red_side")) {
+    // check if the target is gender
+    which_menu(evt, RED_CORNER);
+    return;
+  }
+
+  which_menu(evt, BLUE_CORNER);
+  return;
+
+}
 
 // trap on change ( menu option, gender, so that it applies to both corners )
-function filter_by_gender(corner) {  
-  $('.gender_menu').change(function() {
-    var gender_sel = $(this).val().toLowerCase();
-    if (gender_sel === "male") {
-      $('select.fighter_menu').empty().selectpicker('refresh');
-      var males = get_fighters_by_gender(gender_sel);
-      for (var i=0; i<males.length; i++) {
-        var full_name = (males[i].last_name + ", " + males[i].first_name);
-        $('select.fighter_menu').append('<option>' + full_name + '</option>').selectpicker('refresh');        
-      }
-    } else if (gender_sel === "female") {
-      $('select.fighter_menu').empty().selectpicker('refresh');
-      var females = get_fighters_by_gender(gender_sel);
-      for (var i=0; i<females.length; i++) {
-        var full_name = (females[i].last_name + ", " + females[i].first_name);
-        $('select.fighter_menu').append('<option>' + full_name + '</option>').selectpicker('refresh');        
-      }
-    }
-  });
+
+// populate fighter dropdown based on gender selection
+function ui_apply_gender_filter(corner, gender) {
+
+  var corners = $('.corner');
+  // 0 is red, 1 is blue
+  var side = corner === true ? 0 : 1;
+  var _promotion_menu = 1;
+  var _weight_menu = 2;
+  var _fighter_menu = 3;
+  var fighters = get_fighters_by_gender(gender);
+
+  var promotion_menu_sel = corners[side].getElementsByTagName('select')[_promotion_menu];
+  var weight_menu_sel = corners[side].getElementsByTagName('select')[_weight_menu];
+  var fighter_menu_sel = corners[side].getElementsByTagName('select')[_fighter_menu];
+  // clean previous selections
+  $(promotion_menu_sel).selectpicker('val', 'Promotion');
+  $(weight_menu_sel).selectpicker('val', 'Weight');
+  $(fighter_menu_sel).empty().selectpicker('refresh');
+
+  for (var i=0; i<fighters.length; ++i) {
+    full_name = fighters[i].last_name + ", " + fighters[i].first_name;
+    // add new filtered data
+    $(fighter_menu_sel).append('<option>' + full_name + '</option>').selectpicker('refresh');
+  }
 }
 
-function filter_by_promotion(corner) {  
-  $('.promotion_menu').change(function() {
-    var promotion_sel = $(this).val();
-    if (promotion_sel === "UFC") {
-      $('select.fighter_menu').empty().selectpicker('refresh');
-      var ufc = get_fighters_by_promotion(promotion_sel);
-      for (var i=0; i<ufc.length; i++) {
-        var full_name = (ufc[i].last_name + ", " + ufc[i].first_name);
-        $('select.fighter_menu').append('<option>' + full_name + '</option>').selectpicker('refresh');        
-      }
-    } else if (promotion_sel === "Bellator") {
-      $('select.fighter_menu').empty().selectpicker('refresh');
-      var bellator = get_fighters_by_promotion(promotion_sel);
-      for (var i=0; i<bellator.length; i++) {
-        var full_name = (bellator[i].last_name + ", " + bellator[i].first_name);
-        $('select.fighter_menu').append('<option>' + full_name + '</option>').selectpicker('refresh');        
-      }
-    }
-  });
+// set weight class based on gender selected
+function ui_set_weight_by_gender(corner, gender) {
+
+  var corners = $('.corner');
+  // 0 is red, 1 is blue
+  var side = corner === true ? 0 : 1;
+  var _weight_menu = 2;
+  var weight_menu_sel = corners[side].getElementsByTagName('select')[_weight_menu];
+  var weight_menu_opt = $(weight_menu_sel.options);
+
+  if (gender === "female") {
+    $(weight_menu_sel).empty().selectpicker('refresh');
+    $(weight_menu_sel).append('<option>Strawweight</option>');
+    $(weight_menu_sel).append('<option>Bantamweight</option>').selectpicker('refresh');
+    return;
+  }
+  $(weight_menu_sel).empty().selectpicker('refresh');
+  $(weight_menu_sel).append('<option>Flyweight</option>');
+  $(weight_menu_sel).append('<option>Bantamweight</option>');
+  $(weight_menu_sel).append('<option>Featherweight</option>');
+  $(weight_menu_sel).append('<option>Lightweight</option>');
+  $(weight_menu_sel).append('<option>Welterweight</option>');
+  $(weight_menu_sel).append('<option>Middleweight</option>');
+  $(weight_menu_sel).append('<option>Light Heavyweight</option>');
+  $(weight_menu_sel).append('<option>Heavyweight</option>').selectpicker('refresh');
+  return;
 }
 
-function filter_by_weight(corner) {
-  $('.weight_menu').change(function() {
-    var weight_sel = $(this).val().toLowerCase();
-    if (weight_sel === "strawweight") {
-      console.log(weight_sel);
-    } else if (weight_sel === "flyweight") {
-      console.log(weight_sel);
-    } else if (weight_sel === "bantamweight") {
-      console.log(weight_sel);
-    } else if (weight_sel === "fetherweight") {
-      console.log(weight_sel);
-    } else if (weight_sel === "lightweight") {
-      console.log(weight_sel);
-    } else if (weight_sel === "welterweight") {
-      console.log(weight_sel);
-    } else if (weight_sel === "middleweight") {
-      console.log(weight_sel);
-    } else if (weight_sel === "light heavyweight") {
-      console.log(weight_sel);
-    } else if (weight_sel === "heavyweight") {
-      console.log(weight_sel);
-    }      
-  });
-}
 
-function load_fighter_info(corner) {
-  $('.fighter_menu').change(function() {
-    var fighter_sel = $(this).val();
 
-  });
-}
+// populate fighter dropdown
+
+
 
 $(document).ready(function() {
-  filter_by_gender(RED_CORNER);
-  filter_by_promotion();
-  filter_by_weight();
+  $('.corner').change(corner_event_handler);
 });
