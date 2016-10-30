@@ -10,9 +10,7 @@ BLUE_CORNER = false;
 // clear all dropdown menus in corner
 function clear_fighter_selection(corner) {
   // clear gender
-  var RED_CORNER = true;
-  var BLUE_CORNER = false;
-  
+ 
   var side = 99;
   
   if( corner === RED_CORNER ) {
@@ -51,9 +49,6 @@ function clear_fighter_selection(corner) {
 
 // clear fighter info only
 function clear_fighter_info(corner) {
-
-  var RED_CORNER = true;
-  var BLUE_CORNER = false;
   
   var side = 99;
   
@@ -128,10 +123,7 @@ function which_menu(evt, corner) {
   } // end of promotion_menu
 
   if (evt.target.classList.contains("weight_menu")) {
-
-    var RED_CORNER = true;
-    var BLUE_CORNER = false;
-    
+ 
     var side = 99;
     
     if( corner === RED_CORNER ) {
@@ -150,7 +142,8 @@ function which_menu(evt, corner) {
 
   if (evt.target.classList.contains("fighter_menu")) {
     console.log(corner_name + ", fighter menu selected");
-
+    var fighter_val = $(evt.target).selectpicker('val');
+    ui_load_fighter_info(corner, fighter_val);
     return;
   } // end of fighter_menu
 
@@ -251,7 +244,39 @@ function ui_apply_weight_filter(corner, weight, gender) {
 }
 
 // load fighter info on selection
+function ui_load_fighter_info(corner, name) {
 
+  var side = 99;
+  
+  if( corner === RED_CORNER ) {
+  side = 0;
+  } else {
+  side = 1;
+  }
+
+  $('.corner')[side].getElementsByTagName('img')[0].src = "../static/images/Body-1.png";
+
+  var _name = 1;
+  var _nickname = 3;
+  var _weightclass = 5;
+  var _record = 7;
+  
+  var fighters = get_fighters_by_name(name);
+  for (var i=0; i<fighters.length; ++i) {
+    full_name = fighters[i].last_name + ", " + fighters[i].first_name;
+    if (full_name === name) {
+      var fighter = fighters[i];
+      
+      $('.corner')[side].getElementsByTagName('img')[0].src = get_img_path(fighter);
+      finfo_txt = $('.corner')[side].getElementsByTagName('td');
+      finfo_txt[_name].innerHTML = get_fighter_name(fighter);
+      finfo_txt[_nickname].innerHTML = get_fighter_nickname(fighter);
+      finfo_txt[_weightclass].innerHTML = get_weight_class(fighter);
+      finfo_txt[_record].innerHTML = get_fighter_record(fighter);
+    }
+  }
+} 
+  
 
 $(document).ready(function() {
   $('.corner').change(corner_event_handler);
