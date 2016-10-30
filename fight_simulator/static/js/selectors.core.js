@@ -89,6 +89,7 @@ function which_menu(evt, corner) {
 
   if (evt.target.classList.contains("gender_menu")) {
     console.log(corner_name + ", gender menu selected");
+    clear_fighter_info(corner);
     // use jQuery to extract the data via selectpicker from evt.target
     // which is an object menu
     var gender_val = $(evt.target).selectpicker('val');
@@ -123,6 +124,7 @@ function which_menu(evt, corner) {
   } // end of promotion_menu
 
   if (evt.target.classList.contains("weight_menu")) {
+    clear_fighter_info(corner);
  
     var side = 99;
     
