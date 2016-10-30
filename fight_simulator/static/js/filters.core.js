@@ -38,7 +38,7 @@ function get_fighters_by_weight(weight) {
 function get_fighters_by_name(name) {
   var fighters = [];
   for (var i=0; i<fighterData.length; i++) {
-    if ((fighterData[i].first_name + " " + fighterData[i].last_name) === name) {
+    if ((fighterData[i].last_name + ", " + fighterData[i].first_name) === name) {
       fighters.push(fighterData[i]);
     }
   }
