@@ -82,6 +82,10 @@ function get_fighter_nickname(fighter) {
   return fighter.nickname;
 }
 
+function get_fighter_promotion(fighter) {
+  return fighter.promotion;
+}
+
 function get_fighter_record(fighter) {
   return (fighter.win + "-" + fighter.loss + "-" + fighter.draw);
 }
