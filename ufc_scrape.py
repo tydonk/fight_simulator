@@ -21,7 +21,7 @@ for fighter in fighters:
                             promotion="UFC",
                             fighter_image=fighter['profile_image'],
                             gender = "", 
-                            weight=fighter['weight_class'], 
+                            weight=fighter['weight_class'].replace("_", " "), 
                             win=fighter['wins'], 
                             loss=fighter['losses'], 
                             draw=fighter['draws'],
