@@ -49,6 +49,35 @@ function clear_fighter_selection(corner) {
   finfo_txt[_record].innerHTML = "";
 } // end of clear_player_selection
 
+// clear fighter info only
+function clear_fighter_info(corner) {
+
+  var RED_CORNER = true;
+  var BLUE_CORNER = false;
+  
+  var side = 99;
+  
+  if( corner === RED_CORNER ) {
+  side = 0;
+  } else {
+  side = 1;
+  }
+
+  $('.corner')[side].getElementsByTagName('img')[0].src = "../static/images/Body-1.png";
+
+  var _name = 1;
+  var _nickname = 3;
+  var _weightclass = 5;
+  var _record = 7;
+  
+  // clear fighter info text
+  finfo_txt = $('.corner')[side].getElementsByTagName('td');
+  finfo_txt[_name].innerHTML = "";
+  finfo_txt[_nickname].innerHTML = "";
+  finfo_txt[_weightclass].innerHTML = "";
+  finfo_txt[_record].innerHTML = "";
+}
+
 // capture menu selection event including which corner is chosen
 function which_menu(evt, corner) {
 
@@ -78,7 +107,7 @@ function which_menu(evt, corner) {
         " selection or choose 'Cancel' to keep the current gender");
 
       if (true === ok) {
-        // apply the filter to the current corner
+        // apply the filters to the current corner
         clear_fighter_selection(!corner);
         $(reverse_sel[_gender]).selectpicker('val', gender_val);
         ui_apply_gender_filter(!corner, gender_val.toLowerCase());
@@ -99,12 +128,29 @@ function which_menu(evt, corner) {
   } // end of promotion_menu
 
   if (evt.target.classList.contains("weight_menu")) {
+
+    var RED_CORNER = true;
+    var BLUE_CORNER = false;
+    
+    var side = 99;
+    
+    if( corner === RED_CORNER ) {
+    side = 0;
+    } else {
+    side = 1;
+    }
+
     console.log(corner_name + ", weight menu selected");
+    var gender_sel = $('.corner')[side].getElementsByTagName('select');
+    var gender_val = $( gender_sel[_gender] ).selectpicker('val').toLowerCase();
+    var weight_val = $(evt.target).selectpicker('val');
+    ui_apply_weight_filter(corner, weight_val, gender_val);
     return;
   } // end of weight_menu
 
   if (evt.target.classList.contains("fighter_menu")) {
     console.log(corner_name + ", fighter menu selected");
+
     return;
   } // end of fighter_menu
 
@@ -183,10 +229,28 @@ function ui_set_weight_by_gender(corner, gender) {
   return;
 }
 
+// populate fighers based on weight class selection
+function ui_apply_weight_filter(corner, weight, gender) {
 
+  var corners = $('.corner');
+  // 0 is red, 1 is blue
+  var side = corner === true ? 0 : 1;
+  var _fighter_menu = 3;
+  var fighter_menu_sel = corners[side].getElementsByTagName('select')[_fighter_menu];
+  $(fighter_menu_sel).empty().selectpicker('refresh');
 
-// populate fighter dropdown
+  var fighters = get_fighters_by_weight(weight);
 
+  for (var i=0; i<fighters.length; ++i) {
+    if (fighters[i].gender === gender) {
+      full_name = fighters[i].last_name + ", " + fighters[i].first_name;
+      // add new filtered data
+      $(fighter_menu_sel).append('<option>' + full_name + '</option>').selectpicker('refresh');
+    }
+  }  
+}
+
+// load fighter info on selection
 
 
 $(document).ready(function() {
