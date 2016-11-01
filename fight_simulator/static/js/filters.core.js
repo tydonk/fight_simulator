@@ -1,5 +1,3 @@
-// global data
-
 // players / get_players()
 
 function get_fighters_by_gender(gender) {
@@ -55,11 +53,11 @@ function validate_pairs(red_fighter, blue_fighter) {
   // returns false when it's an illegal fight
 
   // note: syntax for accessing gender field may change
-  if( red_fighter.gender != blue_fighter.gender ) {
-  return false;
+  if( red_fighter === blue_fighter ) {
+  return true;
   }
   
-  return true;
+  return false;
 }
 
 function get_weight_class(fighter) {
