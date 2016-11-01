@@ -7,6 +7,7 @@ fighterData = {{ data|safe }};
 </script>
 <script src="../static/js/filters.core.js"></script>
 <script src="../static/js/selectors.core.js"></script>
+<script src="../static/js/simulator.core.js"></script>
 
 <div class="container">
   <div class="row">
@@ -28,9 +29,7 @@ fighterData = {{ data|safe }};
                 </li>
                 <li class="list-group-item">
                   <select id="red_promotion" class="selectpicker promotion_menu" title="Promotion" 
-                          data-size="10" data-width="100%">
-                    <option>UFC</option>
-                    <option>Bellator</option>      
+                          data-size="10" data-width="100%">   
                   </select>
                 </li>
                 <li class="list-group-item">
@@ -88,10 +87,12 @@ fighterData = {{ data|safe }};
         </div>
       </div>    
     </div>
+
     <div class="col-md-2">
       <h1 id="vs" class="text-center">VS.</h1>
-      <button id="fight" type="button" class="btn btn-danger btn-lg btn-block">FIGHT!</button>   
+      <button id="fight" type="button" class="btn btn-success btn-lg btn-block">FIGHT!</button>   
     </div>
+
     <div class="col-md-5">
       <div class="panel panel-info">
         <div class="panel-heading">
@@ -110,9 +111,7 @@ fighterData = {{ data|safe }};
                 </li>
                 <li class="list-group-item">
                   <select id="blue_promotion" class="selectpicker promotion_menu" title="Promotion" 
-                          data-size="10" data-width="100%">
-                    <option>UFC</option>
-                    <option>Bellator</option>                             
+                          data-size="10" data-width="100%">                    
                   </select>
                 </li>
                 <li class="list-group-item">
@@ -182,13 +181,23 @@ fighterData = {{ data|safe }};
         </div>
         <div id="results" class="panel-body">
           <ul class="list-group">
-            <li class="list-group-item">Winner</li>
-            <li class="list-group-item">Round</li>
-            <li class="list-group-item">Time</li>
-            <li class="list-group-item">Method</li>
+            <li id="result_winner" class="list-group-item">Winner</li>
+            <li id="result_round" class="list-group-item">Round</li>
+            <li id="result_time" class="list-group-item">Time</li>
+            <li id="result_method" class="list-group-item">Method</li>
           </ul>
         </div>
       </div>    
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6">
+      <button id="reset_btn" type="button" class="btn btn-danger btn-lg btn-block">START OVER (Reset all menus)</button>
     </div>
     <div class="col-md-3">
     </div>
