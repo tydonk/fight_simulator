@@ -191,6 +191,16 @@ function clear_fighter_info(corner) {
   return;
 }
 
+// clear all menus by corner
+function reset_corner() {
+  $('#red_reset').click(function() {
+    clear_fighter_selection(RED_CORNER);
+  });
+  $('#blue_reset').click(function() {
+    clear_fighter_selection(BLUE_CORNER);
+  });
+}
+
 // clear all menus when reset button is clicked
 function reset_all_menus() {
   $('#reset_btn').click(function() {
@@ -404,4 +414,5 @@ function ui_load_fighter_info(corner, name) {
 $(document).ready(function() {
   $('.corner').change(corner_event_handler);
   reset_all_menus();
+  reset_corner();
 });
