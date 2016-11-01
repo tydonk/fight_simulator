@@ -148,9 +148,9 @@ function clear_fighter_selection(corner) {
   var _weight = 2;
   var _fighter = 3;
   
-  // clear fighter info
+  // reset menus
   var gender_sel = $('.corner')[side].getElementsByTagName('select');
-  $( gender_sel[_gender] ).selectpicker('val', 'Gender');
+  $( gender_sel[_gender] ).selectpicker('val', '');
   $( gender_sel[_promotion] ).selectpicker('val', 'Promotion');
   $( gender_sel[_promotion] ).empty().selectpicker('refresh');
   $( gender_sel[_weight] ).selectpicker('val', 'Weight');
@@ -158,22 +158,8 @@ function clear_fighter_selection(corner) {
   $( gender_sel[_fighter] ).selectpicker('val', 'Fighter');
   $( gender_sel[_fighter] ).empty().selectpicker('refresh');
 
-  // clear the image
-  $('.corner')[side].getElementsByTagName('img')[0].src = "../static/images/Body-1.png";
+  clear_fighter_info(corner);
 
-  var _name = 1;
-  var _nickname = 3;
-  var _promotion = 5;
-  var _weightclass = 7;
-  var _record = 9;
-  
-  // clear fighter info text
-  finfo_txt = $('.corner')[side].getElementsByTagName('td');
-  finfo_txt[_name].innerHTML = "";
-  finfo_txt[_nickname].innerHTML = "";
-  finfo_txt[_promotion].innerHTML = "";
-  finfo_txt[_weightclass].innerHTML = "";
-  finfo_txt[_record].innerHTML = "";
 } // end of clear_player_selection
 
 // clear fighter info only
@@ -202,6 +188,7 @@ function clear_fighter_info(corner) {
   finfo_txt[_promotion].innerHTML = "";
   finfo_txt[_weightclass].innerHTML = "";
   finfo_txt[_record].innerHTML = "";
+  return;
 }
 
 // clear all menus when reset button is clicked
@@ -212,8 +199,6 @@ function reset_all_menus() {
     clear_fighter_selection(BLUE_CORNER);
   });
 }
-
-// trap on change ( menu option, gender, so that it applies to both corners )
 
 // populate fighter dropdown based on gender selection
 function ui_apply_gender_filter(corner, gender) {
@@ -295,7 +280,7 @@ function ui_apply_weight_filter(corner, weight, gender, promotion) {
       // add new filtered data
       $(fighter_menu_sel).append(opt).selectpicker('refresh');
     }
-  }  
+  }
 }
 
 // set promotions based on gender selection
@@ -417,7 +402,6 @@ function ui_load_fighter_info(corner, name) {
 } 
   
 $(document).ready(function() {
-  reset_all_menus();
   $('.corner').change(corner_event_handler);
-
+  reset_all_menus();
 });
