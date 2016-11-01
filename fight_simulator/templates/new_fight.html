@@ -50,7 +50,7 @@ fighterData = {{ data|safe }};
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12 center-text">
+            <div class="col-md-12">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">Fighter Info</h4>
@@ -80,6 +80,15 @@ fighterData = {{ data|safe }};
                       </tr>
                     </tbody>
                   </table>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-10">
+                  <button id="red_reset" type="button" class="btn btn-danger btn-lg btn-block">Reset Red Corner</button>
+                </div>
+                <div class="col-md-1">
                 </div>
               </div>        
             </div>    
@@ -132,7 +141,7 @@ fighterData = {{ data|safe }};
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12 center-text">
+            <div class="col-md-12">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">Fighter Info</h4>
@@ -163,7 +172,16 @@ fighterData = {{ data|safe }};
                     </tbody>
                   </table>
                 </div>
-              </div>        
+              </div> 
+              <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-10">
+                  <button id="blue_reset" type="button" class="btn btn-info btn-lg btn-block">Reset Blue Corner</button>
+                </div>
+                <div class="col-md-1">
+                </div>
+              </div>
             </div>    
           </div>
         </div>
@@ -201,7 +219,8 @@ fighterData = {{ data|safe }};
     </div>
     <div class="col-md-3">
     </div>
-  </div>    
+  </div>
+
 </div>
 
 {% endblock content %}
