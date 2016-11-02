@@ -159,7 +159,6 @@ function clear_fighter_selection(corner) {
   $( gender_sel[_fighter] ).empty().selectpicker('refresh');
 
   clear_fighter_info(corner);
-
 } // end of clear_player_selection
 
 // clear fighter info only
@@ -201,12 +200,26 @@ function reset_corner() {
   });
 }
 
+// clear results panel
+function clear_results() {
+  var _name = 1;
+  var _round = 3;
+  var _time = 5;
+  var _method = 7;
+  result_info = $('#results')[0].getElementsByTagName('td');
+  result_info[_name].innerHTML = "";
+  result_info[_round].innerHTML = "";
+  result_info[_time].innerHTML = "";
+  result_info[_method].innerHTML = "";
+  return;
+}
+
 // clear all menus when reset button is clicked
 function reset_all_menus() {
   $('#reset_btn').click(function() {
-
     clear_fighter_selection(RED_CORNER);
     clear_fighter_selection(BLUE_CORNER);
+    clear_results();
   });
 }
 
