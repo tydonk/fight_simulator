@@ -42,6 +42,7 @@ fighterData = {{ data|safe }};
                       data-width="100%" data-live-search="true">                                          
                   </select>
                 </li>
+                <button id="red_reset" type="button" class="btn btn-danger btn btn-block">Reset Red Corner</button>
               </ul>
             </div>
             <div class="col-md-6">
@@ -81,25 +82,16 @@ fighterData = {{ data|safe }};
                     </tbody>
                   </table>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-md-1">
-                </div>
-                <div class="col-md-10">
-                  <button id="red_reset" type="button" class="btn btn-danger btn-lg btn-block">Reset Red Corner</button>
-                </div>
-                <div class="col-md-1">
-                </div>
-              </div>        
+              </div>       
             </div>    
           </div>
         </div>
       </div>    
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-2">       
       <h1 id="vs" class="text-center">VS.</h1>
-      <button id="fight" type="button" class="btn btn-success btn-lg btn-block">FIGHT!</button>   
+      <button id="fight" type="button" class="btn btn-default btn-lg btn-block">FIGHT!</button>
     </div>
 
     <div class="col-md-5">
@@ -133,6 +125,7 @@ fighterData = {{ data|safe }};
                       data-width="100%" data-live-search="true" data-header="Select a fighter">
                   </select>    
                 </li>
+                <button id="blue_reset" type="button" class="btn btn-info btn btn-block">Reset Blue Corner</button>
               </ul>
             </div>
             <div class="col-md-6">
@@ -173,15 +166,6 @@ fighterData = {{ data|safe }};
                   </table>
                 </div>
               </div> 
-              <div class="row">
-                <div class="col-md-1">
-                </div>
-                <div class="col-md-10">
-                  <button id="blue_reset" type="button" class="btn btn-info btn-lg btn-block">Reset Blue Corner</button>
-                </div>
-                <div class="col-md-1">
-                </div>
-              </div>
             </div>    
           </div>
         </div>
@@ -193,17 +177,34 @@ fighterData = {{ data|safe }};
     <div class="col-md-3">
     </div>
     <div class="col-md-6">
+      <div id="illegal_alert" class="alert alert-danger text-center" role="alert">
+        Fighters must be different, select again.
+      </div>
       <div class="panel panel-success">
         <div class="panel-heading">
           <h3 class="panel-title text-center">Results</h3>
         </div>
         <div id="results" class="panel-body">
-          <ul class="list-group">
-            <li id="result_winner" class="list-group-item">Winner</li>
-            <li id="result_round" class="list-group-item">Round</li>
-            <li id="result_time" class="list-group-item">Time</li>
-            <li id="result_method" class="list-group-item">Method</li>
-          </ul>
+          <table class="table table-hover table-bordered table-responsive">
+            <tbody>
+              <tr>
+                <td class="col-md-3"><b>Winner</b></td>
+                <td id="win_name"></td>
+              </tr>
+              <tr>
+                <td class="col-md-3"><b>Round</b></td>
+                <td id="win_round"></td>
+              </tr>
+              <tr>
+                <td class="col-md-3"><b>Time</b></td>
+                <td id="win_time"></td>
+              </tr>                        
+              <tr>
+                <td class="col-md-3"><b>Method</b></td>
+                <td id="win_method"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>    
     </div>
@@ -220,7 +221,6 @@ fighterData = {{ data|safe }};
     <div class="col-md-3">
     </div>
   </div>
-
 </div>
 
 {% endblock content %}
