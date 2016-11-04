@@ -33,7 +33,7 @@ function get_random_time() {
 	return time;
 }
 
-// get random round
+// get random round 1-3
 function get_random_round() {
 	var round = Math.floor(Math.random() * ((3-1)+1) + 1);
 	return round;
@@ -76,7 +76,6 @@ function simulate_fight() {
 		(red_fighter[0].win + red_fighter[0].loss + red_fighter[0].draw);
 	var red_win_percent = Math.round((red_calc_perc * 100));	
 
-
 	var blue_calc_perc = ((blue_fighter[0].win) + (blue_fighter[0].draw * .5)) / 
 		(blue_fighter[0].win + blue_fighter[0].loss + blue_fighter[0].draw);
 	var blue_win_percent = Math.round((blue_calc_perc * 100));
@@ -88,7 +87,6 @@ function simulate_fight() {
 	if (red_win_percent > blue_win_percent) {
 		console.log("RED CORNER WINS");
 		$('#win_name').html(red_fighter[0].first_name + " " + red_fighter[0].last_name);
-		//var submission = get_random_submission();
 		if (outcome === "Submission") {
 			$('#win_method').html(outcome + " (" + get_random_submission() + ")");
 			$('#win_round').html(round);
@@ -105,12 +103,18 @@ function simulate_fight() {
 	} else {		
 		console.log("BLUE CORNER WINS");
 		$('#win_name').html(blue_fighter[0].first_name + " " + blue_fighter[0].last_name);
-		var outcome = get_random_outcome();
-		//var submission = get_random_submission();
 		if (outcome === "Submission") {
 			$('#win_method').html(outcome + " (" + get_random_submission() + ")");
+			$('#win_round').html(round);
+			$('#win_time').html(time);
+		} else if ( (outcome.split(" ")[1]) === "Decision" ) {
+			$('#win_round').html("3");
+			$('#win_time').html("5:00");
+			$('#win_method').html(outcome);
 		} else {
 			$('#win_method').html(outcome);
+			$('#win_round').html(round);
+			$('#win_time').html(time);
 		}		
 	}
 }
