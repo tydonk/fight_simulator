@@ -63,7 +63,7 @@ function which_menu(evt, corner) {
         return;
       }
     } // end of gender_menu
-    
+
     ui_apply_gender_filter(corner, gender_val.toLowerCase());
     ui_set_promotion_by_gender(corner, gender_val.toLowerCase());
     return;
@@ -74,7 +74,7 @@ function which_menu(evt, corner) {
     console.log(corner_name + ", promotion menu selected");
 
     var side = 99;
-    
+
     if( corner === RED_CORNER ) {
     side = 0;
     } else {
@@ -87,7 +87,7 @@ function which_menu(evt, corner) {
     clear_fighter_info(corner);
 
     var gender_sel = $('.corner')[side].getElementsByTagName('select');
-    var gender_val = $( gender_sel[_gender] ).selectpicker('val').toLowerCase();    
+    var gender_val = $( gender_sel[_gender] ).selectpicker('val').toLowerCase();
     var promotion_val = $(evt.target).selectpicker('val');
     ui_apply_promotion_filter(corner, promotion_val, gender_val);
     ui_set_weight_by_promotion(corner, promotion_val, gender_val);
@@ -99,9 +99,9 @@ function which_menu(evt, corner) {
     console.log(corner_name + ", weight menu selected");
 
     clear_fighter_info(corner);
- 
+
     var side = 99;
-    
+
     if( corner === RED_CORNER ) {
     side = 0;
     } else {
@@ -112,7 +112,7 @@ function which_menu(evt, corner) {
     var gender_val = $( gender_sel[_gender] ).selectpicker('val').toLowerCase();
     var weight_val = $(evt.target).selectpicker('val');
     var promotion_sel = $('.corner')[side].getElementsByTagName('select');
-    var promotion_val = $( promotion_sel[_promotion] ).selectpicker('val');    
+    var promotion_val = $( promotion_sel[_promotion] ).selectpicker('val');
     ui_apply_weight_filter(corner, weight_val, gender_val, promotion_val);
     return;
   } // end of weight_menu
@@ -134,9 +134,9 @@ function which_menu(evt, corner) {
 // clear all dropdown menus in corner
 function clear_fighter_selection(corner) {
   // clear gender
- 
+
   var side = 99;
-  
+
   if( corner === RED_CORNER ) {
   side = 0;
   } else {
@@ -147,7 +147,7 @@ function clear_fighter_selection(corner) {
   var _promotion = 1;
   var _weight = 2;
   var _fighter = 3;
-  
+
   // reset menus
   var gender_sel = $('.corner')[side].getElementsByTagName('select');
   $( gender_sel[_gender] ).selectpicker('val', '');
@@ -163,9 +163,9 @@ function clear_fighter_selection(corner) {
 
 // clear fighter info only
 function clear_fighter_info(corner) {
-  
+
   var side = 99;
-  
+
   if( corner === RED_CORNER ) {
   side = 0;
   } else {
@@ -179,7 +179,7 @@ function clear_fighter_info(corner) {
   var _promotion = 5;
   var _weightclass = 7;
   var _record = 9;
-  
+
   // clear fighter info text
   finfo_txt = $('.corner')[side].getElementsByTagName('td');
   finfo_txt[_name].innerHTML = "";
@@ -264,7 +264,7 @@ function ui_apply_promotion_filter(corner, promotion, gender) {
   var fighters = get_fighters_by_promotion(promotion);
 
   var weight_menu_sel = corners[side].getElementsByTagName('select')[_weight_menu];
-  var fighter_menu_sel = corners[side].getElementsByTagName('select')[_fighter_menu]; 
+  var fighter_menu_sel = corners[side].getElementsByTagName('select')[_fighter_menu];
   // clean previous selections
   $(weight_menu_sel).empty();
   $(weight_menu_sel).selectpicker('val', 'Weight');
@@ -278,7 +278,7 @@ function ui_apply_promotion_filter(corner, promotion, gender) {
       opt.setAttribute('data-subtext', fighters[i].weight);
       // add new filtered data
       $(fighter_menu_sel).append(opt).selectpicker('refresh');
-    }    
+    }
   }
 }
 
@@ -339,22 +339,22 @@ function ui_set_weight_by_promotion(corner, promotion, gender) {
   var weight_sel = corners[side].getElementsByTagName('select')[_weight_menu];
 
   var ufc_fweights = ["Strawweight", "Bantamweight"];
-  var ufc_mweights = ["Flyweight", "Bantamweight", "Featherweight", "Lightweight", 
+  var ufc_mweights = ["Flyweight", "Bantamweight", "Featherweight", "Lightweight",
       "Welterweight", "Middleweight", "Light Heavyweight", "Heavyweight"];
   var bellator_fweights = ["Strawweight", "Flyweight", "Bantamweight", "Featherweight"];
-  var bellator_mweights = ["Bantamweight", "Featherweight", "Lightweight", 
+  var bellator_mweights = ["Bantamweight", "Featherweight", "Lightweight",
       "Welterweight", "Middleweight", "Light Heavyweight", "Heavyweight"];
   var onechamp_fweights = ["Atomweight", "Strawweight", "Flyweight", "Bantamweight"];
-  var onechamp_mweights = ["Strawweight", "Flyweight", "Bantamweight", "Featherweight", 
+  var onechamp_mweights = ["Strawweight", "Flyweight", "Bantamweight", "Featherweight",
       "Lightweight", "Welterweight", "Middleweight", "Light Heavyweight", "Heavyweight"];
-  var wsof_mweights = ["Flyweight", "Bantamweight", "Featherweight", "Lightweight", 
-      "Welterweight", "Middleweight", "Light Heavyweight", "Heavyweight"];          
+  var wsof_mweights = ["Flyweight", "Bantamweight", "Featherweight", "Lightweight",
+      "Welterweight", "Middleweight", "Light Heavyweight", "Heavyweight"];
 
   if (promotion === "Bellator" && gender === "female") {
     for (var i=0; i<bellator_fweights.length; ++i) {
       // add new filtered data
       $(weight_sel).append('<option>' + bellator_fweights[i] + '</option>').selectpicker('refresh');
-    }    
+    }
   } else if (promotion === "Bellator" && gender === "male") {
     for (var i=0; i<bellator_mweights.length; ++i) {
       // add new filtered data
@@ -392,38 +392,52 @@ function ui_set_weight_by_promotion(corner, promotion, gender) {
 function ui_load_fighter_info(corner, name) {
 
   var side = 99;
-  
+
   if( corner === RED_CORNER ) {
   side = 0;
   } else {
   side = 1;
   }
 
-  $('.corner')[side].getElementsByTagName('img')[0].src = "../static/images/Body-1.png";
-
   var _name = 1;
   var _nickname = 3;
   var _promotion = 5
   var _weightclass = 7;
   var _record = 9;
-  
+
+  var _promotion_menu = 1;
+  var _weight_menu = 2;
+
   var fighters = get_fighters_by_name(name);
   for (var i=0; i<fighters.length; ++i) {
     full_name = fighters[i].last_name + ", " + fighters[i].first_name;
     if (full_name === name) {
       var fighter = fighters[i];
-      
+
+      ui_set_promotion_by_gender(corner, fighter.gender);
+      ui_set_weight_by_promotion(corner, fighter.promotion, fighter.gender);
+
       $('.corner')[side].getElementsByTagName('img')[0].src = get_img_path(fighter);
+
+      var get_sel = $('.corner')[side].getElementsByTagName('select');
+      $(get_sel[_promotion_menu]).selectpicker('val', fighter.promotion);
+      if (fighter.gender === "female") {
+        $(get_sel[_weight_menu]).selectpicker('val', fighter.weight.split(" ")[1]);
+      } else {
+        $(get_sel[_weight_menu]).selectpicker('val', fighter.weight);
+      }
+
       finfo_txt = $('.corner')[side].getElementsByTagName('td');
       finfo_txt[_name].innerHTML = get_fighter_name(fighter);
       finfo_txt[_nickname].innerHTML = get_fighter_nickname(fighter);
       finfo_txt[_promotion].innerHTML = get_fighter_promotion(fighter);
       finfo_txt[_weightclass].innerHTML = get_weight_class(fighter);
       finfo_txt[_record].innerHTML = get_fighter_record(fighter);
+      return fighter;
     }
   }
-} 
-  
+}
+
 $(document).ready(function() {
   $('.corner').change(corner_event_handler);
   reset_all_menus();
