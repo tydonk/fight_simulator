@@ -3,7 +3,7 @@
 function get_fighters_by_gender(gender) {
   var fighters = [];
   for (var i=0; i<fighterData.length; i++) {
-    if (fighterData[i].gender === gender) {    
+    if (fighterData[i].gender === gender) {
       fighters.push(fighterData[i]);
     }
   }
@@ -23,7 +23,7 @@ function get_fighters_by_promotion(promotion) {
 function get_fighters_by_weight(weight) {
   var fighters = [];
   for (var i=0; i<fighterData.length; i++) {
-    if ((fighterData[i].weight.split(" ")[0]) === "Women" && 
+    if ((fighterData[i].weight.split(" ")[0]) === "Women" &&
         (fighterData[i].weight.split(" ")[1]) === weight) {
       fighters.push(fighterData[i]);
     } else if (fighterData[i].weight === weight) {
@@ -56,7 +56,7 @@ function validate_pairs(red_fighter, blue_fighter) {
   if( red_fighter === blue_fighter ) {
   return true;
   }
-  
+
   return false;
 }
 
