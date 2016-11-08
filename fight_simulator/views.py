@@ -30,26 +30,27 @@ def fight():
     return Response(render_template("new_fight.html",
                     data=data, mimetype="application/json"))
 
-@app.route("/fight", methods=["POST"])
+@app.route("/fight_results", methods=["GET", "POST"])
 #@login_required
 #@decorators.accept("application/json")
 #@decorators.require("application/json")
 def return_results():
+    data = []
+    fighter_data = session.query(Fighter).all()
+    fighter_data = fighter_data[0:99]
+    for fighter in fighter_data:
+        data.append(fighter.as_dictionary())
+
     now = datetime.now()
     year = now.year
     month = now.month
     day = now.day
     current_date = '{}/{}/{}'.format(month, day, year)
 
-    fighter_data = session.query(Fighter).all()
-    fighter_data = fighter_data[0:99]
     red_gender = request.form['red_gender']
     red_fighter = request.form['red_fighter']
     blue_gender = request.form['blue_gender']
     blue_fighter = request.form['blue_fighter']
-
-    if red_fighter == blue_fighter:
-        print("that's a no-no!")
 
     for fighter in fighter_data:
         full_name = fighter.last_name + ", " + fighter.first_name
@@ -83,21 +84,33 @@ def return_results():
         "ankle lock", "heel hook", "toe hold", "can opener", "twister",
         "achilles lock", "bicep slicer", "leg slicer"]
 
-    method = random.choice(outcomes)
-    if method == "Submission":
-        method = method + " ({})".format(random.choice(submissions))
-
     end_round = randint(1,3)
     minute = randint(0,4)
     second_1 = randint(0,5)
     second_2 = randint(1,9)
     end_time = "{}:{}{}".format(minute, second_1, second_2)
 
+    method = random.choice(outcomes)
+    if method == "Submission":
+        method = method + " ({})".format(random.choice(submissions))
+    elif (method.split(" ")[1]) == "Decision":
+        end_round = "3"
+        end_time = "5:00"
+
+    results = [{'winner': winner,
+                'end_round': end_round,
+                'end_time': end_time,
+                'method': method,
+                'blue_corner_fighter': blue_fighter,
+                'red_corner_fighter': red_fighter}]
+
     #new_fighter = History(fight_date=current_date, has_occured=true,
     #red_corner=red_fighter, blue_corner=blue_fighter, winner=red_fighter,
     #end_round=end_round, end_time=end_time, method=method
 
-    return redirect(url_for("fight"))
+    #return redirect(url_for("fight"))
+    return Response(render_template("results_fight.html",
+                    data=data, results=results, mimetype="application/json"))
 
 @app.route("/login", methods=["GET"])
 def login_get():
