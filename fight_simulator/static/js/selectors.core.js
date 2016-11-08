@@ -439,7 +439,7 @@ function ui_load_fighter_info(corner, name) {
 }
 
 // check to make sure the fighters are not the same
-/* function validate_fight(red_fighter, blue_fighter) {
+function validate_fight(red_fighter, blue_fighter) {
   var red_menu_sel = $('.corner')[0].getElementsByTagName('select');
 	var red_fighter_val = $(red_menu_sel[3]).selectpicker('val');
   var blue_menu_sel = $('.corner')[1].getElementsByTagName('select');
@@ -447,21 +447,23 @@ function ui_load_fighter_info(corner, name) {
   var red_fighter = get_fighters_by_name(red_fighter_val);
   var blue_fighter = get_fighters_by_name(blue_fighter_val);
 
-  $('#fight').on('click', function() {
-    if (validate_pairs(red_fighter[0].id, blue_fighter[0].id)) {
-      $('#illegal_alert').show();
-      console.log("fight is illegal");
-      return;
-    }
-    console.log("fight permitted");
-    $('#illegal_alert').hide();
-  });
-} */
+  if (validate_pairs(red_fighter[0].id, blue_fighter[0].id)) {
+    $('#illegal_alert').show();
+    console.log("fight is illegal");
+    return;
+  }
+  console.log("fight permitted");
+  $('#illegal_alert').hide();
+  $('#fight').removeAttr('type');
+  $('#fight').attr('type', 'submit');
+}
 
 $(document).ready(function() {
   $('#illegal_alert').hide();
   $('.corner').change(corner_event_handler);
-  //validate_fight();
   reset_all_menus();
   reset_corner();
+  $('#fight').on('click', function() {
+    validate_fight();
+  });
 });
