@@ -36,17 +36,19 @@ function populate_results() {
 function reload_menu_data() {
   if (red_fighter['gender'] === 'female') {
     $('#red_gender, #blue_gender').selectpicker('val', 'Female');
-    ui_apply_gender_filter(RED_CORNER, red_fighter['gender']);
-    ui_set_promotion_by_gender(RED_CORNER, red_fighter['gender']);
-    $('#red_promotion').selectpicker('val', red_fighter['promotion']);
-    ui_load_fighter_info(RED_CORNER, red_name);
-    $('#red_fighter').selectpicker('val', red_name);
-    ui_apply_gender_filter(BLUE_CORNER, blue_fighter['gender']);
-    ui_set_promotion_by_gender(BLUE_CORNER, blue_fighter['gender']);
-    $('#blue_promotion').selectpicker('val', blue_fighter['promotion']);
-    ui_load_fighter_info(BLUE_CORNER, blue_name);
-    $('#blue_fighter').selectpicker('val', blue_name);
+  } else {
+    $('#red_gender, #blue_gender').selectpicker('val', 'Male');
   }
+  ui_apply_gender_filter(RED_CORNER, red_fighter['gender']);
+  ui_set_promotion_by_gender(RED_CORNER, red_fighter['gender']);
+  $('#red_promotion').selectpicker('val', red_fighter['promotion']);
+  ui_load_fighter_info(RED_CORNER, red_name);
+  $('#red_fighter').selectpicker('val', red_name);
+  ui_apply_gender_filter(BLUE_CORNER, blue_fighter['gender']);
+  ui_set_promotion_by_gender(BLUE_CORNER, blue_fighter['gender']);
+  $('#blue_promotion').selectpicker('val', blue_fighter['promotion']);
+  ui_load_fighter_info(BLUE_CORNER, blue_name);
+  $('#blue_fighter').selectpicker('val', blue_name);
 }
 
 $(document).ready(function() {
