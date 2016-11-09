@@ -5,31 +5,55 @@
 None = "";
 resultsData = {{ results|safe }};
 fighterData = {{ data|safe }};
-
-// return results from server
-function populate_results(){
-	var _name = 1;
-	var _round = 3;
-	var _time = 5;
-	var _method = 7;
-	result_info = $('#results')[0].getElementsByTagName('td');
-	result_info[_name].innerHTML = resultsData[0]['winner'].split(",")[1] +
-      " " + resultsData[0]['winner'].split(",")[0];
-	result_info[_round].innerHTML = resultsData[0]['end_round'];
-	result_info[_time].innerHTML = resultsData[0]['end_time'];
-	result_info[_method].innerHTML = resultsData[0]['method'];
-  console.log(resultsData[0]['blue_corner_fighter']);
-  console.log(resultsData[0]['red_corner_fighter']);
-	return;
-}
-
-$(document).ready(function() {
-	populate_results();
-});
 </script>
 <script src="../static/js/filters.core.js"></script>
 <script src="../static/js/selectors.core.js"></script>
 <!-- <script src="../static/js/simulator.core.js"></script> -->
+<script>
+for (var i=0; i<resultsData.length; ++i) {
+  results = resultsData[i];
+}
+
+var red_fighter = results['red_fighter'];
+var blue_fighter = results['blue_fighter'];
+var red_name = red_fighter['last_name'] + ", " + red_fighter['first_name'];
+var blue_name = blue_fighter['last_name'] + ", " + blue_fighter['first_name'];
+
+function populate_results() {
+  var _name = 1;
+  var _round = 3;
+  var _time = 5;
+  var _method = 7;
+  // convert winner name format to first name + last name
+  winner = results['winner'].split(",")[1] + " " + results['winner'].split(",")[0];
+  result_panel = $('#results')[0].getElementsByTagName('td');
+  result_panel[_name].innerHTML = winner;
+  result_panel[_round].innerHTML = results['end_round'];
+  result_panel[_time].innerHTML = results['end_time'];
+  result_panel[_method].innerHTML = results['method'];
+}
+
+function reload_menu_data() {
+  if (red_fighter['gender'] === 'female') {
+    $('#red_gender, #blue_gender').selectpicker('val', 'Female');
+    ui_apply_gender_filter(RED_CORNER, red_fighter['gender']);
+    ui_set_promotion_by_gender(RED_CORNER, red_fighter['gender']);
+    $('#red_promotion').selectpicker('val', red_fighter['promotion']);
+    ui_load_fighter_info(RED_CORNER, red_name);
+    $('#red_fighter').selectpicker('val', red_name);
+    ui_apply_gender_filter(BLUE_CORNER, blue_fighter['gender']);
+    ui_set_promotion_by_gender(BLUE_CORNER, blue_fighter['gender']);
+    $('#blue_promotion').selectpicker('val', blue_fighter['promotion']);
+    ui_load_fighter_info(BLUE_CORNER, blue_name);
+    $('#blue_fighter').selectpicker('val', blue_name);
+  }
+}
+
+$(document).ready(function() {
+  populate_results();
+  reload_menu_data();
+});
+</script>
 
 <div class="container">
   <div class="row">
