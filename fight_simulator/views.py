@@ -48,20 +48,22 @@ def return_results():
     current_date = '{}/{}/{}'.format(month, day, year)
 
     red_gender = request.form['red_gender']
-    red_fighter = request.form['red_fighter']
+    red_fighter_req = request.form['red_fighter']
     blue_gender = request.form['blue_gender']
-    blue_fighter = request.form['blue_fighter']
+    blue_fighter_req = request.form['blue_fighter']
 
     for fighter in fighter_data:
         full_name = fighter.last_name + ", " + fighter.first_name
-        if (full_name == red_fighter):
+        if (full_name == red_fighter_req):
+            red_fighter = fighter
             red_record = [fighter.win, fighter.loss, fighter.draw]
             red_win_perc = (red_record[0] + \
                 (red_record[1] * .5)) / \
                 (red_record[0] + red_record[1] + red_record[2]) * 100
             red_win_perc = round(red_win_perc)
 
-        if (full_name == blue_fighter):
+        if (full_name == blue_fighter_req):
+            blue_fighter = fighter
             blue_record = [fighter.win, fighter.loss, fighter.draw]
             blue_win_perc = (blue_record[0] + \
                 (blue_record[1] * .5)) / \
@@ -69,11 +71,11 @@ def return_results():
             blue_win_perc = round(blue_win_perc)
 
     if red_win_perc > blue_win_perc:
-        winner = red_fighter
+        winner = red_fighter.last_name + ", " + red_fighter.first_name
     elif red_win_perc == blue_win_perc:
         print("DRAW")
     else:
-        winner = blue_fighter
+        winner = blue_fighter.last_name + ", " + blue_fighter.first_name
 
     outcomes = ["Knockout", "Technical Knockout", "Submission",
 			"Doctor Stoppage", "Unanimous Decision",
@@ -97,12 +99,15 @@ def return_results():
         end_round = "3"
         end_time = "5:00"
 
+    red_fighter = red_fighter.as_dictionary()
+    blue_fighter = blue_fighter.as_dictionary()
+
     results = [{'winner': winner,
                 'end_round': end_round,
                 'end_time': end_time,
                 'method': method,
-                'blue_corner_fighter': blue_fighter,
-                'red_corner_fighter': red_fighter}]
+                'blue_fighter': blue_fighter,
+                'red_fighter': red_fighter}]
 
     #new_fighter = History(fight_date=current_date, has_occured=true,
     #red_corner=red_fighter, blue_corner=blue_fighter, winner=red_fighter,
