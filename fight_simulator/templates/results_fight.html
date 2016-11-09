@@ -49,6 +49,7 @@ function reload_menu_data() {
   $('#blue_promotion').selectpicker('val', blue_fighter['promotion']);
   ui_load_fighter_info(BLUE_CORNER, blue_name);
   $('#blue_fighter').selectpicker('val', blue_name);
+  $('select.selectpicker').attr('disabled', true).selectpicker('refresh');
 }
 
 $(document).ready(function() {
