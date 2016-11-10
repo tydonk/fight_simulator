@@ -71,11 +71,12 @@ def return_results():
             blue_win_perc = round(blue_win_perc)
 
     if red_win_perc > blue_win_perc:
-        winner = red_fighter.last_name + ", " + red_fighter.first_name
+        winner = red_fighter_req
     elif red_win_perc == blue_win_perc:
-        print("DRAW")
+        combatants = [red_fighter_req, blue_fighter_req]
+        winner = random.choice(combatants)
     else:
-        winner = blue_fighter.last_name + ", " + blue_fighter.first_name
+        winner = blue_fighter_req
 
     outcomes = ["Knockout", "Technical Knockout", "Submission",
 			"Doctor Stoppage", "Unanimous Decision",
@@ -95,9 +96,10 @@ def return_results():
     method = random.choice(outcomes)
     if method == "Submission":
         method = method + " ({})".format(random.choice(submissions))
-    elif (method.split(" ")[1]) == "Decision":
-        end_round = "3"
-        end_time = "5:00"
+    elif len(method.split(" ")) == 2:
+        if (method.split(" ")[1]) == "Decision":
+            end_round = "3"
+            end_time = "5:00"
 
     red_fighter = red_fighter.as_dictionary()
     blue_fighter = blue_fighter.as_dictionary()
