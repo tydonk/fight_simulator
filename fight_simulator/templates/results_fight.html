@@ -50,6 +50,7 @@ function reload_menu_data() {
   ui_load_fighter_info(BLUE_CORNER, blue_name);
   $('#blue_fighter').selectpicker('val', blue_name);
   $('select.selectpicker').attr('disabled', true).selectpicker('refresh');
+  $('#blue_reset, #red_reset').addClass('disabled');
 }
 
 $(document).ready(function() {
