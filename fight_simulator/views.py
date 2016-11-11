@@ -22,10 +22,13 @@ def how_it_works():
 @decorators.accept("application/json")
 def fight():
     data = []
+    # get fighters from database
     fighter_data = session.query(Fighter).all()
     fighter_data = fighter_data[0:99]
+    # append them to data array in dictionary form
     for fighter in fighter_data:
         data.append(fighter.as_dictionary())
+    # alphabetize fighters
     data = sorted(data, key=lambda k: k['last_name'])
     return Response(render_template("new_fight.html",
                     data=data, mimetype="application/json"))
@@ -47,11 +50,13 @@ def return_results():
     day = now.day
     current_date = '{}/{}/{}'.format(month, day, year)
 
+    # get matched fighters from client
     red_gender = request.form['red_gender']
     red_fighter_req = request.form['red_fighter']
     blue_gender = request.form['blue_gender']
     blue_fighter_req = request.form['blue_fighter']
 
+    # match fighters to database to access properties
     for fighter in fighter_data:
         full_name = fighter.last_name + ", " + fighter.first_name
         if (full_name == red_fighter_req):
@@ -70,14 +75,17 @@ def return_results():
                 (blue_record[0] + blue_record[1] + blue_record[2]) * 100
             blue_win_perc = round(blue_win_perc)
 
+    # determine a winner based on win %
     if red_win_perc > blue_win_perc:
         winner = red_fighter_req
+    # Prevent draw by selecting random fighter is win % is equal
     elif red_win_perc == blue_win_perc:
         combatants = [red_fighter_req, blue_fighter_req]
         winner = random.choice(combatants)
     else:
         winner = blue_fighter_req
 
+    # list of outcomes and submissions for random results
     outcomes = ["Knockout", "Technical Knockout", "Submission",
 			"Doctor Stoppage", "Unanimous Decision",
 			"Split Decision", "Majority Decision"]
@@ -87,12 +95,14 @@ def return_results():
         "ankle lock", "heel hook", "toe hold", "can opener", "twister",
         "achilles lock", "bicep slicer", "leg slicer"]
 
+    # generate random round and time
     end_round = randint(1,3)
     minute = randint(0,4)
     second_1 = randint(0,5)
     second_2 = randint(1,9)
     end_time = "{}:{}{}".format(minute, second_1, second_2)
 
+    # generate random result method and account for specific results
     method = random.choice(outcomes)
     if method == "Submission":
         method = method + " ({})".format(random.choice(submissions))
@@ -104,6 +114,7 @@ def return_results():
     red_fighter = red_fighter.as_dictionary()
     blue_fighter = blue_fighter.as_dictionary()
 
+    # load results in dictionary form
     results = [{'winner': winner,
                 'end_round': end_round,
                 'end_time': end_time,
