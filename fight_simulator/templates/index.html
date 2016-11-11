@@ -17,8 +17,8 @@
 		<!-- Bootstrap Select CDN -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.css">
 		<!-- Fight Simulator -->
-        <link rel="stylesheet" href="/../static/css/main.css">
-		
+    <link rel="stylesheet" href="/../static/css/main.css">
+
 		<!-- JavaScript -->
 		<!--jQuery -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -46,11 +46,11 @@
 					<ul class="nav navbar-nav">
 
 						{% if not current_user.is_authenticated %}
-						<li><a href="{{ url_for('create_user_get') }}">Register</a></li>						
+						<li><a href="{{ url_for('create_user_get') }}">Register</a></li>
 						<li><a href="{{ url_for('login_get') }}">Login</a></li>
 						<li><a href="{{ url_for('how_it_works') }}">Instructions</a></li>
 						{% endif %}
-			    		
+
 			    		{% if current_user.is_authenticated %}
 			    		<li><a href="{{ url_for('fight') }}">Fight</a></li>
 			    		<li><a href="{{ url_for('fight') }}">User History</a></li>
@@ -62,15 +62,15 @@
 				</div>
 			</div>
 		</div>
-		
+
 				{% with messages = get_flashed_messages(with_categories=true) %}
 		        {% if messages %}
 		        {% for category, message in messages %}
-		        
+
 		        <div class="alert alert-{{ category }} text-center fade in">
 		            {{ message }}
 		        </div>
-        
+
         {% endfor %}
         {% endif %}
         {% endwith %}
@@ -79,4 +79,4 @@
 			{% block content %}{% endblock %}
 		</div>
 	</body>
-</html>    
+</html>
