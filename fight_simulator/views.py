@@ -120,7 +120,10 @@ def return_results():
                 'end_time': end_time,
                 'method': method,
                 'blue_fighter': blue_fighter,
-                'red_fighter': red_fighter}]
+                'red_fighter': red_fighter,
+                'fight_date': current_date,
+                'has_occured': True,
+                }]
 
     #new_fighter = History(fight_date=current_date, has_occured=true,
     #red_corner=red_fighter, blue_corner=blue_fighter, winner=red_fighter,
