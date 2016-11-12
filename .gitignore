@@ -12,3 +12,7 @@ Thumbs.db
 ################
 *.pyc
 __pycache__
+
+# Other files #
+###############
+_NO COMMIT/
