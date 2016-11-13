@@ -4,11 +4,11 @@ div.metadata {
 }
 
 #blue_corner {
-	background-color: #2980B9; 
+	background-color: #2980B9;
 }
 
 #red_corner {
-	background-color: #C0392B; 
+	background-color: #C0392B;
 }
 
 #vs {
@@ -57,10 +57,6 @@ body {
   height: 120%;
   padding: 15px; /* firefox bug fix */
   width: auto;
-}
-
-#how-it-works {
-	color: white;
 }
 
 .page-header {
