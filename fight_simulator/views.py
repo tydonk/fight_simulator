@@ -18,7 +18,7 @@ def how_it_works():
     return render_template("how_it_works.html")
 
 @app.route("/fight", methods=["GET"])
-#@login_required
+@login_required
 @decorators.accept("application/json")
 def fight():
     data = []
@@ -34,7 +34,7 @@ def fight():
                     data=data, mimetype="application/json"))
 
 @app.route("/fight_results", methods=["GET", "POST"])
-#@login_required
+@login_required
 #@decorators.accept("application/json")
 #@decorators.require("application/json")
 def return_results():
@@ -49,6 +49,10 @@ def return_results():
     month = now.month
     day = now.day
     current_date = '{}/{}/{}'.format(month, day, year)
+
+    # get current user
+    print(current_user.id)
+    print(current_user.email)
 
     # get matched fighters from client
     red_gender = request.form['red_gender']
@@ -121,33 +125,23 @@ def return_results():
                 'method': method,
                 'blue_fighter': blue_fighter,
                 'red_fighter': red_fighter,
-                'fight_date': current_date,
-                'has_occured': True,
                 }]
 
-    #new_fighter = History(fight_date=current_date, has_occured=true,
-    #red_corner=red_fighter, blue_corner=blue_fighter, winner=red_fighter,
-    #end_round=end_round, end_time=end_time, method=method
+    history_entry = History(fight_date=current_date,
+        has_occured=True,
+        red_corner=red_fighter_req,
+        blue_corner=blue_fighter_req,
+        winner=winner,
+        end_round=end_round,
+        end_time=end_time,
+        method=method,
+        user_id=current_user.id)
 
-    #return redirect(url_for("fight"))
+    session.add(history_entry)
+    session.commit()
+
     return Response(render_template("results_fight.html",
                     data=data, results=results, mimetype="application/json"))
-
-@app.route("/login", methods=["GET"])
-def login_get():
-    return render_template("login.html")
-
-@app.route("/login", methods=["POST"])
-def login_post():
-    email = request.form["email"]
-    password = request.form["password"]
-    user = session.query(User).filter_by(email=email).first()
-    if not user or not check_password_hash(user.password, password):
-        flash("Incorrect username or password", "danger")
-        return redirect(url_for("login_get"))
-
-    login_user(user)
-    return redirect(request.args.get('next') or url_for("fight"))
 
 @app.route("/create_user", methods=["GET"])
 def create_user_get():
@@ -170,6 +164,22 @@ def create_user_post():
     else:
         flash("Password must be at least 8 characters", "danger")
         return
+
+@app.route("/login", methods=["GET"])
+def login_get():
+    return render_template("login.html")
+
+@app.route("/login", methods=["POST"])
+def login_post():
+    email = request.form["email"]
+    password = request.form["password"]
+    user = session.query(User).filter_by(email=email).first()
+    if not user or not check_password_hash(user.password, password):
+        flash("Incorrect username or password", "danger")
+        return redirect(url_for("login_get"))
+
+    login_user(user)
+    return redirect(request.args.get('next') or url_for("fight"))
 
 @app.route("/logout")
 @login_required
