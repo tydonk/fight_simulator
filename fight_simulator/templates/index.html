@@ -53,7 +53,7 @@
 
 			    		{% if current_user.is_authenticated %}
 			    		<li><a href="{{ url_for('fight') }}">Fight</a></li>
-			    		<li><a href="{{ url_for('fight') }}">User History</a></li>
+			    		<li><a href="{{ url_for('user_history') }}">User History</a></li>
 			    		<li><a href="{{ url_for('how_it_works') }}">Instructions</a></li>
 			    		<li><a href="{{ url_for('logout') }}">Logout ({{ current_user.email }})</a></li>
 			    		{% endif %}
