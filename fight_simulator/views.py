@@ -35,7 +35,7 @@ def fight():
 
 @app.route("/fight_results", methods=["GET", "POST"])
 @login_required
-#@decorators.accept("application/json")
+@decorators.accept("application/json")
 #@decorators.require("application/json")
 def return_results():
     data = []
@@ -49,10 +49,6 @@ def return_results():
     month = now.month
     day = now.day
     current_date = '{}/{}/{}'.format(month, day, year)
-
-    # get current user
-    print(current_user.id)
-    print(current_user.email)
 
     # get matched fighters from client
     red_gender = request.form['red_gender']
@@ -127,6 +123,7 @@ def return_results():
                 'red_fighter': red_fighter,
                 }]
 
+    # add fight results to user history
     history_entry = History(fight_date=current_date,
         has_occured=True,
         red_corner=red_fighter_req,
@@ -142,6 +139,18 @@ def return_results():
 
     return Response(render_template("results_fight.html",
                     data=data, results=results, mimetype="application/json"))
+
+@app.route("/user_history", methods=["GET"])
+@login_required
+@decorators.accept("application/json")
+def user_history():
+    user_history = []
+    user_id = current_user.id
+    history = session.query(History).filter(History.user_id == user_id).all()
+    for fight in history:
+        user_history.append(fight.as_dictionary())
+    return Response(render_template("user_history.html",
+                    user_history=user_history, mimetype="application/json"))
 
 @app.route("/create_user", methods=["GET"])
 def create_user_get():
