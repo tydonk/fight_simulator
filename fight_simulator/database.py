@@ -57,13 +57,13 @@ class History(Base):
     __tablename__ = "history"
 
     id = Column(Integer, primary_key=True)
-    fight_date = Column(DateTime, nullable=False)
+    fight_date = Column(String, nullable=False)
     has_occured = Column(Boolean, nullable=False)
     red_corner = Column(String(1024), nullable=False)
     blue_corner = Column(String(1024), nullable=False)
     winner = Column(String(1024))
-    end_round = Column(Integer, nullable=False)
-    end_time = Column(Integer, nullable=False)
+    end_round = Column(String, nullable=False)
+    end_time = Column(String, nullable=False)
     method = Column(String, nullable=False)
 
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
@@ -79,6 +79,7 @@ class History(Base):
             "end_round": self.end_round,
             "end_time": self.end_time,
             "method": self.method,
+            "user_id": self.user_id,
         }
         return results
 
