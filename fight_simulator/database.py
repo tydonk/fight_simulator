@@ -75,7 +75,7 @@ class History(Base):
             "has_occured": self.has_occured,
             "red_corner": self.red_corner,
             "blue_corner": self.blue_corner,
-            "winnner": self.winner,
+            "winner": self.winner,
             "end_round": self.end_round,
             "end_time": self.end_time,
             "method": self.method,
