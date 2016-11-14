@@ -8,6 +8,7 @@ from jsonschema import validate, ValidationError
 from datetime import datetime
 from random import randint
 import random
+from .login import login_manager
 
 @app.route("/", methods=["GET"])
 def welcome():
@@ -124,7 +125,8 @@ def return_results():
                 }]
 
     # add fight results to user history
-    history_entry = History(fight_date=current_date,
+    history_entry = History(
+        fight_date=current_date,
         has_occured=True,
         red_corner=red_fighter_req,
         blue_corner=blue_fighter_req,
@@ -147,8 +149,7 @@ def user_history():
     user_history = []
     user_id = current_user.id
     history = session.query(History).filter(History.user_id == user_id).all()
-    for fight in history:
-        user_history.append(fight.as_dictionary())
+    user_history = json.dumps([fight.as_dictionary() for fight in history])
     return Response(render_template("user_history.html",
                     user_history=user_history, mimetype="application/json"))
 
