@@ -77,3 +77,7 @@ body {
 .panel-body {
 	padding-bottom: 0.5em;
 }
+
+.table th {
+	text-align: center;
+}
