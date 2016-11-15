@@ -19,7 +19,6 @@ def how_it_works():
     return render_template("how_it_works.html")
 
 @app.route("/fight", methods=["GET"])
-@login_required
 @decorators.accept("application/json")
 def fight():
     data = []
@@ -35,7 +34,6 @@ def fight():
                     data=data, mimetype="application/json"))
 
 @app.route("/fight_results", methods=["GET", "POST"])
-@login_required
 @decorators.accept("application/json")
 #@decorators.require("application/json")
 def return_results():
@@ -124,20 +122,22 @@ def return_results():
                 'red_fighter': red_fighter,
                 }]
 
-    # add fight results to user history
-    history_entry = History(
-        fight_date=current_date,
-        has_occured=True,
-        red_corner=red_fighter_req,
-        blue_corner=blue_fighter_req,
-        winner=winner,
-        end_round=end_round,
-        end_time=end_time,
-        method=method,
-        user_id=current_user.id)
+    # add fight results to user
+    # history if user is logged in
+    if current_user.is_authenticated:
+        history_entry = History(
+            fight_date=current_date,
+            has_occured=True,
+            red_corner=red_fighter_req,
+            blue_corner=blue_fighter_req,
+            winner=winner,
+            end_round=end_round,
+            end_time=end_time,
+            method=method,
+            user_id=current_user.id)
 
-    session.add(history_entry)
-    session.commit()
+        session.add(history_entry)
+        session.commit()
 
     return Response(render_template("results_fight.html",
                     data=data, results=results, mimetype="application/json"))
@@ -173,7 +173,7 @@ def create_user_post():
         return redirect(url_for("login_get"))
     else:
         flash("Password must be at least 8 characters", "danger")
-        return
+        return redirect(url_for("create_user_post"))
 
 @app.route("/login", methods=["GET"])
 def login_get():
