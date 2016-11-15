@@ -10,6 +10,16 @@ fighterData = {{ data|safe }};
 <!-- <script src="../static/js/simulator.core.js"></script> -->
 
 <div class="container">
+  {% if not current_user.is_authenticated %}
+  <div class="row">
+    <p class="lead text-center" style="color:white">
+      Your fight history will not be saved unless you are
+      <a href="{{ url_for('login_get') }}">logged in.</a>
+      Click here to
+      <a href="{{ url_for('create_user_get') }}"> create an account</a>.
+    </p>
+  </div>
+  {% endif %} 
   <div class="row">
     <form action="{{ url_for('return_results') }}" method="POST">
       <div class="col-md-5">

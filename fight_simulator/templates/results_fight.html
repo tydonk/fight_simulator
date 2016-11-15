@@ -50,7 +50,7 @@ function reload_menu_data() {
   ui_load_fighter_info(BLUE_CORNER, blue_name);
   $('#blue_fighter').selectpicker('val', blue_name);
   $('select.selectpicker').attr('disabled', true).selectpicker('refresh');
-  $('#blue_reset, #red_reset').addClass('disabled');
+  $('#blue_reset, #red_reset').attr('disabled', 'disabled');
 }
 
 $(document).ready(function() {
@@ -60,6 +60,16 @@ $(document).ready(function() {
 </script>
 
 <div class="container">
+  {% if not current_user.is_authenticated %}
+  <div class="row">
+    <p class="lead text-center" style="color:white">
+      Your fight history will not be saved unless you are
+      <a href="{{ url_for('login_get') }}">logged in.</a>
+      Click here to
+      <a href="{{ url_for('create_user_get') }}"> create an account</a>.
+    </p>
+  </div>
+  {% endif %}
   <div class="row">
     <form action="{{ url_for('return_results') }}" method="POST">
       <div class="col-md-5">
