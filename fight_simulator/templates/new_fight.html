@@ -7,7 +7,6 @@ fighterData = {{ data|safe }};
 </script>
 <script src="../static/js/filters.core.js"></script>
 <script src="../static/js/selectors.core.js"></script>
-<!-- <script src="../static/js/simulator.core.js"></script> -->
 
 <div class="container">
   {% if not current_user.is_authenticated %}
@@ -19,8 +18,11 @@ fighterData = {{ data|safe }};
       <a href="{{ url_for('create_user_get') }}"> create an account</a>.
     </p>
   </div>
-  {% endif %} 
+  {% endif %}
   <div class="row">
+    <div id="illegal_alert" class="alert alert-danger text-center" style="display:none;" role="alert">
+      Fighters must be different, select again.
+    </div>
     <form action="{{ url_for('return_results') }}" method="POST">
       <div class="col-md-5">
         <div class="panel panel-danger">
@@ -104,6 +106,7 @@ fighterData = {{ data|safe }};
         <h1 id="vs" class="text-center">VS.</h1>
         <button id="fight" type="button" class="btn btn-default btn-lg btn-block">FIGHT!</button>
       </div>
+
 
       <div class="col-md-5">
         <div class="panel panel-info">
@@ -189,36 +192,7 @@ fighterData = {{ data|safe }};
     <div class="col-md-3">
     </div>
     <div class="col-md-6">
-      <div id="illegal_alert" class="alert alert-danger text-center" style="display:none;" role="alert">
-        Fighters must be different, select again.
-      </div>
-      <div class="panel panel-success">
-        <div class="panel-heading">
-          <h3 class="panel-title text-center">Results</h3>
-        </div>
-        <div id="results" class="panel-body">
-          <table class="table table-hover table-bordered table-responsive">
-            <tbody>
-              <tr>
-                <td class="col-md-3"><b>Winner</b></td>
-                <td id="win_name"></td>
-              </tr>
-              <tr>
-                <td class="col-md-3"><b>Round</b></td>
-                <td id="win_round"></td>
-              </tr>
-              <tr>
-                <td class="col-md-3"><b>Time</b></td>
-                <td id="win_time"></td>
-              </tr>
-              <tr>
-                <td class="col-md-3"><b>Method</b></td>
-                <td id="win_method"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      {% block js_content %}{% endblock js_content %}
     </div>
     <div class="col-md-3">
     </div>
