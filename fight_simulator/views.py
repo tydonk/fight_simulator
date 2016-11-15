@@ -33,7 +33,7 @@ def fight():
     return Response(render_template("new_fight.html",
                     data=data, mimetype="application/json"))
 
-@app.route("/fight_results", methods=["GET", "POST"])
+@app.route("/fight", methods=["GET", "POST"])
 @decorators.accept("application/json")
 #@decorators.require("application/json")
 def return_results():
@@ -139,7 +139,7 @@ def return_results():
         session.add(history_entry)
         session.commit()
 
-    return Response(render_template("results_fight.html",
+    return Response(render_template("results.html",
                     data=data, results=results, mimetype="application/json"))
 
 @app.route("/user_history", methods=["GET"])
