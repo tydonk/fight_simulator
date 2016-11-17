@@ -1,0 +1,13 @@
+{% macro render_event(event) %}
+
+<tr>
+  <td>{{ event.fight_date }}</td>
+  <td>{{ event.red_corner }}</td>
+  <td>{{ event.blue_corner }}</td>
+  <td>{{ event.winner }}</td>
+  <td>{{ event.method }}</td>
+  <td>{{ event.end_time }}</td>
+  <td>{{ event.end_round }}</td>
+</tr>
+
+{% endmacro %}
