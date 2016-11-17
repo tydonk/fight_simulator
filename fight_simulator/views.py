@@ -191,7 +191,18 @@ def user_history():
     history = session.query(History).filter(History.user_id == user_id).all()
     user_history = json.dumps([fight.as_dictionary() for fight in history])
     return Response(render_template("user_history.html",
-                    user_history=user_history, mimetype="application/json"))
+        user_history=user_history, mimetype="application/json"))
+
+@app.route("/user_history", methods=["POST"])
+@login_required
+def clear_history():
+    user_id = current_user.id
+    history = session.query(History).filter(History.user_id == user_id).all()
+    for each in history:
+        session.delete(each)
+    session.commit()
+    return redirect(url_for("user_history"))
+
 
 @app.route("/create_user", methods=["GET"])
 def create_user_get():
