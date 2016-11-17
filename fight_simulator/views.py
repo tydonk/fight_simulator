@@ -37,52 +37,19 @@ def fight():
 @decorators.accept("application/json")
 #@decorators.require("application/json")
 def return_results():
+    # get fighters from database
     data = []
     fighter_data = session.query(Fighter).all()
     fighter_data = fighter_data[0:99]
     for fighter in fighter_data:
         data.append(fighter.as_dictionary())
 
+    # get current date
     now = datetime.now()
     year = now.year
     month = now.month
     day = now.day
     current_date = '{}/{}/{}'.format(month, day, year)
-
-    # get matched fighters from client
-    red_gender = request.form['red_gender']
-    red_fighter_req = request.form['red_fighter']
-    blue_gender = request.form['blue_gender']
-    blue_fighter_req = request.form['blue_fighter']
-
-    # match fighters to database to access properties
-    for fighter in fighter_data:
-        full_name = fighter.last_name + ", " + fighter.first_name
-        if (full_name == red_fighter_req):
-            red_fighter = fighter
-            red_record = [fighter.win, fighter.loss, fighter.draw]
-            red_win_perc = (red_record[0] + \
-                (red_record[1] * .5)) / \
-                (red_record[0] + red_record[1] + red_record[2]) * 100
-            red_win_perc = round(red_win_perc)
-
-        if (full_name == blue_fighter_req):
-            blue_fighter = fighter
-            blue_record = [fighter.win, fighter.loss, fighter.draw]
-            blue_win_perc = (blue_record[0] + \
-                (blue_record[1] * .5)) / \
-                (blue_record[0] + blue_record[1] + blue_record[2]) * 100
-            blue_win_perc = round(blue_win_perc)
-
-    # determine a winner based on win %
-    if red_win_perc > blue_win_perc:
-        winner = red_fighter_req
-    # Prevent draw by selecting random fighter is win % is equal
-    elif red_win_perc == blue_win_perc:
-        combatants = [red_fighter_req, blue_fighter_req]
-        winner = random.choice(combatants)
-    else:
-        winner = blue_fighter_req
 
     # list of outcomes and submissions for random results
     outcomes = ["Knockout", "Technical Knockout", "Submission",
@@ -109,6 +76,79 @@ def return_results():
         if (method.split(" ")[1]) == "Decision":
             end_round = "3"
             end_time = "5:00"
+
+    # get matched fighters from client
+    red_gender = request.form['red_gender']
+    red_fighter_req = request.form['red_fighter']
+    blue_gender = request.form['blue_gender']
+    blue_fighter_req = request.form['blue_fighter']
+
+    # calculate record based on user fights
+    # requires user to be logged in
+    def calc_new_win_perc(fighter):
+        name = fighter.last_name + ", " + fighter.first_name
+        winners = []
+        losers = []
+        history_all = session.query(History).filter(History.user_id == current_user.id).all()
+        for each in history_all:
+            if each.blue_corner == each.winner:
+                winners.append(each.blue_corner)
+                losers.append(each.red_corner)
+            else:
+                losers.append(each.blue_corner)
+                winners.append(each.red_corner)
+        if name in winners:
+            win_count = winners.count(name)
+        else:
+            win_count = 0
+        if name in losers:
+            loss_count = losers.count(name)
+        else:
+            loss_count = 0
+        win = fighter.win + win_count
+        loss = fighter.loss + loss_count
+        new_record = [win, loss, fighter.draw]
+        new_win_perc = calc_win_perc(new_record)
+        return new_win_perc
+
+    def get_fighter_record(fighter):
+        record = [fighter.win, fighter.loss, fighter.draw]
+        return record
+
+    def calc_win_perc(record):
+        #record = [fighter.win, fighter.loss, fighter.draw]
+        win_percent = (record[0] + (record[2] * .5)) / (record[0] + record[1] + record[2]) * 100
+        win_percent = round(win_percent)
+        return win_percent
+
+    # match fighters to database to access properties
+    for fighter in fighter_data:
+        full_name = fighter.last_name + ", " + fighter.first_name
+        if full_name == red_fighter_req:
+            red_fighter = fighter
+            if current_user.is_authenticated:
+                red_win_perc = calc_new_win_perc(red_fighter)
+            else:
+                red_record = get_fighter_record(red_fighter)
+                red_win_perc = calc_win_perc(red_record)
+
+        if full_name == blue_fighter_req:
+            blue_fighter = fighter
+            if current_user.is_authenticated:
+                blue_win_perc = calc_new_win_perc(blue_fighter)
+            else:
+                blue_record = get_fighter_record(blue_fighter)
+                blue_win_perc = calc_win_perc(blue_record)
+
+    # determine a winner based on win %
+    if red_win_perc > blue_win_perc:
+        winner = red_fighter_req
+    # Prevent draw by selecting random fighter is win % is equal
+    elif red_win_perc == blue_win_perc:
+        combatants = [red_fighter_req, blue_fighter_req]
+        winner = random.choice(combatants)
+    else:
+        winner = blue_fighter_req
 
     red_fighter = red_fighter.as_dictionary()
     blue_fighter = blue_fighter.as_dictionary()
