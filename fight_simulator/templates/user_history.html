@@ -26,6 +26,9 @@
             </tr>
           </thead>
           <tbody>
+            {% for event in user_history %}
+              {{ macros.render_event(event) }}
+            {% endfor %}
           </tbody>
         </table>
       </div>
@@ -35,20 +38,5 @@
     </form>
   </div>
 </div>
-
-<script>
-var user_history = {{ user_history|safe }};
-
-var tbody = $('#history_table tbody'),
-    props = ["fight_date", "red_corner", "blue_corner", "winner",
-              "method", "end_time", "end_round"];
-$.each(user_history, function(i, user_history) {
-  var tr = $('<tr>');
-  $.each(props, function(i, prop) {
-    $('<td>').html(user_history[prop]).appendTo(tr);
-  });
-  tbody.append(tr);
-});
-</script>
 
 {% endblock %}
