@@ -1,3 +1,4 @@
+{% import "macros.html" as macros %}
 {% extends  "index.html" %}
 {% block content %}
 
@@ -29,6 +30,9 @@
         </table>
       </div>
     </div>
+    <form role="form" method="POST">
+      <button type="submit" class="btn btn-info btn-lg center-block">Clear history</button>
+    </form>
   </div>
 </div>
 
