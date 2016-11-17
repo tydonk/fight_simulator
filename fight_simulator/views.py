@@ -189,7 +189,7 @@ def user_history():
     user_history = []
     user_id = current_user.id
     history = session.query(History).filter(History.user_id == user_id).all()
-    user_history = json.dumps([fight.as_dictionary() for fight in history])
+    user_history = [fight.as_dictionary() for fight in history]
     return Response(render_template("user_history.html",
         user_history=user_history, mimetype="application/json"))
 
