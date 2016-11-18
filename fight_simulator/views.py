@@ -22,13 +22,13 @@ def how_it_works():
 @decorators.accept("application/json")
 def fight():
     data = []
-    # get fighters from database
+    # Get fighters from database
     fighter_data = session.query(Fighter).all()
     fighter_data = fighter_data[0:99]
-    # append them to data array in dictionary form
+    # Append them to data array in dictionary form
     for fighter in fighter_data:
         data.append(fighter.as_dictionary())
-    # alphabetize fighters
+    # Alphabetize fighters
     data = sorted(data, key=lambda k: k['last_name'])
     return Response(render_template("new_fight.html",
                     data=data, mimetype="application/json"))
@@ -37,38 +37,42 @@ def fight():
 @decorators.accept("application/json")
 #@decorators.require("application/json")
 def return_results():
-    # get fighters from database
+    # Get fighters from database
     data = []
     fighter_data = session.query(Fighter).all()
     fighter_data = fighter_data[0:99]
     for fighter in fighter_data:
         data.append(fighter.as_dictionary())
 
-    # get current date
+    # Get current date
     now = datetime.now()
     year = now.year
     month = now.month
     day = now.day
     current_date = '{}/{}/{}'.format(month, day, year)
 
-    # list of outcomes and submissions for random results
-    outcomes = ["Knockout", "Technical Knockout", "Submission",
-			"Doctor Stoppage", "Unanimous Decision",
-			"Split Decision", "Majority Decision"]
+    # List of outcomes and submissions for random results
+    outcomes = [
+        "Knockout", "Technical Knockout", "Submission",
+		"Doctor Stoppage", "Unanimous Decision",
+		"Split Decision", "Majority Decision"
+    ]
 
-    submissions = ["arm triangle", "triangle", "rear naked choke", "guillotine",
-        "gogoplata", "arm bar", "kimura", "americana", "omoplata", "knee bar",
-        "ankle lock", "heel hook", "toe hold", "can opener", "twister",
-        "achilles lock", "bicep slicer", "leg slicer"]
+    submissions = [
+        "arm triangle", "triangle", "rear naked choke", "guillotine",
+        "gogoplata", "arm bar", "kimura", "americana", "omoplata",
+        "knee bar", "ankle lock", "heel hook", "toe hold", "can opener",
+        "twister", "achilles lock", "bicep slicer", "leg slicer"
+    ]
 
-    # generate random round and time
+    # Generate random round and time
     end_round = randint(1,3)
     minute = randint(0,4)
     second_1 = randint(0,5)
     second_2 = randint(1,9)
     end_time = "{}:{}{}".format(minute, second_1, second_2)
 
-    # generate random result method and account for specific results
+    # Generate random result method and account for specific results
     method = random.choice(outcomes)
     if method == "Submission":
         method = method + " ({})".format(random.choice(submissions))
@@ -77,14 +81,13 @@ def return_results():
             end_round = "3"
             end_time = "5:00"
 
-    # get matched fighters from client
+    # Get matched fighters from client
     red_gender = request.form['red_gender']
     red_fighter_req = request.form['red_fighter']
     blue_gender = request.form['blue_gender']
     blue_fighter_req = request.form['blue_fighter']
 
-    # calculate record based on user fights
-    # requires user to be logged in
+    # Calculate record based on user fight.  Requires user to be logged in
     def calc_new_win_perc(fighter):
         name = fighter.last_name + ", " + fighter.first_name
         winners = []
@@ -116,12 +119,12 @@ def return_results():
         return record
 
     def calc_win_perc(record):
-        #record = [fighter.win, fighter.loss, fighter.draw]
-        win_percent = (record[0] + (record[2] * .5)) / (record[0] + record[1] + record[2]) * 100
+        win_percent = (record[0] + (record[2] * .5))
+                        / (record[0] + record[1] + record[2]) * 100
         win_percent = round(win_percent)
         return win_percent
 
-    # match fighters to database to access properties
+    # Match fighters to database to access properties
     for fighter in fighter_data:
         full_name = fighter.last_name + ", " + fighter.first_name
         if full_name == red_fighter_req:
@@ -140,7 +143,7 @@ def return_results():
                 blue_record = get_fighter_record(blue_fighter)
                 blue_win_perc = calc_win_perc(blue_record)
 
-    # determine a winner based on win %
+    # Determine a winner based on win %
     if red_win_perc > blue_win_perc:
         winner = red_fighter_req
     # Prevent draw by selecting random fighter is win % is equal
@@ -153,17 +156,17 @@ def return_results():
     red_fighter = red_fighter.as_dictionary()
     blue_fighter = blue_fighter.as_dictionary()
 
-    # load results in dictionary form
-    results = [{'winner': winner,
-                'end_round': end_round,
-                'end_time': end_time,
-                'method': method,
-                'blue_fighter': blue_fighter,
-                'red_fighter': red_fighter,
-                }]
+    # Load results in dictionary form
+    results = [
+        {'winner': winner,
+        'end_round': end_round,
+        'end_time': end_time,
+        'method': method,
+        'blue_fighter': blue_fighter,
+        'red_fighter': red_fighter}
+    ]
 
-    # add fight results to user
-    # history if user is logged in
+    # Add fight results to user history if user is logged in
     if current_user.is_authenticated:
         history_entry = History(
             fight_date=current_date,
@@ -174,7 +177,8 @@ def return_results():
             end_round=end_round,
             end_time=end_time,
             method=method,
-            user_id=current_user.id)
+            user_id=current_user.id
+        )
 
         session.add(history_entry)
         session.commit()
