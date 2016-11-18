@@ -41,4 +41,5 @@ Fighters from other organizations will be added later as currently they don't of
 
 #License
 
+MIT License
 See [license file](license.md)
