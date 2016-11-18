@@ -203,7 +203,6 @@ def clear_history():
     session.commit()
     return redirect(url_for("user_history"))
 
-
 @app.route("/create_user", methods=["GET"])
 def create_user_get():
     return render_template("create_user.html")
