@@ -9,3 +9,4 @@ splinter
 jsonschema
 Werkzeug
 requests
+gunicorn
