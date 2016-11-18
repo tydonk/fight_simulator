@@ -44,7 +44,8 @@ $(document).ready(function() {
   $('#clear_history').click(function() {
     if (confirm("Are you sure you want to clear your fight history? Click OK to continue")) {
       $('#delete_history').submit();
-    }
+    } else {
+      return false;}
   });
 });
 </script>
