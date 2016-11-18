@@ -18,15 +18,15 @@ class Fighter(Base):
     last_name = Column(String(1024), nullable=False)
     nickname = Column(String(1024))
     gender = Column(String(128))
-    #age = Column(Integer)
+    age = Column(Integer)
     promotion = Column(String(1024))
     fighter_image = Column(String(1024))
-    #height = Column(Integer)
+    height = Column(Integer)
     weight = Column(String(128))
     win = Column(Integer)
     loss = Column(Integer)
     draw = Column(Integer)
-    #no_contest = Column(Integer)
+    no_contest = Column(Integer)
 
     def as_dictionary(self):
         fighter = {
