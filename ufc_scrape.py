@@ -13,11 +13,15 @@ for fighter in fighters:
         fighter['last_name'] != None and
         fighter['last_name'] != "null" and
         fighter['last_name'] != "To Be Determined" and
-        fighter['last_name'] != "To be determined"
+        fighter['last_name'] != "To be determined" and
+        fighter['last_name'] != "To Be Announced" and
+        fighter['last_name'] != "To be announced" and
+        fighter['last_name'] != "TBD"
         ):
         if (
             fighter['first_name'] != "null" and
-            fighter['first_name'] != "To be determined..."
+            fighter['first_name'] != "To be determined..." and
+            fighter['first_name'] != "..."
             ):
             if fighter['nickname'] != "null":
                 if fighter['wins'] != "null":
