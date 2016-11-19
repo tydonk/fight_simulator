@@ -119,8 +119,7 @@ def return_results():
         return record
 
     def calc_win_perc(record):
-        win_percent = (record[0] + (record[2] * .5))
-                        / (record[0] + record[1] + record[2]) * 100
+        win_percent = (record[0] + (record[2] * .5)) / (record[0] + record[1] + record[2]) * 100
         win_percent = round(win_percent)
         return win_percent
 
@@ -185,6 +184,49 @@ def return_results():
 
     return Response(render_template("results.html",
                     data=data, results=results, mimetype="application/json"))
+
+@app.route("/api/fighters", methods=["GET"])
+@decorators.accept("application/json")
+def fighters_all():
+    ''' Return all fighters '''
+    fighters = session.query(Fighter).all()
+    data = json.dumps([fighter.as_dictionary() for fighter in fighters])
+    return Response(data, mimetype="application/json")
+
+@app.route("/api/fighters/<int:id>/", methods=["GET"])
+@decorators.accept("application/json")
+def fighters_id(id):
+    ''' Return fighters by id '''
+    fighters = session.query(Fighter).filter(Fighter.id == id).all()
+    data = json.dumps([fighter.as_dictionary() for fighter in fighters])
+    return Response(data, mimetype="application/json")
+
+@app.route("/api/fighters/<gender>/", methods=["GET"])
+@decorators.accept("application/json")
+def fighters_by_gender(gender):
+    ''' Return fighters by gender '''
+    fighters = session.query(Fighter).filter(Fighter.gender == gender).all()
+    data_gender = json.dumps([fighter.as_dictionary() for fighter in fighters])
+    return Response(data_gender, mimetype="application/json")
+
+@app.route("/api/fighters/<gender>/<promotion>/", methods=["GET"])
+@decorators.accept("application/json")
+def fighters_gender_promotion(gender, promotion):
+    ''' Return fighters by gender and promotion '''
+    fighters = session.query(Fighter).filter(Fighter.gender == gender, Fighter.promotion == promotion).all()
+    data = json.dumps([fighter.as_dictionary() for fighter in fighters])
+    return Response(data, mimetype="application/json")
+
+@app.route("/api/fighters/<gender>/<promotion>/<weight>/", methods=["GET"])
+@decorators.accept("application/json")
+def fighters_gender_promotion_weight(gender, promotion, weight):
+    ''' Return fighters by gender, promotion and weight '''
+    fighters = session.query(Fighter).filter(Fighter.gender == gender,
+                                             Fighter.promotion == promotion,
+                                             Fighter.weight == weight
+                                             )
+    data = json.dumps([fighter.as_dictionary() for fighter in fighters])
+    return Response(data, mimetype="application/json")
 
 @app.route("/user_history", methods=["GET"])
 @login_required
