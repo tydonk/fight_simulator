@@ -17,14 +17,14 @@ class Fighter(Base):
     first_name = Column(String(1024), nullable=False)
     last_name = Column(String(1024), nullable=False)
     nickname = Column(String(1024))
-    gender = Column(String(128))
+    gender = Column(String(128), nullable=False)
     #age = Column(Integer)
-    promotion = Column(String(1024))
+    promotion = Column(String(1024), nullable=False)
     fighter_image = Column(String(1024))
     #height = Column(Integer)
-    weight = Column(String(128))
-    win = Column(Integer)
-    loss = Column(Integer)
+    weight = Column(String(128), nullable=False)
+    win = Column(Integer, nullable=False)
+    loss = Column(Integer, nullable=False)
     draw = Column(Integer)
     #no_contest = Column(Integer)
 
@@ -65,6 +65,7 @@ class History(Base):
     end_round = Column(String, nullable=False)
     end_time = Column(String, nullable=False)
     method = Column(String, nullable=False)
+    visible = Column(Boolean, nullable=False)
 
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
