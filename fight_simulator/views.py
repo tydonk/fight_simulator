@@ -176,7 +176,8 @@ def return_results():
             end_round=end_round,
             end_time=end_time,
             method=method,
-            user_id=current_user.id
+            user_id=current_user.id,
+            visible=True,
         )
 
         session.add(history_entry)
@@ -235,7 +236,10 @@ def user_history():
     user_history = []
     user_id = current_user.id
     history = session.query(History).filter(History.user_id == user_id).all()
-    user_history = [fight.as_dictionary() for fight in history]
+    user_history = []
+    for fight in history:
+        if fight.visible == True:
+            user_history.append(fight.as_dictionary())
     return Response(render_template("user_history.html",
         user_history=user_history, mimetype="application/json"))
 
@@ -245,7 +249,7 @@ def clear_history():
     user_id = current_user.id
     history = session.query(History).filter(History.user_id == user_id).all()
     for each in history:
-        session.delete(each)
+        each.visible = False
     session.commit()
     return redirect(url_for("user_history"))
 
