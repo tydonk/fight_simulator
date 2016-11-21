@@ -29,7 +29,7 @@ for fighter in fighters:
                         if fighter['draws'] != "null":
                             if fighter['weight_class'] != None:
                                 fighter = Fighter(
-                                    first_name=fighter['first_name'],
+                                    first_name=fighter['first_name'].rstrip(),
                                     last_name=fighter['last_name'],
                                     nickname=fighter['nickname'],
                                     promotion="UFC",
