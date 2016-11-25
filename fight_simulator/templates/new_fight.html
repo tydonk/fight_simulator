@@ -1,10 +1,7 @@
 {% extends "index.html" %}
 {% block content %}
 
-<script>
-None = "";
-fighterData = {{ data|safe }};
-</script>
+
 <script src="../static/js/filters.core.js"></script>
 <script src="../static/js/selectors.core.js"></script>
 
@@ -52,7 +49,7 @@ fighterData = {{ data|safe }};
                   </li>
                   <li class="list-group-item">
                     <select id="red_fighter" class="selectpicker fighter_menu" title="Fighter" data-size="10"
-                      name="red_fighter" data-width="100%" data-live-search="true">
+                      name="red_name" data-width="100%" data-live-search="true">
                     </select>
                   </li>
                   <button id="red_reset" type="button" class="btn btn-danger btn btn-block">Reset Red Corner</button>
@@ -107,7 +104,6 @@ fighterData = {{ data|safe }};
         <button id="fight" type="button" class="btn btn-default btn-lg btn-block">FIGHT!</button>
       </div>
 
-
       <div class="col-md-5">
         <div class="panel panel-info">
           <div class="panel-heading">
@@ -136,7 +132,7 @@ fighterData = {{ data|safe }};
                   </li>
                   <li class="list-group-item">
                     <select id="blue_fighter" class="selectpicker fighter_menu" title="Fighter" data-size="10"
-                      name="blue_fighter" data-width="100%" data-live-search="true" data-header="Select a fighter">
+                      name="blue_name" data-width="100%" data-live-search="true" data-header="Select a fighter">
                     </select>
                   </li>
                   <button id="blue_reset" type="button" class="btn btn-info btn btn-block">Reset Blue Corner</button>
