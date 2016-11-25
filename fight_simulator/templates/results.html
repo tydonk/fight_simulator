@@ -37,10 +37,9 @@ function reload_menu_data() {
   }
   ui_load_fighter_info(RED_CORNER, red_name);
   ui_load_fighter_info(BLUE_CORNER, blue_name);
-  $('#red_fighter').selectpicker('val', red_name);
-  console.log(red_name);
   $('#blue_fighter').selectpicker('val', blue_name);
-  console.log(blue_name);
+  $('#red_fighter').selectpicker('val', red_name);
+  $('#red_fighter').selectpicker('render');
 }
 
 function change_button() {
