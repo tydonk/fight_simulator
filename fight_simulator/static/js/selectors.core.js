@@ -250,8 +250,9 @@ function ui_apply_gender_filter(corner, gender) {
       opt.text = full_name;
       opt.setAttribute('data-subtext', fighters[i].weight);
       // add new filtered data
-      $(fighter_menu_sel).append(opt).selectpicker('refresh');
+      $(fighter_menu_sel).append(opt);
     }
+    $(fighter_menu_sel).selectpicker('refresh')
   });
 }
 
@@ -280,9 +281,10 @@ function ui_apply_promotion_filter(corner, gender, promotion) {
         opt.text = full_name;
         opt.setAttribute('data-subtext', fighters[i].weight);
         // add new filtered data
-        $(fighter_menu_sel).append(opt).selectpicker('refresh');
+        $(fighter_menu_sel).append(opt);
       }
     }
+    $(fighter_menu_sel).selectpicker('refresh')
   })
 }
 
@@ -464,8 +466,7 @@ function validate_fight(red_fighter, blue_fighter) {
       }
       console.log("fight permitted");
       $('#illegal_alert').hide();
-      $('#fight').removeAttr('type');
-      $('#fight').attr('type', 'submit');
+      $('#fsubmit')[0].click();
     });
   });
 }
