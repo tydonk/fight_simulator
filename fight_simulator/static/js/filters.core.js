@@ -1,47 +1,4 @@
-// players / get_players()
-
-function get_fighters_by_gender(gender) {
-  var fighters = [];
-  for (var i=0; i<fighterData.length; i++) {
-    if (fighterData[i].gender === gender) {
-      fighters.push(fighterData[i]);
-    }
-  }
-  return fighters;
-}
-
-function get_fighters_by_promotion(promotion) {
-  var fighters = [];
-  for (var i=0; i<fighterData.length; i++) {
-    if (fighterData[i].promotion === promotion) {
-      fighters.push(fighterData[i]);
-    }
-  }
-  return fighters;
-}
-
-function get_fighters_by_weight(weight) {
-  var fighters = [];
-  for (var i=0; i<fighterData.length; i++) {
-    if ((fighterData[i].weight.split(" ")[0]) === "Women" &&
-        (fighterData[i].weight.split(" ")[1]) === weight) {
-      fighters.push(fighterData[i]);
-    } else if (fighterData[i].weight === weight) {
-      fighters.push(fighterData[i]);
-    }
-  }
-  return fighters;
-}
-
-function get_fighters_by_name(name) {
-  var fighters = [];
-  for (var i=0; i<fighterData.length; i++) {
-    if ((fighterData[i].last_name + ", " + fighterData[i].first_name) === name) {
-      fighters.push(fighterData[i]);
-    }
-  }
-  return fighters;
-}
+// Functions to get fighters by different properties
 
 // ensure consistency
 // this means that we have to validate if fighters can fight each other
@@ -61,10 +18,6 @@ function validate_pairs(red_fighter, blue_fighter) {
 }
 
 function get_weight_class(fighter) {
-  if( fighter.gender === "female" ) {
-  return fighter.weight.split(" ")[1];
-  }
-
   return fighter.weight;
 }
 
