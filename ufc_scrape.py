@@ -1,4 +1,6 @@
-import json, requests, manage
+import json
+import requests
+import manage
 from manage import session
 from fight_simulator import database, config, __init__, views
 from fight_simulator.database import User, Fighter, History
@@ -28,21 +30,23 @@ for fighter in fighters:
                     if fighter['losses'] != "null":
                         if fighter['draws'] != "null":
                             if fighter['weight_class'] != None:
-                                fighter = Fighter(
-                                    first_name=fighter['first_name'].rstrip(),
-                                    last_name=fighter['last_name'],
-                                    nickname=fighter['nickname'],
-                                    promotion="UFC",
-                                    fighter_image=fighter['profile_image'],
-                                    gender = "",
-                                    weight=fighter['weight_class'].replace("_", " "),
-                                    win=fighter['wins'],
-                                    loss=fighter['losses'],
-                                    draw=fighter['draws'],
-                                    )
-                                if "Women" in fighter.weight:
-                                    fighter.gender = "female"
-                                else:
-                                    fighter.gender = "male"
-                                session.add(fighter)
+                                if 'profile_image' in fighter:
+                                    fighter = Fighter(
+                                        first_name=fighter['first_name'].rstrip(),
+                                        last_name=fighter['last_name'],
+                                        nickname=fighter['nickname'],
+                                        promotion="UFC",
+                                        gender = "",
+                                        weight=fighter['weight_class'].replace("_", " "),
+                                        win=fighter['wins'],
+                                        loss=fighter['losses'],
+                                        draw=fighter['draws'],
+                                        fighter_image=fighter['profile_image'],
+                                        )
+                                    if "Women" in fighter.weight:
+                                        fighter.gender = "female"
+                                        fighter.weight = fighter.weight.split(' ')[1]
+                                    else:
+                                        fighter.gender = "male"
+                                    session.add(fighter)
 session.commit()
