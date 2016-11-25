@@ -110,8 +110,8 @@ def return_results():
             end_time = "5:00"
 
     # Get matched fighters from client
-    red_fighter_req = request.form['red_fighter']
-    blue_fighter_req = request.form['blue_fighter']
+    red_fighter_req = request.form['red_name']
+    blue_fighter_req = request.form['blue_name']
 
     # Get fighters from database
     data = []
