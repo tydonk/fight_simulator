@@ -6,8 +6,8 @@
 // and so on.
 
 function validate_pairs(red_fighter, blue_fighter) {
-  // returns true when it's a valid fight
-  // returns false when it's an illegal fight
+  // returns false when it's a valid fight
+  // returns true when it's an illegal fight
 
   // note: syntax for accessing gender field may change
   if( red_fighter === blue_fighter ) {
