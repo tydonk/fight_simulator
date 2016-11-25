@@ -427,22 +427,18 @@ function ui_load_fighter_info(corner, name) {
 
         ui_set_promotion_by_gender(corner, fighter.gender);
         ui_set_weight_by_promotion(corner, fighter.gender, fighter.promotion);
-        ui_apply_weight_filter(corner, fighter.gender, fighter.promotion, fighter.weight);
 
         $('.corner')[side].getElementsByTagName('img')[0].src = get_img_path(fighter);
 
         var get_sel = $('.corner')[side].getElementsByTagName('select');
-        //$(get_sel[_promotion_menu]).selectpicker('val', fighter.promotion);
-        //$(get_sel[_weight_menu]).selectpicker('val', fighter.weight);
+        $(get_sel[_promotion_menu]).selectpicker('val', fighter.promotion);
+        $(get_sel[_weight_menu]).selectpicker('val', fighter.weight);
         finfo_txt = $('.corner')[side].getElementsByTagName('td');
         finfo_txt[_name].innerHTML = get_fighter_name(fighter);
         finfo_txt[_nickname].innerHTML = get_fighter_nickname(fighter);
         finfo_txt[_promotion].innerHTML = get_fighter_promotion(fighter);
         finfo_txt[_weightclass].innerHTML = get_weight_class(fighter);
         finfo_txt[_record].innerHTML = get_fighter_record(fighter);
-        var format_name = (fighter.last_name + ", " + fighter.first_name);
-        console.log(format_name);
-        $(get_sel[_fighter_menu]).selectpicker('val', format_name);
         return fighter;
       }
     }
@@ -457,19 +453,6 @@ function validate_fight(red_fighter, blue_fighter) {
 	var blue_fighter_val = $(blue_menu_sel[3]).selectpicker('val');
   var red_fighter = red_fighter_val.split(', ')[0] + '/' + red_fighter_val.split(', ')[1] + '/';
   var blue_fighter = blue_fighter_val.split(', ')[0] + '/' + blue_fighter_val.split(', ')[1] + '/';
-  //var red_fighter = get_fighters_by_name(red_fighter_val);
-  //var blue_fighter = get_fighters_by_name(blue_fighter_val);
-
-  /*if (validate_pairs(red_fighter[0].id, blue_fighter[0].id)) {
-    $('#illegal_alert').show();
-    console.log("fight is illegal");
-    return;
-  }
-  console.log("fight permitted");
-  $('#illegal_alert').hide();
-  $('#fight').removeAttr('type');
-  $('#fight').attr('type', 'submit');
-}*/
 
   $.getJSON('/api/fighters/name/' + red_fighter, function(redAPI) {
     $.getJSON('/api/fighters/name/' + blue_fighter, function(blueAPI) {
