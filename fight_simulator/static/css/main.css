@@ -4,11 +4,11 @@ div.metadata {
 }
 
 #blue_corner {
-	background-color: #2980B9; 
+	background-color: #2980B9;
 }
 
 #red_corner {
-	background-color: #C0392B; 
+	background-color: #C0392B;
 }
 
 #vs {
@@ -49,10 +49,6 @@ body {
 	padding-top: 1em;
 }
 
-#results {
-	background-color: #7BAC81;
-}
-
 .navbar-brand {
   padding: 0px; /* firefox bug fix */
 }
@@ -66,4 +62,24 @@ body {
 .page-header {
 	color: white;
 	margin-top: 1em;
+}
+
+
+.profile_image {
+	border: 0.3em solid black;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+}
+
+#illegal_alert {
+	font-size: 1.5em;
+}
+
+.panel-body {
+	padding-bottom: 0.5em;
+}
+
+.table th {
+	text-align: center;
 }

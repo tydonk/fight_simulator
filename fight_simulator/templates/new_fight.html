@@ -1,0 +1,199 @@
+{% extends "index.html" %}
+{% block content %}
+
+
+<script src="../static/js/filters.core.js"></script>
+<script src="../static/js/selectors.core.js"></script>
+
+<div class="container">
+  {% if not current_user.is_authenticated %}
+  <div class="row">
+    <p class="lead text-center" style="color:white">
+      Your fight history will not be saved unless you are
+      <a href="{{ url_for('login_get') }}">logged in.</a>
+      Click here to
+      <a href="{{ url_for('create_user_get') }}"> register</a>.
+    </p>
+  </div>
+  {% endif %}
+  <div class="row">
+    <div id="illegal_alert" class="alert alert-danger text-center" style="display:none;" role="alert">
+      Fighters must be different, select again.
+    </div>
+    <form action="{{ url_for('return_results') }}" method="POST">
+      <div class="col-md-5">
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <h2 class="panel-title text-center">Red Corner</h2>
+          </div>
+          <div id="red_corner" class="panel-body corner red_side">
+            <div class="row">
+              <div class="col-md-6">
+                <ul class="list-group">
+                  <li id="dropdowns" class="list-group-item">
+                    <select id="red_gender" class="selectpicker gender_menu" title="Gender"
+                        name="red_gender" data-size="10" data-width="100%">
+                      <option>Female</option>
+                      <option>Male</option>
+                    </select>
+                  </li>
+                  <li class="list-group-item">
+                    <select id="red_promotion" class="selectpicker promotion_menu" title="Promotion"
+                      name="red_promotion" data-size="10" data-width="100%">
+                    </select>
+                  </li>
+                  <li class="list-group-item">
+                    <select id="red_weight" class="selectpicker weight_menu" title="Weight"
+                      name="red_weight" data-size="10" data-width="100%">
+                    </select>
+                  </li>
+                  <li class="list-group-item">
+                    <select id="red_fighter" class="selectpicker fighter_menu" title="Fighter" data-size="10"
+                      name="red_name" data-width="100%" data-live-search="true">
+                    </select>
+                  </li>
+                  <button id="red_reset" type="button" class="btn btn-danger btn btn-block">Reset Red Corner</button>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <img src="../static/images/Body-1.png"
+                  id="red_img" class="img-responsive profile_image" alt="Responsive image">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">Fighter Info</h4>
+                  </div>
+                  <div class="panel-body">
+                    <table class="table table-hover table-bordered table-responsive">
+                      <tbody>
+                        <tr>
+                          <td class="col-md-4"><b>Name</b></td>
+                          <td class="info_name"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-4"><b>Nickname</b></td>
+                          <td class="info_nickname"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-4"><b>Promotion</b></td>
+                          <td class="info_promotion"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-4"><b>Weight Class</b></td>
+                          <td class="info_weight"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-4"><b>Record</b></td>
+                          <td class="info_record"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <h1 id="vs" class="text-center">VS.</h1>
+        <button id="fight" type="button" class="btn btn-default btn-lg btn-block">FIGHT!</button>
+        <input id="fsubmit" type="submit" style="display:none;" name="Submit"></input>
+      </div>
+
+      <div class="col-md-5">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h2 class="panel-title text-center">Blue Corner</h2>
+          </div>
+          <div id="blue_corner" class="panel-body corner blue_side">
+            <div class="row">
+              <div class="col-md-6">
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <select id="blue_gender" class="selectpicker gender_menu" title="Gender"
+                        name="blue_gender" data-size="10" data-width="100%">
+                      <option>Female</option>
+                      <option>Male</option>
+                    </select>
+                  </li>
+                  <li class="list-group-item">
+                    <select id="blue_promotion" class="selectpicker promotion_menu" title="Promotion"
+                      name="blue_promotion" data-size="10" data-width="100%">
+                    </select>
+                  </li>
+                  <li class="list-group-item">
+                    <select id="blue_weight" class="selectpicker weight_menu" title="Weight"
+                      name="blue_weight" data-size="10" data-width="100%">
+                    </select>
+                  </li>
+                  <li class="list-group-item">
+                    <select id="blue_fighter" class="selectpicker fighter_menu" title="Fighter" data-size="10"
+                      name="blue_name" data-width="100%" data-live-search="true" data-header="Select a fighter">
+                    </select>
+                  </li>
+                  <button id="blue_reset" type="button" class="btn btn-info btn btn-block">Reset Blue Corner</button>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <img src="../static/images/Body-1.png"
+                  id="blue_img" class="img-responsive profile_image" alt="Responsive image">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">Fighter Info</h4>
+                  </div>
+                  <div class="panel-body">
+                    <table class="table table-hover table-bordered table-responsive">
+                      <tbody>
+                        <tr>
+                          <td class="col-md-4"><b>Name</b></td>
+                          <td class="info_name"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-4"><b>Nickname</b></td>
+                          <td class="info_nickname"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-4"><b>Promotion</b></td>
+                          <td class="info_promotion"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-4"><b>Weight Class</b></td>
+                          <td class="info_weight"></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-4"><b>Record</b></td>
+                          <td class="info_record"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="result_row" class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6">
+      {% block js_content %}{% endblock js_content %}
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

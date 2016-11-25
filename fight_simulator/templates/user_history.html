@@ -1,0 +1,53 @@
+{% import "macros.html" as macros %}
+{% extends  "index.html" %}
+{% block content %}
+
+<div class="container">
+  <div class="page-header">
+    <h1>User History</h1>
+  </div>
+  <div class="col-md-12">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Fights simulated by {{ current_user.email }}</h3>
+      </div>
+      <div class="panel-body text-center">
+        <table id="history_table"
+            class="table table-hover table-responsive table-condensed">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th class="danger">Red Corner</th>
+              <th class="info">Blue Corner</th>
+              <th class="success">Winner</th>
+              <th>Method</th>
+              <th>Time</th>
+              <th>Round</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for event in user_history %}
+              {{ macros.render_event(event) }}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <form id="delete_history" role="form" method="POST">
+      <button id="clear_history" type="submit" class="btn btn-info btn-lg center-block">Clear history</button>
+    </form>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+  $('#clear_history').click(function() {
+    if (confirm("Are you sure you want to clear your fight history? Click OK to continue")) {
+      $('#delete_history').submit();
+    } else {
+      return false;}
+  });
+});
+</script>
+
+{% endblock %}

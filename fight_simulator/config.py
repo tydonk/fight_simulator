@@ -8,7 +8,7 @@ class TestingConfig(object):
     SQLALCHEMY_DATABASE_URI = "postgresql://localhost:5432/fight_simulator-test"
     DEBUG = False
     SECRET_KEY = "Not secret"
-    
+
 class TravisConfig(object):
     SQLALCHEMY_DATABASE_URI = "postgresql://localhost:5432/fight_simulator-test"
     DEBUG = False

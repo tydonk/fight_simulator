@@ -3,46 +3,148 @@
 
 <div class="container">
 	<div id="how-it-works" class="page-header">
-		<h1>How It Works</h1>
-	</div>	
+		<h1>How To</h1>
+	</div>
+	<div class="row col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+		    <h3 class="panel-title">Instructions</h3>
+		  </div>
+	  	<div class="panel-body">
+				<ol>
+					<li>Start by selecting a gender. Fights can only be between
+						the same gender, but fighters may challenge opponents from
+						different promotions and weight classes. Fighters cannot
+						fight each other.
+					</li>
+					<li>Once you select a gender all the available fighters will
+						appear in the fighter list. You may filter the fighter list
+						further by selection a promotion. Choosing a promotion will
+						load the weight classes available in that organization.
+					 </li>
+					<li>When you have a fighter selected in each corner, click the
+						"FIGHT!" button to start a simulation. Each corner has a reset
+						button if you want to clear your selection before the fight.
+					</li>
+					<li>The results panel for the fight will
+						appear at the bottom of the page.
+					</li>
+					<li>After your fight has been simulated, use the 'Start Over'
+						button to simulate another matchup.
+					</li>
+					<li>Logging in will automatically save each of your fights
+						in your user history.
+					</li>
+				</ol>
+	  	</div>
+	  </div>
+	</div>
+<div class="row col-md-12">
 	<div class="panel panel-info">
 		<div class="panel-heading">
-	    	<h3 class="panel-title">Take the following steps to start simulating matchups</h3>
-	  	</div>
-	  	<div class="panel-body">
-			<ul>
-				<li>Select a gender. Matchups can be between any weight class but
-				 they are restricted to fighting the same gender.</li>
-				<li>Once the gender is chosen the fighters can be filtered 
-				 	by promotion and weight class, but this is only necessary 
-				 	if you want to further filter your results. The fighter 
-				 	list will populate once a gender has been selected.</li>
-				<li>After you have selected a fighter for each corner, click 
-					the 'Fight' button to see the results! Simple as that!</li> 
-			</ul>
-	  	</div>
+			<h3 class="panel-title">Promotions</h3>
+		</div>
+		<div class="panel-body">
+			<p>Currently there is only data for UFC fighters, more to come
+				in the future
+			</p>
+			<ol>
+				<li>Ultimate Fight Championship (UFC)</li>
+				<li>Bellator MMA</li>
+				<li>World Series of Fighting (WSOF)</li>
+				<li>One Championship</li>
+			</ol>
+		</div>
+	</div>
+</div>
+<div class="row col-md-12">
 	<div class="panel panel-info">
 		<div class="panel-heading">
-	    	<h3 class="panel-title">MMA Basic Info</h3>
-	  	</div>
-	  	<div class="panel-body">
-	  		<p><strong>Weight Class Definitions</strong></p>
-	  		<p>The weights listed are the maximum a fighter can weigh:</p>
-			<ul>
-				<li>Womens Strawweight - 115 lbs.</li>
-				<li>Womens Bantamweight - 135 lbs.</li>
-				<li>Mens Flyweight - 125 lbs.</li>
-				<li>Mens Bantamweight - 135 lbs.</li>
-				<li>Mens Featherweight - 145 lbs.</li>
-				<li>Mens Lightweight - 155 lbs.</li>
-				<li>Mens Welterweight - 170 lbs.</li>
-				<li>Mens Middleweight - 185 lbs.</li>
-				<li>Mens Light Heavyweight - 205 lbs.</li>
-				<li>Mens Heavyweight - 265 lbs.</li>
-			</ul>
-	  	</div>	  	
-	</div>	
+	    	<h3 class="panel-title">Weight Classes</h3>
+	  </div>
+  	<div class="panel-body text-center">
+			<p>Below are the weight classes along with the maximum allowed
+				weight for each class. Different promotions offer different weight
+				classes.
+			</p>
+  		<div class="col-md-6">
+	  	  <table class="table table-hover table-bordered table-responsive text-center">
+          <tbody>
+            <tr>
+              <td class="info"><strong>Male</strong></td>
+              <td class="active"><strong>Lbs.</strong></td>
+            </tr>
+            <tr>
+              <td>Strawweight</td>
+              <td>115</td>
+            </tr>
+            <tr>
+              <td>Flyweight</td>
+              <td>125</td>
+            </tr>
+            <tr>
+              <td>Bantamweight</td>
+              <td>135</td>
+            </tr>
+            <tr>
+              <td>Featherweight</td>
+              <td>145</td>
+            </tr>
+            <tr>
+              <td>Lightweight</td>
+              <td>155</td>
+            </tr>
+            <tr>
+              <td>Welterweight</td>
+              <td>170</td>
+            </tr>
+            <tr>
+              <td>Middleweight</td>
+              <td>185</td>
+            </tr>
+            <tr>
+              <td>Light Heavyweight</td>
+              <td>205</td>
+            </tr>
+            <tr>
+              <td>Heavyweight</td>
+              <td>265</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+	  	  <table class="table table-hover table-bordered table-responsive text-center">
+          <tbody>
+            <tr>
+              <td class="danger"><strong>Female</strong></td>
+              <td class="active"><strong>Lbs.</strong></td>
+            </tr>
+            <tr>
+              <td>Atomweight</td>
+              <td>105</td>
+            </tr>
+            <tr>
+              <td>Strawweight</td>
+              <td>115</td>
+            </tr>
+            <tr>
+              <td>Flyweight</td>
+              <td>125</td>
+            </tr>
+            <tr>
+              <td>Bantamweight</td>
+              <td>135</td>
+            </tr>
+            <tr>
+              <td>Featherweight</td>
+              <td>145</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  	</div>
+	</div>
 </div>
 
 {% endblock %}
-
