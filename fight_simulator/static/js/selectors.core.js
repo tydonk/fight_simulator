@@ -86,11 +86,10 @@ function which_menu(evt, corner) {
 
     clear_fighter_info(corner);
 
-    var gender_sel = $('.corner')[side].getElementsByTagName('select');
-    var gender_val = $( gender_sel[_gender] ).selectpicker('val').toLowerCase();
     var promotion_val = $(evt.target).selectpicker('val');
-    ui_apply_promotion_filter(corner, promotion_val, gender_val);
-    ui_set_weight_by_promotion(corner, promotion_val, gender_val);
+    ui_apply_promotion_filter(corner, gender_val, promotion_val);
+    ui_set_weight_by_promotion(corner, gender_val, promotion_val);
+    console.log('end of promotion menu');
     return;
   } // end of promotion_menu
 
@@ -113,7 +112,7 @@ function which_menu(evt, corner) {
     var weight_val = $(evt.target).selectpicker('val');
     var promotion_sel = $('.corner')[side].getElementsByTagName('select');
     var promotion_val = $( promotion_sel[_promotion] ).selectpicker('val');
-    ui_apply_weight_filter(corner, weight_val, gender_val, promotion_val);
+    ui_apply_weight_filter(corner, gender_val, promotion_val, weight_val);
     return;
   } // end of weight_menu
 
@@ -223,7 +222,7 @@ function reset_all_menus() {
   });
 }
 
-// populate fighter dropdown based on gender selection
+// populate promotion & fighter dropdown based on gender selection
 function ui_apply_gender_filter(corner, gender) {
 
   var corners = $('.corner');
@@ -232,8 +231,6 @@ function ui_apply_gender_filter(corner, gender) {
   var _promotion_menu = 1;
   var _weight_menu = 2;
   var _fighter_menu = 3;
-  var fighters = get_fighters_by_gender(gender);
-
   var promotion_menu_sel = corners[side].getElementsByTagName('select')[_promotion_menu];
   var weight_menu_sel = corners[side].getElementsByTagName('select')[_weight_menu];
   var fighter_menu_sel = corners[side].getElementsByTagName('select')[_fighter_menu];
@@ -243,26 +240,28 @@ function ui_apply_gender_filter(corner, gender) {
   $(weight_menu_sel).selectpicker('val', 'Weight');
   $(fighter_menu_sel).empty().selectpicker('refresh');
 
-  for (var i=0; i<fighters.length; ++i) {
-    full_name = fighters[i].last_name + ", " + fighters[i].first_name;
-    var opt = document.createElement('option');
-    opt.text = full_name;
-    opt.setAttribute('data-subtext', fighters[i].weight);
-    // add new filtered data
-    $(fighter_menu_sel).append(opt).selectpicker('refresh');
-  }
+  //var fighters = get_fighters_by_gender(gender);
+  $.getJSON('/api/fighters/' + gender, function(data) {
+    var fighters = data;
+
+    for (var i=0; i<fighters.length; ++i) {
+      full_name = fighters[i].last_name + ", " + fighters[i].first_name;
+      var opt = document.createElement('option');
+      opt.text = full_name;
+      opt.setAttribute('data-subtext', fighters[i].weight);
+      // add new filtered data
+      $(fighter_menu_sel).append(opt).selectpicker('refresh');
+    }
+  });
 }
 
-// populate fighter dropdown based on promotion selection
-function ui_apply_promotion_filter(corner, promotion, gender) {
-
+// populate weight class & fighter dropdown based on promotion selection
+function ui_apply_promotion_filter(corner, gender, promotion) {
   var corners = $('.corner');
   // 0 is red, 1 is blue
   var side = corner === true ? 0 : 1;
   var _weight_menu = 2;
   var _fighter_menu = 3;
-  var fighters = get_fighters_by_promotion(promotion);
-
   var weight_menu_sel = corners[side].getElementsByTagName('select')[_weight_menu];
   var fighter_menu_sel = corners[side].getElementsByTagName('select')[_fighter_menu];
   // clean previous selections
@@ -270,40 +269,45 @@ function ui_apply_promotion_filter(corner, promotion, gender) {
   $(weight_menu_sel).selectpicker('val', 'Weight');
   $(fighter_menu_sel).empty().selectpicker('refresh');
 
-  for (var i=0; i<fighters.length; ++i) {
-    if (promotion === fighters[i].promotion && gender === fighters[i].gender) {
-      full_name = fighters[i].last_name + ", " + fighters[i].first_name;
-      var opt = document.createElement('option');
-      opt.text = full_name;
-      opt.setAttribute('data-subtext', fighters[i].weight);
-      // add new filtered data
-      $(fighter_menu_sel).append(opt).selectpicker('refresh');
+  //var fighters = get_fighters_by_promotion(promotion);
+  $.getJSON('/api/fighters/' + gender + '/' + promotion + '/', function(data) {
+    var fighters = data;
+
+    for (var i=0; i<fighters.length; ++i) {
+      if (promotion === fighters[i].promotion && gender === fighters[i].gender) {
+        full_name = fighters[i].last_name + ", " + fighters[i].first_name;
+        var opt = document.createElement('option');
+        opt.text = full_name;
+        opt.setAttribute('data-subtext', fighters[i].weight);
+        // add new filtered data
+        $(fighter_menu_sel).append(opt).selectpicker('refresh');
+      }
     }
-  }
+  })
 }
 
 // populate fighers based on weight class selection
-function ui_apply_weight_filter(corner, weight, gender, promotion) {
-
+function ui_apply_weight_filter(corner, gender, promotion, weight) {
   var corners = $('.corner');
   // 0 is red, 1 is blue
   var side = corner === true ? 0 : 1;
   var _fighter_menu = 3;
   var fighter_menu_sel = corners[side].getElementsByTagName('select')[_fighter_menu];
   $(fighter_menu_sel).empty().selectpicker('refresh');
-
-  var fighters = get_fighters_by_weight(weight);
-
-  for (var i=0; i<fighters.length; ++i) {
-    if ((fighters[i].gender === gender) && (fighters[i].promotion === promotion)) {
-      full_name = fighters[i].last_name + ", " + fighters[i].first_name;
-      var opt = document.createElement('option');
-      opt.text = full_name;
-      opt.setAttribute('data-subtext', fighters[i].weight);
-      // add new filtered data
-      $(fighter_menu_sel).append(opt).selectpicker('refresh');
+  //var fighters = get_fighters_by_weight(weight);
+  $.getJSON('/api/fighters/' + gender + '/' + promotion + '/' + weight + '/', function(data) {
+    var fighters = data;
+    for (var i=0; i<fighters.length; ++i) {
+      if ((fighters[i].gender === gender) && (fighters[i].promotion === promotion)) {
+        full_name = fighters[i].last_name + ", " + fighters[i].first_name;
+        var opt = document.createElement('option');
+        opt.text = full_name;
+        opt.setAttribute('data-subtext', fighters[i].weight);
+        // add new filtered data
+        $(fighter_menu_sel).append(opt).selectpicker('refresh');
+      }
     }
-  }
+  });
 }
 
 // set promotions based on gender selection
@@ -331,12 +335,13 @@ function ui_set_promotion_by_gender(corner, gender) {
 }
 
 // set weight classes based on promotion selection
-function ui_set_weight_by_promotion(corner, promotion, gender) {
+function ui_set_weight_by_promotion(corner, gender, promotion) {
   var corners = $('.corner');
   // 0 is red, 1 is blue
   var side = corner === true ? 0 : 1;
   var _weight_menu = 2;
   var weight_sel = corners[side].getElementsByTagName('select')[_weight_menu];
+  $(weight_sel).empty().selectpicker('refresh');
 
   var ufc_fweights = ["Strawweight", "Bantamweight"];
   var ufc_mweights = ["Flyweight", "Bantamweight", "Featherweight", "Lightweight",
@@ -405,37 +410,43 @@ function ui_load_fighter_info(corner, name) {
   var _weightclass = 7;
   var _record = 9;
 
+  var _gender_menu = 0;
   var _promotion_menu = 1;
   var _weight_menu = 2;
+  var _fighter_menu = 3;
 
-  var fighters = get_fighters_by_name(name);
-  for (var i=0; i<fighters.length; ++i) {
-    full_name = fighters[i].last_name + ", " + fighters[i].first_name;
-    if (full_name === name) {
-      var fighter = fighters[i];
+  //var fighters = get_fighters_by_name(name);
+  var name = name.split(', ')[0] + '/' + name.split(', ')[1] + '/';
+  $.getJSON('/api/fighters/name/' + name, function(data) {
+    var fighters = data;
 
-      ui_set_promotion_by_gender(corner, fighter.gender);
-      ui_set_weight_by_promotion(corner, fighter.promotion, fighter.gender);
+    for (var i=0; i<fighters.length; ++i) {
+      var full_name = fighters[i].last_name + '/' + fighters[i].first_name + '/';
+      if (full_name === name) {
+        var fighter = fighters[i];
 
-      $('.corner')[side].getElementsByTagName('img')[0].src = get_img_path(fighter);
+        ui_set_promotion_by_gender(corner, fighter.gender);
+        ui_set_weight_by_promotion(corner, fighter.gender, fighter.promotion);
+        ui_apply_weight_filter(corner, fighter.gender, fighter.promotion, fighter.weight);
 
-      var get_sel = $('.corner')[side].getElementsByTagName('select');
-      $(get_sel[_promotion_menu]).selectpicker('val', fighter.promotion);
-      if (fighter.gender === "female") {
-        $(get_sel[_weight_menu]).selectpicker('val', fighter.weight.split(" ")[1]);
-      } else {
-        $(get_sel[_weight_menu]).selectpicker('val', fighter.weight);
+        $('.corner')[side].getElementsByTagName('img')[0].src = get_img_path(fighter);
+
+        var get_sel = $('.corner')[side].getElementsByTagName('select');
+        //$(get_sel[_promotion_menu]).selectpicker('val', fighter.promotion);
+        //$(get_sel[_weight_menu]).selectpicker('val', fighter.weight);
+        finfo_txt = $('.corner')[side].getElementsByTagName('td');
+        finfo_txt[_name].innerHTML = get_fighter_name(fighter);
+        finfo_txt[_nickname].innerHTML = get_fighter_nickname(fighter);
+        finfo_txt[_promotion].innerHTML = get_fighter_promotion(fighter);
+        finfo_txt[_weightclass].innerHTML = get_weight_class(fighter);
+        finfo_txt[_record].innerHTML = get_fighter_record(fighter);
+        var format_name = (fighter.last_name + ", " + fighter.first_name);
+        console.log(format_name);
+        $(get_sel[_fighter_menu]).selectpicker('val', format_name);
+        return fighter;
       }
-
-      finfo_txt = $('.corner')[side].getElementsByTagName('td');
-      finfo_txt[_name].innerHTML = get_fighter_name(fighter);
-      finfo_txt[_nickname].innerHTML = get_fighter_nickname(fighter);
-      finfo_txt[_promotion].innerHTML = get_fighter_promotion(fighter);
-      finfo_txt[_weightclass].innerHTML = get_weight_class(fighter);
-      finfo_txt[_record].innerHTML = get_fighter_record(fighter);
-      return fighter;
     }
-  }
+  });
 }
 
 // check to make sure the fighters are not the same
@@ -444,10 +455,12 @@ function validate_fight(red_fighter, blue_fighter) {
 	var red_fighter_val = $(red_menu_sel[3]).selectpicker('val');
   var blue_menu_sel = $('.corner')[1].getElementsByTagName('select');
 	var blue_fighter_val = $(blue_menu_sel[3]).selectpicker('val');
-  var red_fighter = get_fighters_by_name(red_fighter_val);
-  var blue_fighter = get_fighters_by_name(blue_fighter_val);
+  var red_fighter = red_fighter_val.split(', ')[0] + '/' + red_fighter_val.split(', ')[1] + '/';
+  var blue_fighter = blue_fighter_val.split(', ')[0] + '/' + blue_fighter_val.split(', ')[1] + '/';
+  //var red_fighter = get_fighters_by_name(red_fighter_val);
+  //var blue_fighter = get_fighters_by_name(blue_fighter_val);
 
-  if (validate_pairs(red_fighter[0].id, blue_fighter[0].id)) {
+  /*if (validate_pairs(red_fighter[0].id, blue_fighter[0].id)) {
     $('#illegal_alert').show();
     console.log("fight is illegal");
     return;
@@ -456,6 +469,22 @@ function validate_fight(red_fighter, blue_fighter) {
   $('#illegal_alert').hide();
   $('#fight').removeAttr('type');
   $('#fight').attr('type', 'submit');
+}*/
+
+  $.getJSON('/api/fighters/name/' + red_fighter, function(redAPI) {
+    $.getJSON('/api/fighters/name/' + blue_fighter, function(blueAPI) {
+
+      if (validate_pairs(redAPI[0].id, blueAPI[0].id)) {
+        $('#illegal_alert').show();
+        console.log("fight is illegal");
+        return;
+      }
+      console.log("fight permitted");
+      $('#illegal_alert').hide();
+      $('#fight').removeAttr('type');
+      $('#fight').attr('type', 'submit');
+    });
+  });
 }
 
 $(document).ready(function() {
