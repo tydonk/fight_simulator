@@ -24,7 +24,7 @@ def fight():
     data = []
     # Get fighters from database
     fighter_data = session.query(Fighter).all()
-    fighter_data = fighter_data[0:99]
+    #fighter_data = fighter_data[0:99]
     # Append them to data array in dictionary form
     for fighter in fighter_data:
         data.append(fighter.as_dictionary())
@@ -35,14 +35,42 @@ def fight():
 
 @app.route("/fight", methods=["GET", "POST"])
 @decorators.accept("application/json")
-#@decorators.require("application/json")
 def return_results():
-    # Get fighters from database
-    data = []
-    fighter_data = session.query(Fighter).all()
-    fighter_data = fighter_data[0:99]
-    for fighter in fighter_data:
-        data.append(fighter.as_dictionary())
+
+    def get_fighter_record(fighter):
+        record = [fighter.win, fighter.loss, fighter.draw]
+        return record
+
+    def calc_win_perc(record):
+        win_percent = (record[0] + (record[2] * .5)) / (record[0] + record[1] + record[2]) * 100
+        win_percent = round(win_percent)
+        return win_percent
+
+    def calc_new_win_perc(fighter):
+        name = fighter.last_name + ", " + fighter.first_name
+        winners = []
+        losers = []
+        history_all = session.query(History).filter(History.user_id == current_user.id).all()
+        for each in history_all:
+            if each.blue_corner == each.winner:
+                winners.append(each.blue_corner)
+                losers.append(each.red_corner)
+            else:
+                losers.append(each.blue_corner)
+                winners.append(each.red_corner)
+        if name in winners:
+            win_count = winners.count(name)
+        else:
+            win_count = 0
+        if name in losers:
+            loss_count = losers.count(name)
+        else:
+            loss_count = 0
+        win = fighter.win + win_count
+        loss = fighter.loss + loss_count
+        new_record = [win, loss, fighter.draw]
+        new_win_perc = calc_win_perc(new_record)
+        return new_win_perc
 
     # Get current date
     now = datetime.now()
@@ -82,46 +110,15 @@ def return_results():
             end_time = "5:00"
 
     # Get matched fighters from client
-    red_gender = request.form['red_gender']
     red_fighter_req = request.form['red_fighter']
-    blue_gender = request.form['blue_gender']
     blue_fighter_req = request.form['blue_fighter']
 
-    # Calculate record based on user fight.  Requires user to be logged in
-    def calc_new_win_perc(fighter):
-        name = fighter.last_name + ", " + fighter.first_name
-        winners = []
-        losers = []
-        history_all = session.query(History).filter(History.user_id == current_user.id).all()
-        for each in history_all:
-            if each.blue_corner == each.winner:
-                winners.append(each.blue_corner)
-                losers.append(each.red_corner)
-            else:
-                losers.append(each.blue_corner)
-                winners.append(each.red_corner)
-        if name in winners:
-            win_count = winners.count(name)
-        else:
-            win_count = 0
-        if name in losers:
-            loss_count = losers.count(name)
-        else:
-            loss_count = 0
-        win = fighter.win + win_count
-        loss = fighter.loss + loss_count
-        new_record = [win, loss, fighter.draw]
-        new_win_perc = calc_win_perc(new_record)
-        return new_win_perc
-
-    def get_fighter_record(fighter):
-        record = [fighter.win, fighter.loss, fighter.draw]
-        return record
-
-    def calc_win_perc(record):
-        win_percent = (record[0] + (record[2] * .5)) / (record[0] + record[1] + record[2]) * 100
-        win_percent = round(win_percent)
-        return win_percent
+    # Get fighters from database
+    data = []
+    fighter_data = session.query(Fighter).all()
+    # = fighter_data[0:99]
+    for fighter in fighter_data:
+        data.append(fighter.as_dictionary())
 
     # Match fighters to database to access properties
     for fighter in fighter_data:
@@ -162,7 +159,8 @@ def return_results():
         'end_time': end_time,
         'method': method,
         'blue_fighter': blue_fighter,
-        'red_fighter': red_fighter}
+        'red_fighter': red_fighter
+        }
     ]
 
     # Add fight results to user history if user is logged in
@@ -191,14 +189,25 @@ def return_results():
 def fighters_all():
     ''' Return all fighters '''
     fighters = session.query(Fighter).all()
-    data = json.dumps([fighter.as_dictionary() for fighter in fighters])
+    data = [fighter.as_dictionary() for fighter in fighters]
+    data = sorted(data, key=lambda k: k['last_name'])
+    data = json.dumps(data)
     return Response(data, mimetype="application/json")
 
 @app.route("/api/fighters/<int:id>/", methods=["GET"])
 @decorators.accept("application/json")
-def fighters_id(id):
-    ''' Return fighters by id '''
+def fighter_by_id(id):
+    ''' Return fighter by id '''
     fighters = session.query(Fighter).filter(Fighter.id == id).all()
+    data = json.dumps([fighter.as_dictionary() for fighter in fighters])
+    return Response(data, mimetype="application/json")
+
+@app.route("/api/fighters/name/<last_name>/<first_name>/", methods=["GET"])
+@decorators.accept("application/json")
+def fighter_by_name(last_name, first_name):
+    ''' Return fighter by name '''
+    fighters = session.query(Fighter).filter(Fighter.last_name == last_name,
+                                             Fighter.first_name == first_name).all()
     data = json.dumps([fighter.as_dictionary() for fighter in fighters])
     return Response(data, mimetype="application/json")
 
@@ -207,15 +216,19 @@ def fighters_id(id):
 def fighters_by_gender(gender):
     ''' Return fighters by gender '''
     fighters = session.query(Fighter).filter(Fighter.gender == gender).all()
-    data_gender = json.dumps([fighter.as_dictionary() for fighter in fighters])
-    return Response(data_gender, mimetype="application/json")
+    data = [fighter.as_dictionary() for fighter in fighters]
+    data = sorted(data, key=lambda k: k['last_name'])
+    data = json.dumps(data)
+    return Response(data, mimetype="application/json")
 
 @app.route("/api/fighters/<gender>/<promotion>/", methods=["GET"])
 @decorators.accept("application/json")
 def fighters_gender_promotion(gender, promotion):
     ''' Return fighters by gender and promotion '''
     fighters = session.query(Fighter).filter(Fighter.gender == gender, Fighter.promotion == promotion).all()
-    data = json.dumps([fighter.as_dictionary() for fighter in fighters])
+    data = [fighter.as_dictionary() for fighter in fighters]
+    data = sorted(data, key=lambda k: k['last_name'])
+    data = json.dumps(data)
     return Response(data, mimetype="application/json")
 
 @app.route("/api/fighters/<gender>/<promotion>/<weight>/", methods=["GET"])
@@ -226,7 +239,9 @@ def fighters_gender_promotion_weight(gender, promotion, weight):
                                              Fighter.promotion == promotion,
                                              Fighter.weight == weight
                                              )
-    data = json.dumps([fighter.as_dictionary() for fighter in fighters])
+    data = [fighter.as_dictionary() for fighter in fighters]
+    data = sorted(data, key=lambda k: k['last_name'])
+    data = json.dumps(data)
     return Response(data, mimetype="application/json")
 
 @app.route("/user_history", methods=["GET"])
