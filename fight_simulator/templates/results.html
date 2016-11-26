@@ -37,9 +37,14 @@ function reload_menu_data() {
   }
   ui_load_fighter_info(RED_CORNER, red_name);
   ui_load_fighter_info(BLUE_CORNER, blue_name);
-  $('#blue_fighter').selectpicker('val', blue_name);
-  $('#red_fighter').selectpicker('val', red_name);
-  $('#red_fighter').selectpicker('render');
+  var red_opt = document.createElement('option');
+  red_opt.text = red_name;
+  $('#red_fighter').append(red_opt);
+  $('select#red_fighter').selectpicker('val', red_name);
+  var blue_opt = document.createElement('option');
+  blue_opt.text = blue_name;
+  $('#blue_fighter').append(blue_opt);
+  $('select#blue_fighter').selectpicker('val', blue_name);
 }
 
 function change_button() {
@@ -55,7 +60,7 @@ $(document).ready(function() {
   reload_menu_data();
   change_button();
   populate_results();
-  //disable_menus_btns();
+  disable_menus_btns();
 
 });
 </script>
