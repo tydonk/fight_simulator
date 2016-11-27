@@ -21,6 +21,13 @@ pip install requirements.txt
 createdb fight_simulator_db
 ```
 
+Update config.py with database settings:
+
+In your database configuration file change USER and PASSWORD to yours
+```
+SQLALCHEMY_DATABASE_URI = "postgresql://USER:PASSWORD@localhost:5432/fight_simulator_db"
+```
+
 Populate database:
 ```
 python3 ufc_scrape.py
