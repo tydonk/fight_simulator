@@ -5,6 +5,14 @@
 // for instance, fighters of different genders can't fight each other
 // and so on.
 
+function ensure_selection(red_fighter, blue_fighter) {
+  if ( red_fighter === "" || blue_fighter === "") {
+    $('#illegal_alert').show();
+    console.log("fight is illegal");
+    return;
+  }  
+}
+
 function validate_pairs(red_fighter, blue_fighter) {
   // returns false when it's a valid fight
   // returns true when it's an illegal fight

@@ -455,10 +455,10 @@ function validate_fight(red_fighter, blue_fighter) {
 	var blue_fighter_val = $(blue_menu_sel[3]).selectpicker('val');
   var red_fighter = red_fighter_val.split(', ')[0] + '/' + red_fighter_val.split(', ')[1] + '/';
   var blue_fighter = blue_fighter_val.split(', ')[0] + '/' + blue_fighter_val.split(', ')[1] + '/';
+  ensure_selection(red_fighter_val, blue_fighter_val);
 
   $.getJSON('/api/fighters/name/' + red_fighter, function(redAPI) {
     $.getJSON('/api/fighters/name/' + blue_fighter, function(blueAPI) {
-
       if (validate_pairs(redAPI[0].id, blueAPI[0].id)) {
         $('#illegal_alert').show();
         console.log("fight is illegal");
