@@ -43,6 +43,7 @@ for fighter in fighters:
             gender = gender,
             promotion = "Bellator",
             weight = weight,
+            fighter_image = "/static/images/Body-1.png",
             win = win,
             loss = loss,
             draw = draw,
