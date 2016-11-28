@@ -19,7 +19,8 @@ div.metadata {
 }
 
 body {
-	background-color: #1C2833;
+  background: url("/../static/images/bg-img1.jpg") #1C2833;
+	background-position: -120px 0px;
 }
 
 .scrollable-menu {
