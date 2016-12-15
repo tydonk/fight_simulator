@@ -30,8 +30,10 @@ SQLALCHEMY_DATABASE_URI = "postgresql://USER:PASSWORD@localhost:5432/fight_simul
 
 Populate database:
 ```
-python3 ufc_scrape.py
+python3 scrapers.py PROMOTION_NAME
 ```
+
+Currently, you can scrape for UFC and Bellator fighters. Each promotion must be scraped separately.
 
 Run app:
 ```
