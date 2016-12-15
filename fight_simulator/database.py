@@ -18,15 +18,15 @@ class Fighter(Base):
     last_name = Column(String(1024), nullable=False)
     nickname = Column(String(1024))
     gender = Column(String(128), nullable=False)
-    #age = Column(Integer)
+    age = Column(Integer)
     promotion = Column(String(1024), nullable=False)
     fighter_image = Column(String(1024))
-    #height = Column(Integer)
+    height = Column(Integer)
     weight = Column(String(128), nullable=False)
     win = Column(Integer, nullable=False)
     loss = Column(Integer, nullable=False)
     draw = Column(Integer)
-    #no_contest = Column(Integer)
+    no_contest = Column(Integer)
 
     def as_dictionary(self):
         fighter = {
@@ -35,12 +35,15 @@ class Fighter(Base):
             "last_name": self.last_name,
             "nickname": self.nickname,
             "gender": self.gender,
+            "age": self.age,
             "promotion": self.promotion,
             "fighter_image": self.fighter_image,
+            "height": self.height,
             "weight": self.weight,
             "win": self.win,
             "loss": self.loss,
             "draw": self.draw,
+            "no_contest": self.no_contest,
         }
         return fighter
 
