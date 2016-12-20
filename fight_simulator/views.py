@@ -21,13 +21,14 @@ def how_it_works():
 @app.route("/fight", methods=["GET"])
 @decorators.accept("application/json")
 def fight():
-    data = []
     # Get fighters from database
     fighter_data = session.query(Fighter).all()
-    #fighter_data = fighter_data[0:99]
+    data = []
+
     # Append them to data array in dictionary form
     for fighter in fighter_data:
         data.append(fighter.as_dictionary())
+
     # Alphabetize fighters
     data = sorted(data, key=lambda k: k['last_name'])
     return Response(render_template("new_fight.html",
@@ -36,7 +37,6 @@ def fight():
 @app.route("/fight", methods=["GET", "POST"])
 @decorators.accept("application/json")
 def return_results():
-
     def get_fighter_record(fighter):
         record = [fighter.win, fighter.loss, fighter.draw]
         return record
@@ -116,7 +116,6 @@ def return_results():
     # Get fighters from database
     data = []
     fighter_data = session.query(Fighter).all()
-    # = fighter_data[0:99]
     for fighter in fighter_data:
         data.append(fighter.as_dictionary())
 
@@ -184,6 +183,96 @@ def return_results():
     return Response(render_template("results.html",
                     data=data, results=results, mimetype="application/json"))
 
+@app.route("/user_history", methods=["GET"])
+@app.route("/user_history/<int:page>")
+@login_required
+@decorators.accept("application/json")
+def user_history(page=1):
+    paginate_by = 20
+    user_id = current_user.id
+
+    # Zero-indexed page
+    page_index = page - 1
+    count = session.query(History).filter(History.user_id == user_id).count()
+    start = page_index * paginate_by
+    end = start + paginate_by
+    total_pages = (count - 1) // paginate_by + 1
+    has_next = page_index < total_pages - 1
+    has_prev = page_index > 0
+
+    history = session.query(History).filter(History.user_id == user_id).all()
+    user_history = []
+
+    for fight in history:
+        if fight.visible == True:
+            user_history.append(fight.as_dictionary())
+
+    user_history = user_history[start:end]
+
+    return Response(render_template("user_history.html",
+        user_history=user_history,
+        page=page,
+        has_next=has_next,
+        has_prev=has_prev,
+        total_pages=total_pages,
+        count=count,
+        mimetype="application/json"))
+
+@app.route("/user_history", methods=["POST"])
+@login_required
+def clear_history():
+    user_id = current_user.id
+    history = session.query(History).filter(History.user_id == user_id).all()
+    for each in history:
+        each.visible = False
+    session.commit()
+    return redirect(url_for("user_history"))
+
+@app.route("/create_user", methods=["GET"])
+def create_user_get():
+    return render_template("create_user.html")
+
+@app.route("/create_user", methods=["POST"])
+def create_user_post():
+    email = request.form["email"]
+    if session.query(User).filter_by(email=email).first():
+        flash("This email address is already in use, please choose another", "danger")
+        return redirect(url_for("create_user_get"))
+
+    password = request.form["password"]
+
+    if len(password) >= 8:
+        user = User(email=email, password=generate_password_hash(password))
+        session.add(user)
+        session.commit()
+        return redirect(url_for("login_get"))
+    else:
+        flash("Password must be at least 8 characters", "danger")
+        return redirect(url_for("create_user_post"))
+
+@app.route("/login", methods=["GET"])
+def login_get():
+    return render_template("login.html")
+
+@app.route("/login", methods=["POST"])
+def login_post():
+    email = request.form["email"]
+    password = request.form["password"]
+    user = session.query(User).filter_by(email=email).first()
+    if not user or not check_password_hash(user.password, password):
+        flash("Incorrect username or password", "danger")
+        return redirect(url_for("login_get"))
+
+    login_user(user)
+    return redirect(request.args.get('next') or url_for("fight"))
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("welcome"))
+
+# API endpoints
 @app.route("/api/fighters", methods=["GET"])
 @decorators.accept("application/json")
 def fighters_all():
@@ -243,71 +332,3 @@ def fighters_gender_promotion_weight(gender, promotion, weight):
     data = sorted(data, key=lambda k: k['last_name'])
     data = json.dumps(data)
     return Response(data, mimetype="application/json")
-
-@app.route("/user_history", methods=["GET"])
-@login_required
-@decorators.accept("application/json")
-def user_history():
-    user_history = []
-    user_id = current_user.id
-    history = session.query(History).filter(History.user_id == user_id).all()
-    user_history = []
-    for fight in history:
-        if fight.visible == True:
-            user_history.append(fight.as_dictionary())
-    return Response(render_template("user_history.html",
-        user_history=user_history, mimetype="application/json"))
-
-@app.route("/user_history", methods=["POST"])
-@login_required
-def clear_history():
-    user_id = current_user.id
-    history = session.query(History).filter(History.user_id == user_id).all()
-    for each in history:
-        each.visible = False
-    session.commit()
-    return redirect(url_for("user_history"))
-
-@app.route("/create_user", methods=["GET"])
-def create_user_get():
-    return render_template("create_user.html")
-
-@app.route("/create_user", methods=["POST"])
-def create_user_post():
-    email = request.form["email"]
-    if session.query(User).filter_by(email=email).first():
-        flash("This email address is already in use, please choose another", "danger")
-        return redirect(url_for("create_user_get"))
-
-    password = request.form["password"]
-
-    if len(password) >= 8:
-        user = User(email=email, password=generate_password_hash(password))
-        session.add(user)
-        session.commit()
-        return redirect(url_for("login_get"))
-    else:
-        flash("Password must be at least 8 characters", "danger")
-        return redirect(url_for("create_user_post"))
-
-@app.route("/login", methods=["GET"])
-def login_get():
-    return render_template("login.html")
-
-@app.route("/login", methods=["POST"])
-def login_post():
-    email = request.form["email"]
-    password = request.form["password"]
-    user = session.query(User).filter_by(email=email).first()
-    if not user or not check_password_hash(user.password, password):
-        flash("Incorrect username or password", "danger")
-        return redirect(url_for("login_get"))
-
-    login_user(user)
-    return redirect(request.args.get('next') or url_for("fight"))
-
-@app.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for("welcome"))
