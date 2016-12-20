@@ -4,24 +4,26 @@ import manage
 import logging
 import os
 import sys
-import time
 import untangle
-from datetime import datetime
 from manage import session
 from fight_simulator import database, config, __init__, views
 from fight_simulator.database import User, Fighter, History
+from datetime import datetime
 
 promo = sys.argv[1].lower()
+
+def config_logger():
+    # Set log output file location and log level
+    ftime = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
+    log_name = promo + '_' + ftime
+    cwd = os.getcwd() + '/logs/'
+    logging.basicConfig(filename=(cwd + log_name + ".log"), level=logging.DEBUG)
 
 # UFC scraper
 # JSON data from API, some entries need optimization
 if promo == 'ufc':
     print('Scraping UFC fighters...')
-    time.sleep(3)
-
-    # Set log output file location and log level
-    ftime = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
-    logging.basicConfig(filename=promo + '_' + ftime + ".log", level=logging.DEBUG)
+    config_logger()
 
     response = requests.get("http://ufc-data-api.ufc.com/api/v3/iphone/fighters")
     txt = response.text
@@ -82,18 +84,11 @@ if promo == 'ufc':
 
 # Bellator scraper
 # XML data from Bellator 'API', some entries need optimization
-
 if promo == 'bellator':
     print('Scraping Bellator fighters...')
-    time.sleep(3)
-
-    # Set log output file location and log level
-    ftime = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
-    logging.basicConfig(filename=promo + '_' + ftime + ".log", level=logging.DEBUG)
-
-    xml = "http://api.spike.com/feeds/bellator/1.0/fighters?key=BELLATORAPPKEY&numberOfItems=188&pageNumber=1"
+    config_logger()
+    xml = "http://api.spike.com/feeds/bellator/1.0/fighters?key=BELLATORAPPKEY&numberOfItems=500&pageNumber=1"
     logging.info("Data request successful, XML loaded")
-
     bellator_f = untangle.parse(xml)
     logging.info("XML Untangled")
     fighters = bellator_f.fighters.fighter
@@ -127,9 +122,19 @@ if promo == 'bellator':
                     weight = "Light Heavyweight"
                 if 207 <= fweight:
                     weight = "Heavyweight"
+                try:
+                    height = fighter.height.cdata
+                    height = (int(height[0]) * 12) + int(height[2:])
+                except IndexError:
+                    height = None
+                try:
+                    dob = fighter.dob.cdata
+                except IndexError:
+                    dob = None
                 fighter = Fighter(
                     first_name = fighter.firstName.cdata,
                     last_name = fighter.lastName.cdata,
+                    dob = dob,
                     gender = gender,
                     promotion = "Bellator",
                     weight = weight,
@@ -137,11 +142,13 @@ if promo == 'bellator':
                     win = win,
                     loss = loss,
                     draw = draw,
+                    height = height,
                     )
-                count += 1
                 session.add(fighter)
-        except KeyError:
+                count += 1
+        except IndexError as inst:
             print('Error adding: ' + fighter.firstName.cdata + ' ' + fighter.lastName.cdata)
+            print(type(inst), inst)
     session.commit()
     logging.info(str(count) + ' fighters added to DB')
     print(str(count) + ' fighters added to DB')
