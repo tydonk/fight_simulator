@@ -1,9 +1,9 @@
-from sqlalchemy import create_engine, ForeignKey, Column, Integer, String, Text, DateTime, Table, Boolean
+import datetime
+from sqlalchemy import create_engine, ForeignKey, Column, Integer, String, Text, Date, Table, Boolean
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from . import app
 from flask_login import UserMixin
-import datetime
 
 engine = create_engine(app.config["SQLALCHEMY_DATABASE_URI"])
 Base = declarative_base()
@@ -18,6 +18,7 @@ class Fighter(Base):
     last_name = Column(String(1024), nullable=False)
     nickname = Column(String(1024))
     gender = Column(String(128), nullable=False)
+    dob = Column(Date)
     age = Column(Integer)
     promotion = Column(String(1024), nullable=False)
     fighter_image = Column(String(1024))
@@ -35,6 +36,7 @@ class Fighter(Base):
             "last_name": self.last_name,
             "nickname": self.nickname,
             "gender": self.gender,
+            #"dob": self.dob,
             "age": self.age,
             "promotion": self.promotion,
             "fighter_image": self.fighter_image,
