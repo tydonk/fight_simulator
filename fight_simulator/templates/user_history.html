@@ -7,7 +7,7 @@
     <h1>User History</h1>
   </div>
   <div class="col-md-12">
-    <div class="panel panel-info">
+    <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Fights simulated by {{ current_user.email }}</h3>
       </div>
@@ -31,10 +31,35 @@
             {% endfor %}
           </tbody>
         </table>
+        {% if count > 10 %}
+        <nav aria-label="User history results">
+          <ul class="pagination text-center">
+            {% if has_prev %}
+            <li>
+              <a href="{{ url_for('user_history', page=page-1) }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {% endif %}
+            {% set count=1 %}
+            {% for page in range(0, total_pages) %}
+              <li><a href="{{ url_for('user_history') }}/{{count}}">{{ count }}</a></li>
+              {% set count=count+1 %}
+            {% endfor %}
+            {% if has_next %}
+            <li>
+              <a href="{{ url_for('user_history', page=page+1) }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
       </div>
     </div>
     <form id="delete_history" role="form" method="POST">
-      <button id="clear_history" type="submit" class="btn btn-info btn-lg center-block">Clear history</button>
+      <button id="clear_history" type="submit" class="btn btn-primary btn-lg center-block">Clear history</button>
     </form>
   </div>
 </div>
