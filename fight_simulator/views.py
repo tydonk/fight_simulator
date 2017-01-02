@@ -10,7 +10,7 @@ from random import randint
 import random
 from .login import login_manager
 
-@app.route("/", methods=["GET"])
+@app.route("/")
 def welcome():
     return render_template("welcome.html")
 
