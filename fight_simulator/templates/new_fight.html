@@ -100,7 +100,20 @@
       </div>
 
       <div class="col-md-2">
-        <h1 id="vs" class="text-center">VS.</h1>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h2 class="panel-title text-center">Fight Settings</h2>
+          </div>
+          <div class="panel-body text-center">
+            <div class="radio">
+              <label><input type="radio" name="optradio">3 Rounds</label>
+            </div>
+            <div class="radio">
+              <label><input type="radio" name="optradio">5 Rounds</label>
+            </div>
+          </div>
+        </div>
+        <h1 id="vs" class="text-center" style="padding-top:1em">VS.</h1>
         <button id="fight" type="button" class="btn btn-default btn-lg btn-block">FIGHT!</button>
         <input id="fsubmit" type="submit" style="display:none;" name="Submit"></input>
       </div>
@@ -112,6 +125,10 @@
           </div>
           <div id="blue_corner" class="panel-body corner blue_side">
             <div class="row">
+              <div class="col-md-6">
+                <img src="../static/images/Body-1.png"
+                  id="blue_img" class="img-responsive profile_image" alt="Responsive image">
+              </div>
               <div class="col-md-6">
                 <ul class="list-group">
                   <li class="list-group-item">
@@ -138,10 +155,6 @@
                   </li>
                   <button id="blue_reset" type="button" class="btn btn-info btn btn-block">Reset Blue Corner</button>
                 </ul>
-              </div>
-              <div class="col-md-6">
-                <img src="../static/images/Body-1.png"
-                  id="blue_img" class="img-responsive profile_image" alt="Responsive image">
               </div>
             </div>
             <div class="row">
