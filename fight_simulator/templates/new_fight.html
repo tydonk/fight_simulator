@@ -18,7 +18,7 @@
   {% endif %}
   <div class="row">
     <div id="illegal_alert" class="alert alert-danger text-center" style="display:none;" role="alert">
-      Fighters must be different, select again.
+      Invalid selection, try again.
     </div>
     <form action="{{ url_for('return_results') }}" method="POST">
       <div class="col-md-5">
@@ -98,24 +98,23 @@
           </div>
         </div>
       </div>
-
       <div class="col-md-2">
-        <div class="panel panel-default">
+        <h1 id="vs" class="text-center" style="margin-top:-2em">VS.</h1>
+        <button id="fight" type="button" class="btn btn-default btn-lg btn-block">FIGHT!</button>
+        <input id="fsubmit" type="submit" style="display:none;" name="Submit"></input>
+        <div class="panel panel-default" style="margin-top:4em">
           <div class="panel-heading">
             <h2 class="panel-title text-center">Fight Settings</h2>
           </div>
           <div class="panel-body text-center">
             <div class="radio">
-              <label><input type="radio" name="optradio">3 Rounds</label>
+              <label><input type="radio" name="rounds" value="3" checked="checked">3 Rounds</label>
             </div>
             <div class="radio">
-              <label><input type="radio" name="optradio">5 Rounds</label>
+              <label><input type="radio" name="rounds" value="5">5 Rounds</label>
             </div>
           </div>
         </div>
-        <h1 id="vs" class="text-center" style="padding-top:1em">VS.</h1>
-        <button id="fight" type="button" class="btn btn-default btn-lg btn-block">FIGHT!</button>
-        <input id="fsubmit" type="submit" style="display:none;" name="Submit"></input>
       </div>
 
       <div class="col-md-5">
