@@ -94,7 +94,9 @@ def return_results():
     ]
 
     # Generate random round and time
-    end_round = randint(1,3)
+    rnd_req = request.form['rounds']
+    rnd_req = int(rnd_req)
+    end_round = randint(1,rnd_req)
     minute = randint(0,4)
     second_1 = randint(0,5)
     second_2 = randint(1,9)
@@ -106,7 +108,7 @@ def return_results():
         method = method + " ({})".format(random.choice(submissions))
     elif len(method.split(" ")) == 2:
         if (method.split(" ")[1]) == "Decision":
-            end_round = "3"
+            end_round = rnd_req
             end_time = "5:00"
 
     # Get matched fighters from client
