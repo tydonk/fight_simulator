@@ -42,8 +42,10 @@ def return_results():
         return record
 
     def calc_win_perc(record):
-        win_percent = (record[0] + (record[2] * .5)) / (record[0] + record[1] + record[2]) * 100
-        win_percent = round(win_percent)
+        wins = record[0]
+        losses = record[1]
+        draws = record[2]
+        win_percent = round((wins + (draws * .5)) / (wins + losses + draws) * 100)
         return win_percent
 
     def calc_new_win_perc(fighter):
