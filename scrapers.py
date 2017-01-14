@@ -31,11 +31,11 @@ if promo == 'ufc':
     fighters = json.loads(txt)
     logging.info("Data request successful, JSON loaded")
     count = 0
+    entry_count = 0
 
     for fighter in fighters:
         try:
-            last_name = fighter['last_name']
-            first_name = fighter['first_name']
+            entry_count += 1
             nickname = fighter['nickname']
             weight = fighter['weight_class']
             promotion = 'UFC'
@@ -44,40 +44,40 @@ if promo == 'ufc':
             loss = fighter['losses']
             draw = fighter['draws']
             fighter_image = fighter['profile_image']
-            if all(x != last_name.lower() for x in ('null', 'to be announced',
-                                                    'to be determined',
-                                                    'tbd', None
+            if all(x != fighter['last_name'].lower() for x in ('null', 'to be announced',
+                                                    'to be determined', 'tbd',
+                                                    None
                                                     )
                 ):
-                if all(x != first_name.lower() for x in ('null', 'to be determined',
+                if all(x != fighter['first_name'].lower() for x in ('null', 'to be determined',
                                                          '...')
                     ):
-                    if fighter['nickname'] != "null":
-                        if fighter['wins'] != "null":
-                            if fighter['losses'] != "null":
-                                if fighter['draws'] != "null":
-                                    if fighter['weight_class'] != None:
-                                        fighter = Fighter(
-                                            first_name = first_name.rstrip(),
-                                            last_name = last_name.rstrip(),
-                                            nickname = nickname,
-                                            promotion = promotion,
-                                            gender = gender,
-                                            weight = weight.replace("_", " "),
-                                            win = win,
-                                            loss = loss,
-                                            draw = draw,
-                                            fighter_image = fighter_image,
-                                            )
-                                        if "Women" in fighter.weight:
-                                            fighter.gender = "female"
-                                            fighter.weight = fighter.weight.split(' ')[1]
-                                        else:
-                                            fighter.gender = "male"
-                                        count += 1
-                                        session.add(fighter)
-        except KeyError:
-            print('Error adding: ' + first_name + ' ' + last_name)
+                    if (fighter['nickname'] != "null" and
+                            fighter['wins'] != "null" and
+                            fighter['losses'] != "null" and
+                            fighter['draws'] != "null" and
+                            fighter['weight_class'] != None):
+                                fighter = Fighter(
+                                    first_name = fighter['first_name'].rstrip(),
+                                    last_name = fighter['last_name'].rstrip(),
+                                    nickname = fighter['nickname'],
+                                    promotion = promotion,
+                                    gender = gender,
+                                    weight = weight.replace("_", " "),
+                                    win = win,
+                                    loss = loss,
+                                    draw = draw,
+                                    fighter_image = fighter_image,
+                                    )
+                                if "Women" in fighter.weight:
+                                    fighter.gender = "female"
+                                    fighter.weight = fighter.weight.split(' ')[1]
+                                else:
+                                    fighter.gender = "male"
+                                count += 1
+                                session.add(fighter)
+        except (KeyError, AttributeError):
+            print(entry_count)
     session.commit()
     logging.info(str(count) + ' fighters added to DB')
     print(str(count) + ' fighters added to DB')
