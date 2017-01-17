@@ -345,7 +345,7 @@ function ui_set_weight_by_promotion(corner, gender, promotion) {
   var weight_sel = corners[side].getElementsByTagName('select')[_weight_menu];
   $(weight_sel).empty().selectpicker('refresh');
 
-  var ufc_fweights = ["Strawweight", "Bantamweight"];
+  var ufc_fweights = ["Strawweight", "Bantamweight", "Featherweight"];
   var ufc_mweights = ["Flyweight", "Bantamweight", "Featherweight", "Lightweight",
       "Welterweight", "Middleweight", "Light Heavyweight", "Heavyweight"];
   var bellator_fweights = ["Strawweight", "Flyweight", "Bantamweight", "Featherweight"];
