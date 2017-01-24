@@ -1,4 +1,5 @@
 import os
+
 class DevelopmentConfig(object):
     SQLALCHEMY_DATABASE_URI = "postgresql://localhost:5432/fight_simulator_db"
     DEBUG = True
