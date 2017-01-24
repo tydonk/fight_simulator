@@ -64,6 +64,8 @@ class TestViews(unittest.TestCase):
         self.browser.fill("password", "testpass")
         button = self.browser.find_by_css("button[type=submit]")
         button.click()
+        login_link = self.browser.is_element_present_by_text('Login')
+        self.assertTrue(login_link)
         self.assertEqual(self.browser.url, "http://127.0.0.1:8080/login")
 
     def test_logout(self):
