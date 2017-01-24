@@ -188,6 +188,7 @@ def return_results():
     return Response(render_template("results.html",
                     data=data, results=results, mimetype="application/json"))
 
+""" User history endpoints """
 @app.route("/user_history", methods=["GET"])
 @app.route("/user_history/<int:page>")
 @login_required
@@ -233,6 +234,7 @@ def clear_history():
     session.commit()
     return redirect(url_for("user_history"))
 
+""" Login/Registration endpoints """
 @app.route("/create_user", methods=["GET"])
 def create_user_get():
     return render_template("create_user.html")
@@ -277,7 +279,7 @@ def logout():
     logout_user()
     return redirect(url_for("welcome"))
 
-# API endpoints
+""" API endpoints """
 @app.route("/api/fighters", methods=["GET"])
 @decorators.accept("application/json")
 def fighters_all():
