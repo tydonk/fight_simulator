@@ -17,6 +17,8 @@ class TestViews(unittest.TestCase):
     def setUp(self):
         """ Test setup """
         self.browser = Browser("phantomjs")
+        # Resize browser window to make sure all elements are visible for tests
+        self.browser.driver.set_window_size(1920, 1080)
 
         # Set up the tables in the database
         Base.metadata.create_all(engine)
@@ -51,6 +53,8 @@ class TestViews(unittest.TestCase):
         self.browser.fill("password", "testpass")
         button = self.browser.find_by_css("button[type=submit]")
         button.click()
+        login_link = self.browser.is_element_present_by_text('Login')
+        self.assertFalse(login_link)
         self.assertEqual(self.browser.url, "http://127.0.0.1:8080/fight")
 
     def test_login_incorrect(self):
@@ -61,6 +65,13 @@ class TestViews(unittest.TestCase):
         button = self.browser.find_by_css("button[type=submit]")
         button.click()
         self.assertEqual(self.browser.url, "http://127.0.0.1:8080/login")
+
+    def test_logout(self):
+        self.test_login_correct()
+        self.browser.click_link_by_partial_href('logout')
+        logout_link = self.browser.is_element_present_by_text('Logout')
+        self.assertFalse(logout_link)
+        self.assertEqual(self.browser.url, "http://127.0.0.1:8080/")
 
     def tearDown(self):
         """ Test teardown """
