@@ -1,4 +1,6 @@
 import json
+import random
+
 from flask import render_template, request, redirect, url_for, flash, Response
 from . import app, decorators
 from .database import session, User, Fighter, History
@@ -7,7 +9,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from jsonschema import validate, ValidationError
 from datetime import datetime
 from random import randint
-import random
 from .login import login_manager
 
 @app.route("/")
