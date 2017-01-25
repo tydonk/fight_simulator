@@ -240,7 +240,6 @@ function ui_apply_gender_filter(corner, gender) {
   $(weight_menu_sel).selectpicker('val', 'Weight');
   $(fighter_menu_sel).empty().selectpicker('refresh');
 
-  //var fighters = get_fighters_by_gender(gender);
   $.getJSON('/api/fighters/' + gender, function(data) {
     var fighters = data;
 
@@ -270,7 +269,6 @@ function ui_apply_promotion_filter(corner, gender, promotion) {
   $(weight_menu_sel).selectpicker('val', 'Weight');
   $(fighter_menu_sel).empty().selectpicker('refresh');
 
-  //var fighters = get_fighters_by_promotion(promotion);
   $.getJSON('/api/fighters/' + gender + '/' + promotion + '/', function(data) {
     var fighters = data;
 
@@ -296,7 +294,6 @@ function ui_apply_weight_filter(corner, gender, promotion, weight) {
   var _fighter_menu = 3;
   var fighter_menu_sel = corners[side].getElementsByTagName('select')[_fighter_menu];
   $(fighter_menu_sel).empty().selectpicker('refresh');
-  //var fighters = get_fighters_by_weight(weight);
   $.getJSON('/api/fighters/' + gender + '/' + promotion + '/' + weight + '/', function(data) {
     var fighters = data;
     for (var i=0; i<fighters.length; ++i) {
@@ -417,13 +414,12 @@ function ui_load_fighter_info(corner, name) {
   var _weight_menu = 2;
   var _fighter_menu = 3;
 
-  //var fighters = get_fighters_by_name(name);
-  var name = name.split(', ')[0] + '/' + name.split(', ')[1] + '/';
-  $.getJSON('/api/fighters/name/' + name, function(data) {
+  var name = name.split(', ')[0] + '/' + name.split(', ')[1];
+  $.getJSON('/api/fighter/name/' + name, function(data) {
     var fighters = data;
 
     for (var i=0; i<fighters.length; ++i) {
-      var full_name = fighters[i].last_name + '/' + fighters[i].first_name + '/';
+      var full_name = fighters[i].last_name + '/' + fighters[i].first_name;
       if (full_name === name) {
         var fighter = fighters[i];
 
@@ -457,8 +453,8 @@ function validate_fight(red_fighter, blue_fighter) {
   var blue_fighter = blue_fighter_val.split(', ')[0] + '/' + blue_fighter_val.split(', ')[1] + '/';
   ensure_selection(red_fighter_val, blue_fighter_val);
 
-  $.getJSON('/api/fighters/name/' + red_fighter, function(redAPI) {
-    $.getJSON('/api/fighters/name/' + blue_fighter, function(blueAPI) {
+  $.getJSON('/api/fighter/name/' + red_fighter, function(redAPI) {
+    $.getJSON('/api/fighter/name/' + blue_fighter, function(blueAPI) {
       if (validate_pairs(redAPI[0].id, blueAPI[0].id)) {
         $('#illegal_alert').show();
         console.log("fight is illegal");

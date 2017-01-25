@@ -1,4 +1,6 @@
 import json
+import random
+
 from flask import render_template, request, redirect, url_for, flash, Response
 from . import app, decorators
 from .database import session, User, Fighter, History
@@ -7,7 +9,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from jsonschema import validate, ValidationError
 from datetime import datetime
 from random import randint
-import random
 from .login import login_manager
 
 @app.route("/")
@@ -31,8 +32,8 @@ def fight():
 
     # Alphabetize fighters
     data = sorted(data, key=lambda k: k['last_name'])
-    return Response(render_template("new_fight.html",
-                    data=data, mimetype="application/json"))
+    return Response(render_template("fight.html",
+                    data=data, mimetype="application/json"), 200)
 
 @app.route("/fight", methods=["GET", "POST"])
 @decorators.accept("application/json")
@@ -185,8 +186,9 @@ def return_results():
         session.commit()
 
     return Response(render_template("results.html",
-                    data=data, results=results, mimetype="application/json"))
+                    data=data, results=results, mimetype="application/json"), 201)
 
+""" User history endpoints """
 @app.route("/user_history", methods=["GET"])
 @app.route("/user_history/<int:page>")
 @login_required
@@ -220,7 +222,7 @@ def user_history(page=1):
         has_prev=has_prev,
         total_pages=total_pages,
         count=count,
-        mimetype="application/json"))
+        mimetype="application/json"), 200)
 
 @app.route("/user_history", methods=["POST"])
 @login_required
@@ -232,6 +234,7 @@ def clear_history():
     session.commit()
     return redirect(url_for("user_history"))
 
+""" Login/Registration endpoints """
 @app.route("/create_user", methods=["GET"])
 def create_user_get():
     return render_template("create_user.html")
@@ -276,7 +279,7 @@ def logout():
     logout_user()
     return redirect(url_for("welcome"))
 
-# API endpoints
+""" API endpoints """
 @app.route("/api/fighters", methods=["GET"])
 @decorators.accept("application/json")
 def fighters_all():
@@ -285,24 +288,24 @@ def fighters_all():
     data = [fighter.as_dictionary() for fighter in fighters]
     data = sorted(data, key=lambda k: k['last_name'])
     data = json.dumps(data)
-    return Response(data, mimetype="application/json")
+    return Response(data, 200, mimetype="application/json")
 
-@app.route("/api/fighters/<int:id>/", methods=["GET"])
+@app.route("/api/fighter/<int:id>/", methods=["GET"])
 @decorators.accept("application/json")
 def fighter_by_id(id):
     ''' Return fighter by id '''
     fighters = session.query(Fighter).filter(Fighter.id == id).all()
     data = json.dumps([fighter.as_dictionary() for fighter in fighters])
-    return Response(data, mimetype="application/json")
+    return Response(data, 200, mimetype="application/json")
 
-@app.route("/api/fighters/name/<last_name>/<first_name>/", methods=["GET"])
+@app.route("/api/fighter/name/<last_name>/<first_name>/", methods=["GET"])
 @decorators.accept("application/json")
 def fighter_by_name(last_name, first_name):
     ''' Return fighter by name '''
     fighters = session.query(Fighter).filter(Fighter.last_name == last_name,
                                              Fighter.first_name == first_name).all()
     data = json.dumps([fighter.as_dictionary() for fighter in fighters])
-    return Response(data, mimetype="application/json")
+    return Response(data, 200, mimetype="application/json")
 
 @app.route("/api/fighters/<gender>/", methods=["GET"])
 @decorators.accept("application/json")
@@ -312,7 +315,7 @@ def fighters_by_gender(gender):
     data = [fighter.as_dictionary() for fighter in fighters]
     data = sorted(data, key=lambda k: k['last_name'])
     data = json.dumps(data)
-    return Response(data, mimetype="application/json")
+    return Response(data, 200, mimetype="application/json")
 
 @app.route("/api/fighters/<gender>/<promotion>/", methods=["GET"])
 @decorators.accept("application/json")
@@ -322,7 +325,7 @@ def fighters_gender_promotion(gender, promotion):
     data = [fighter.as_dictionary() for fighter in fighters]
     data = sorted(data, key=lambda k: k['last_name'])
     data = json.dumps(data)
-    return Response(data, mimetype="application/json")
+    return Response(data, 200, mimetype="application/json")
 
 @app.route("/api/fighters/<gender>/<promotion>/<weight>/", methods=["GET"])
 @decorators.accept("application/json")
@@ -335,4 +338,4 @@ def fighters_gender_promotion_weight(gender, promotion, weight):
     data = [fighter.as_dictionary() for fighter in fighters]
     data = sorted(data, key=lambda k: k['last_name'])
     data = json.dumps(data)
-    return Response(data, mimetype="application/json")
+    return Response(data, 200, mimetype="application/json")

@@ -46,6 +46,7 @@
 					<ul class="nav navbar-nav">
 
 						{% if not current_user.is_authenticated %}
+            <li><a href="{{ url_for('fight') }}">Fight</a></li>
 						<li><a href="{{ url_for('create_user_get') }}">Register</a></li>
 						<li><a href="{{ url_for('login_get') }}">Login</a></li>
 						<li><a href="{{ url_for('how_it_works') }}">Instructions</a></li>

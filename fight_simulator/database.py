@@ -36,7 +36,6 @@ class Fighter(Base):
             "last_name": self.last_name,
             "nickname": self.nickname,
             "gender": self.gender,
-            #"dob": self.dob,
             "age": self.age,
             "promotion": self.promotion,
             "fighter_image": self.fighter_image,
@@ -46,7 +45,7 @@ class Fighter(Base):
             "loss": self.loss,
             "draw": self.draw,
             "no_contest": self.no_contest,
-        }
+            }
         return fighter
 
 class User(Base, UserMixin):
@@ -86,7 +85,7 @@ class History(Base):
             "end_time": self.end_time,
             "method": self.method,
             "user_id": self.user_id,
-        }
+            }
         return results
 
 Base.metadata.create_all(engine)
