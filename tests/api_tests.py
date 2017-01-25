@@ -266,6 +266,55 @@ class TestAPI(unittest.TestCase):
         """
         Get all fighters with a specific gender, promotion and weight class
         """
+        fighterA = Fighter(
+                        first_name='Jon',
+                        last_name='Jones',
+                        gender='male',
+                        promotion='UFC',
+                        weight='Light Heavyweight',
+                        win=20,
+                        loss=1,
+                        )
+        fighterB = Fighter(
+                        first_name='Michael',
+                        last_name='Chandler',
+                        gender='male',
+                        promotion='Bellator',
+                        weight='Lightweight',
+                        win=22,
+                        loss=3,
+                        )
+        fighterC = Fighter(
+                        first_name='Amanda',
+                        last_name='Nunes',
+                        gender='female',
+                        promotion='UFC',
+                        weight='Bantamweight',
+                        win=14,
+                        loss=4,
+                        )
+        session.add_all([fighterA, fighterB, fighterC])
+        session.commit()
+
+        response = self.client.get(
+            "/api/fighters/{}/{}/{}/".format(
+                                            fighterB.gender,
+                                            fighterB.promotion,
+                                            fighterB.weight
+                                            ),
+            headers=[("Accept", "application/json")]
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.mimetype, "application/json")
+
+        fighters = json.loads(response.data.decode("ascii"))
+        self.assertEqual(len(fighters), 1)
+
+        fighterA = fighters[0]
+        self.assertEqual(fighterA['gender'], 'male')
+        self.assertEqual(fighterA['promotion'], 'Bellator')
+        self.assertEqual(fighterA['weight'], 'Lightweight')
 
     def tearDown(self):
         """ Test teardown """
