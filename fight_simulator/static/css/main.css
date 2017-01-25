@@ -4,11 +4,11 @@ div.metadata {
 }
 
 #blue_corner {
-	background-color: #2980B9;
+	background-color: #42423B;
 }
 
 #red_corner {
-	background-color: #C0392B;
+	background-color: #42423B;
 }
 
 #vs {
@@ -50,6 +50,10 @@ body {
 	padding-top: 1em;
 }
 
+#illegal_alert {
+	font-size: 1.5em;
+}
+
 .navbar-brand {
   padding: 0px; /* firefox bug fix */
 }
@@ -73,12 +77,12 @@ body {
 	border-right: 0;
 }
 
-#illegal_alert {
-	font-size: 1.5em;
-}
-
 .panel-body {
 	padding-bottom: 0.5em;
+}
+
+.panel {
+	border: 1.5px solid black;
 }
 
 .table th {
