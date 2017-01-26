@@ -21,7 +21,9 @@ class Fighter(Base):
     dob = Column(Date)
     age = Column(Integer)
     promotion = Column(String(1024), nullable=False)
-    fighter_image = Column(String(1024))
+    profile_image = Column(String(1024))
+    right_full = Column(String(1024))
+    left_full = Column(String(1024))
     height = Column(Integer)
     weight = Column(String(128), nullable=False)
     win = Column(Integer, nullable=False)
@@ -38,7 +40,9 @@ class Fighter(Base):
             "gender": self.gender,
             "age": self.age,
             "promotion": self.promotion,
-            "fighter_image": self.fighter_image,
+            "profile_image": self.profile_image,
+            "right_full": self.right_full,
+            "left_full": self.left_full,
             "height": self.height,
             "weight": self.weight,
             "win": self.win,
