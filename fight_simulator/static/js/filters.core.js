@@ -10,7 +10,7 @@ function ensure_selection(red_fighter, blue_fighter) {
     $('#illegal_alert').show();
     console.log("fight is illegal");
     return;
-  }  
+  }
 }
 
 function validate_pairs(red_fighter, blue_fighter) {
@@ -30,7 +30,8 @@ function get_weight_class(fighter) {
 }
 
 function get_img_path(fighter) {
-  return fighter.fighter_image;
+
+  return fighter.profile_image;
 }
 
 function get_fighter_name(fighter) {
