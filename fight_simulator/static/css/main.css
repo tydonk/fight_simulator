@@ -69,16 +69,8 @@ body {
 	margin-top: 1em;
 }
 
-
-.profile_image {
-	border: 0.3em solid black;
-	border-top: 0;
-	border-left: 0;
-	border-right: 0;
-}
-
 .panel-body {
-	padding-bottom: 0.5em;
+	padding-bottom: 0em;
 }
 
 .panel {
@@ -87,4 +79,8 @@ body {
 
 .table th {
 	text-align: center;
+}
+
+#login-btn {
+	margin-bottom: 1em;
 }
