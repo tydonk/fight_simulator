@@ -1,11 +1,12 @@
-{% extends "new_fight.html" %}
+{% extends "fight.html" %}
 {% block js_content %}
 
 <script src="../static/js/filters.core.js"></script>
 <script src="../static/js/selectors.core.js"></script>
 <script>
 None = "";
-resultsData = {{ results|safe }};
+resultsData = {{ results|safe }}
+
 for (var i=0; i<resultsData.length; ++i) {
   results = resultsData[i];
 }
@@ -48,7 +49,7 @@ function reload_menu_data() {
 }
 
 function change_button() {
-  $('#fight').replaceWith('<a href="/fight" class="btn btn-danger btn-lg btn-block" role="button">Start Over</a>');
+  $('#fight').replaceWith('<a href="/fight" class="btn btn-danger btn-lg btn-block" role="button">Fight Again</a>');
 }
 
 function disable_menus_btns() {
