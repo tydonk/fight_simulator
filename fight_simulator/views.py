@@ -180,8 +180,6 @@ def return_results():
     red_total = red_win_perc + red_mp
     blue_total = blue_win_perc + blue_mp
 
-    print('red: {}, blue: {}'.format(red_total, blue_total))
-
     if red_total > blue_total:
         winner = red_fighter_req
     elif red_total == blue_total:
