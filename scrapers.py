@@ -100,7 +100,7 @@ if promo == 'ufc':
 if promo == 'bellator':
     print('Scraping Bellator fighters...')
     config_logger()
-    xml = "http://api.spike.com/feeds/bellator/1.0/fighters?key=BELLATORAPPKEY&numberOfItems=500&pageNumber=1"
+    xml = "http://api.spike.com/feeds/bellator/1.0/fighters?key=BELLATORAPPKEY&numberOfItems=500"
     logging.info("Data request successful, XML loaded")
     bellator_f = untangle.parse(xml)
     logging.info("XML Untangled")
