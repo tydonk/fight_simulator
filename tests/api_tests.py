@@ -33,6 +33,10 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(data["message"],
                          "Request must accept application/json data")
 
+    def test_unsupported_mimetype(self):
+        data = "<xml></xml>"
+        response = self.client.post("/api/fighters")
+
     def test_get_empty_fighters(self):
         """ Get fighters from empty database """
         response = self.client.get("/api/fighters",
