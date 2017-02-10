@@ -11,7 +11,7 @@ from fight_simulator import app
 from fight_simulator.database import Base, engine, session, User, Fighter
 
 class TestAPI(unittest.TestCase):
-    """ Tests for the simulator API """
+    """ Tests for the API endpoints """
 
     def setUp(self):
         """ Test setup """

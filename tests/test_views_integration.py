@@ -29,10 +29,6 @@ class TestViews(unittest.TestCase):
             http_session["user_id"] = str(self.user.id)
             http_session["_fresh"] = True
 
-    def test_API_load_fighter(self):
-        pass
-
-
     def tearDown(self):
         """ Test teardown """
         session.close()
