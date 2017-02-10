@@ -1,0 +1,13 @@
+language: python
+python:
+    - "3.5"
+install: python3 -m install -r requirements.txt
+env:
+    - CONFIG_PATH=fight_simulator.config.TravisConfig
+before_script:
+    - psql -c 'create database "fight_simulator_test";' -U postgres
+script:
+    - PYTHONPATH=. python3 tests/api_tests.py
+    - PYTHONPATH=. python3 tests/acceptance_tests.py
+    - PYTHONPATH=. python3 tests/integration_tests.py
+
