@@ -27,34 +27,49 @@ def fight():
 @decorators.accept("application/json")
 def return_results():
     def get_fighter_record(fighter):
+        """Return fighter record for calculating win percentage."""
         record = [fighter.win, fighter.loss, fighter.draw]
         return record
 
     def calc_win_perc(record):
+        """Calculate fighter win percentage based on record."""
         wins = record[0]
         losses = record[1]
         draws = record[2]
-        win_percent = round((wins + (draws * .5)) / (wins + losses + draws) * 100)
+        win_percent = round((wins+(draws*.5))/(wins+losses+draws)*100)
         return win_percent
 
     def weight_multiplier(fighter):
-        """ Weight class multipliers """
+        """Return weight multiplier for fighter.
+
+        To account for weight discrepencies, fighters who are 2 or more weight
+        classes above their opponent will receive a bonus, based on the
+        following chart:
+
+        Classes apart| Bonus amount
+        ---------------------------
+            <=1      | no bonus
+            2-3      | +5
+            4-5      | +10
+            6-7      | +15
+        """
+
         mp = [
             'Strawweight','Flyweight','Bantamweight','Featherweight',
             'Lightweight','Welterweight','Middleweight','Light Heavyweight',
             'Heavyweight'
-            ]
+        ]
 
-        # Weight class index will be used as a multiplier
-        # to account for size differences
         weight_multi = mp.index(fighter.weight) + 1
         return weight_multi
 
     def calc_new_win_perc(fighter):
+        """Return win percentage using fighter record and user history."""
         name = fighter.last_name + ", " + fighter.first_name
         winners = []
         losers = []
-        history_all = session.query(History).filter(History.user_id == current_user.id).all()
+        history_all = session.query(History).filter(
+                History.user_id == current_user.id).all()
         for each in history_all:
             if each.blue_corner == each.winner:
                 winners.append(each.blue_corner)
@@ -76,14 +91,14 @@ def return_results():
         new_win_perc = calc_win_perc(new_record)
         return new_win_perc
 
-    """ Get current date """
+    """Get current date."""
     now = datetime.now()
     year = now.year
     month = now.month
     day = now.day
     current_date = '{}/{}/{}'.format(month, day, year)
 
-    """ List of outcomes and submissions for generating random results """
+    # List of outcomes and submissions for generating random results
     outcomes = [
         "Knockout", "Technical Knockout", "Submission",
 		"Doctor Stoppage", "Unanimous Decision",
@@ -97,7 +112,7 @@ def return_results():
         "twister", "achilles lock", "bicep slicer", "leg slicer"
     ]
 
-    """ Generate random round and time """
+    # Generate random round and time for fight results
     rnd_req = request.form['rounds']
     rnd_req = int(rnd_req)
     end_round = randint(1,rnd_req)
@@ -106,7 +121,7 @@ def return_results():
     second_2 = randint(1,9)
     end_time = "{}:{}{}".format(minute, second_1, second_2)
 
-    """ Generate random result method and account for specific results """
+    # Generate random result method and account for specific results
     method = random.choice(outcomes)
     if method == "Submission":
         method = method + " ({})".format(random.choice(submissions))
@@ -115,17 +130,17 @@ def return_results():
             end_round = rnd_req
             end_time = "5:00"
 
-    """ Get matched fighters from client """
+    # Get matched fighters from client
     red_fighter_req = request.form['red_name']
     blue_fighter_req = request.form['blue_name']
 
-    """ Get fighters from database """
+    # Get fighters from database
     data = []
     fighter_data = session.query(Fighter).all()
     for fighter in fighter_data:
         data.append(fighter.as_dictionary())
 
-    """ Match fighters to database to access properties """
+    # Match fighters to database to access properties
     for fighter in fighter_data:
         full_name = fighter.last_name + ", " + fighter.first_name
         if full_name == red_fighter_req:
@@ -144,17 +159,10 @@ def return_results():
                 blue_record = get_fighter_record(blue_fighter)
                 blue_win_perc = calc_win_perc(blue_record)
 
-    """
-    Apply bonus based on weight classes.
-    Bonus based on classes apart:
-        <=1 | no bonus
-        2-3 | +5
-        4-5 | +10
-        6-7 | +15
+    # Apply bonus based on weight classes.
+    # Then determine a winner based on win %.
+    # Prevent draw by selecting random fighter is win % is equal.
 
-    Then determine a winner based on win %. Prevent draw by selecting random
-    fighter is win % is equal
-    """
     red_mp = weight_multiplier(red_fighter)
     blue_mp = weight_multiplier(blue_fighter)
     mp_diff = red_mp - blue_mp
@@ -191,7 +199,7 @@ def return_results():
     red_fighter = red_fighter.as_dictionary()
     blue_fighter = blue_fighter.as_dictionary()
 
-    """ Load results in dictionary form """
+    # Load results in dictionary form
     result = [
         {'winner': winner,
         'end_round': end_round,
@@ -202,7 +210,7 @@ def return_results():
         }
     ]
 
-    """ Add fight results to user history if user is logged in """
+    # Add fight results to user history if user is logged in
     if current_user.is_authenticated:
         history_entry = History(
             fight_date=current_date,
@@ -223,7 +231,6 @@ def return_results():
     return Response(render_template("results.html",
                     results=result, mimetype="application/json"), 201)
 
-""" User history endpoints """
 @app.route("/user_history", methods=["GET"])
 @app.route("/user_history/<int:page>")
 @login_required
@@ -262,6 +269,7 @@ def user_history(page=1):
 @app.route("/user_history", methods=["POST"])
 @login_required
 def clear_history():
+    """Change entries to invisible """
     user_id = current_user.id
     history = session.query(History).filter(History.user_id == user_id).all()
     for each in history:
@@ -269,16 +277,19 @@ def clear_history():
     session.commit()
     return redirect(url_for("user_history"))
 
-""" Login/Registration endpoints """
 @app.route("/create_user", methods=["GET"])
 def create_user_get():
+    """Return registration page."""
     return render_template("create_user.html")
 
 @app.route("/create_user", methods=["POST"])
 def create_user_post():
+    """Commit user credentials to database if they don't already exist."""
     email = request.form["email"]
     if session.query(User).filter_by(email=email).first():
-        flash("This email address is already in use, please choose another", "danger")
+        flash("This email address is already in use, please choose another",
+              "danger"
+        )
         return redirect(url_for("create_user_get"))
 
     password = request.form["password"]
@@ -294,31 +305,33 @@ def create_user_post():
 
 @app.route("/login", methods=["GET"])
 def login_get():
+    """Return login page."""
     return render_template("login.html")
 
 @app.route("/login", methods=["POST"])
 def login_post():
+    """Log user in if credentials match database."""
     email = request.form["email"]
     password = request.form["password"]
     user = session.query(User).filter_by(email=email).first()
     if not user or not check_password_hash(user.password, password):
         flash("Incorrect username or password", "danger")
         return redirect(url_for("login_get"))
-
     login_user(user)
     return redirect(request.args.get('next') or url_for("fight"))
 
 @app.route("/logout")
 @login_required
 def logout():
+    """Logout current user."""
     logout_user()
     return redirect(url_for("welcome"))
 
-""" API endpoints """
+"""API endpoints."""
 @app.route("/api/fighters", methods=["GET"])
 @decorators.accept("application/json")
 def fighters_all():
-    ''' Return all fighters '''
+    """Return all fighters."""
     fighters = session.query(Fighter).all()
     data = [fighter.as_dictionary() for fighter in fighters]
     data = sorted(data, key=lambda k: k['last_name'])
@@ -328,7 +341,7 @@ def fighters_all():
 @app.route("/api/fighter/<int:id>/", methods=["GET"])
 @decorators.accept("application/json")
 def fighter_by_id(id):
-    ''' Return fighter by id '''
+    """Return a fighter by their id."""
     fighters = session.query(Fighter).filter(Fighter.id == id).all()
     data = json.dumps([fighter.as_dictionary() for fighter in fighters])
     return Response(data, 200, mimetype="application/json")
@@ -336,16 +349,16 @@ def fighter_by_id(id):
 @app.route("/api/fighter/name/<last_name>/<first_name>/", methods=["GET"])
 @decorators.accept("application/json")
 def fighter_by_name(last_name, first_name):
-    ''' Return fighter by name '''
+    """Return a fighter by their full name."""
     fighters = session.query(Fighter).filter(Fighter.last_name == last_name,
-                                             Fighter.first_name == first_name).all()
+            Fighter.first_name == first_name).all()
     data = json.dumps([fighter.as_dictionary() for fighter in fighters])
     return Response(data, 200, mimetype="application/json")
 
 @app.route("/api/fighters/<gender>/", methods=["GET"])
 @decorators.accept("application/json")
 def fighters_by_gender(gender):
-    ''' Return fighters by gender '''
+    """Return fighters by gender."""
     fighters = session.query(Fighter).filter(Fighter.gender == gender).all()
     data = [fighter.as_dictionary() for fighter in fighters]
     data = sorted(data, key=lambda k: k['last_name'])
@@ -355,8 +368,9 @@ def fighters_by_gender(gender):
 @app.route("/api/fighters/<gender>/<promotion>/", methods=["GET"])
 @decorators.accept("application/json")
 def fighters_gender_promotion(gender, promotion):
-    ''' Return fighters by gender and promotion '''
-    fighters = session.query(Fighter).filter(Fighter.gender == gender, Fighter.promotion == promotion).all()
+    """Return fighters by gender and promotion."""
+    fighters = session.query(Fighter).filter(Fighter.gender == gender,
+            Fighter.promotion == promotion).all()
     data = [fighter.as_dictionary() for fighter in fighters]
     data = sorted(data, key=lambda k: k['last_name'])
     data = json.dumps(data)
@@ -365,7 +379,7 @@ def fighters_gender_promotion(gender, promotion):
 @app.route("/api/fighters/<gender>/<promotion>/<weight>/", methods=["GET"])
 @decorators.accept("application/json")
 def fighters_gender_promotion_weight(gender, promotion, weight):
-    ''' Return fighters by gender, promotion and weight '''
+    """Return fighters by gender, promotion and weight."""
     fighters = session.query(Fighter).filter(Fighter.gender == gender,
                                              Fighter.promotion == promotion,
                                              Fighter.weight == weight
