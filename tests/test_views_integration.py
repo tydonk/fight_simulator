@@ -8,7 +8,8 @@ from werkzeug.security import generate_password_hash
 os.environ["CONFIG_PATH"] = "fight_simulator.config.TestingConfig"
 
 from fight_simulator import app
-from fight_simulator.database import Base, engine, session, Fighter, User, History
+from fight_simulator.database import Base, engine, session, Fighter, User, \
+    History
 
 class TestViews(unittest.TestCase):
     def setUp(self):
@@ -24,10 +25,24 @@ class TestViews(unittest.TestCase):
         session.add(self.user)
         session.commit()
 
-    def simulate_login(self):
+    def test_simulate_login(self):
         with self.client.session.transaction() as http_session:
             http_session["user_id"] = str(self.user.id)
             http_session["_fresh"] = True
+
+    def test_get_fighter_record(self):
+        pass
+
+    def test_calc_win_perc(self):
+        pass
+
+    def test_calc_new_win_perc
+
+    def test_weight_multiplier(self):
+        pass
+
+    def test_fighter_matched_to_db(self):
+        pass
 
     def tearDown(self):
         """ Test teardown """
