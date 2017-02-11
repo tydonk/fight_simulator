@@ -26,7 +26,7 @@ class TestViews(unittest.TestCase):
         session.commit()
 
     def test_simulate_login(self):
-        with self.client.session.transaction() as http_session:
+        with self.client.session_transaction() as http_session:
             http_session["user_id"] = str(self.user.id)
             http_session["_fresh"] = True
 
