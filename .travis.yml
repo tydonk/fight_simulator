@@ -7,7 +7,7 @@ env:
 before_script:
     - psql -c 'create database "fight_simulator_test";' -U postgres
 script:
-    - PYTHONPATH=. python3 tests/api_tests.py
-    - PYTHONPATH=. python3 tests/acceptance_tests.py
-    - PYTHONPATH=. python3 tests/integration_tests.py
+    - PYTHONPATH=. python3 tests/test_api.py
+    - PYTHONPATH=. python3 tests/test_views_integration.py
+    - PYTHONPATH=. python3 tests/test_views_acceptance.py
 
