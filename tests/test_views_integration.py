@@ -36,7 +36,8 @@ class TestViews(unittest.TestCase):
     def test_calc_win_perc(self):
         pass
 
-    def test_calc_new_win_perc
+    def test_calc_new_win_perc(self):
+        pass
 
     def test_weight_multiplier(self):
         pass
