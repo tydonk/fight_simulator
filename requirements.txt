@@ -11,3 +11,4 @@ Werkzeug
 requests
 untangle
 gunicorn
+nose2
