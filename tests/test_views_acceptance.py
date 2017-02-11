@@ -23,11 +23,10 @@ class TestViews(unittest.TestCase):
         # Set up the tables in the database
         Base.metadata.create_all(engine)
 
-        self.process = multiprocessing.Process(target=app.run, kwargs={"port": 8080})
+        self.process = multiprocessing.Process(target=app.run,
+                                               kwargs={"port": 8080})
         self.process.start()
         time.sleep(1)
-
-    """ Acceptance tests for user and login system """
 
     def test_register_new_user(self):
         self.browser.visit("http://127.0.0.1:8080/create_user")
