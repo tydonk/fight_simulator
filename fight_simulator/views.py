@@ -15,11 +15,11 @@ from .login import login_manager
 def welcome():
     return render_template("welcome.html")
 
-@app.route("/howitworks", methods=["GET"])
+@app.route("/howitworks")
 def how_it_works():
     return render_template("how_it_works.html")
 
-@app.route("/fight", methods=["GET"])
+@app.route("/fight")
 def fight():
     return render_template("fight.html")
 
@@ -27,12 +27,12 @@ def fight():
 @decorators.accept("application/json")
 def return_results():
     def get_fighter_record(fighter):
-        """Return fighter record for calculating win percentage."""
+        """ Return fighter record for calculating win percentage """
         record = [fighter.win, fighter.loss, fighter.draw]
         return record
 
     def calc_win_perc(record):
-        """Calculate fighter win percentage based on record."""
+        """ Calculate fighter win percentage based on record """
         wins = record[0]
         losses = record[1]
         draws = record[2]
@@ -40,7 +40,7 @@ def return_results():
         return win_percent
 
     def weight_multiplier(fighter):
-        """Return weight multiplier for fighter.
+        """ Return weight multiplier for fighter.
 
         To account for weight discrepencies, fighters who are 2 or more weight
         classes above their opponent will receive a bonus, based on the
@@ -64,7 +64,7 @@ def return_results():
         return weight_multi
 
     def calc_new_win_perc(fighter):
-        """Return win percentage using fighter record and user history."""
+        """ Return win percentage using fighter record and user history """
         name = fighter.last_name + ", " + fighter.first_name
         winners = []
         losers = []
@@ -91,7 +91,7 @@ def return_results():
         new_win_perc = calc_win_perc(new_record)
         return new_win_perc
 
-    """Get current date."""
+    """ Get current date """
     now = datetime.now()
     year = now.year
     month = now.month
@@ -201,12 +201,15 @@ def return_results():
 
     # Load results in dictionary form
     result = [
-        {'winner': winner,
+        {
+        'fight_date': current_date,
+        'has_occured': True,
+        'red_corner': red_fighter,
+        'blue_corner': blue_fighter,
+        'winner': winner,
         'end_round': end_round,
         'end_time': end_time,
         'method': method,
-        'blue_fighter': blue_fighter,
-        'red_fighter': red_fighter
         }
     ]
 
@@ -228,10 +231,11 @@ def return_results():
         session.add(history_entry)
         session.commit()
 
+    result = json.dumps(result)
     return Response(render_template("results.html",
-                    results=result, mimetype="application/json"), 201)
+                    results=result), 201)
 
-@app.route("/user_history", methods=["GET"])
+@app.route("/user_history")
 @app.route("/user_history/<int:page>")
 @login_required
 @decorators.accept("application/json")
@@ -269,7 +273,7 @@ def user_history(page=1):
 @app.route("/user_history", methods=["POST"])
 @login_required
 def clear_history():
-    """Change entries to invisible """
+    """ Change entries to invisible """
     user_id = current_user.id
     history = session.query(History).filter(History.user_id == user_id).all()
     for each in history:
@@ -277,14 +281,14 @@ def clear_history():
     session.commit()
     return redirect(url_for("user_history"))
 
-@app.route("/create_user", methods=["GET"])
+@app.route("/create_user")
 def create_user_get():
     """Return registration page."""
     return render_template("create_user.html")
 
 @app.route("/create_user", methods=["POST"])
 def create_user_post():
-    """Commit user credentials to database if they don't already exist."""
+    """ Commit user credentials to database if they don't already exist """
     email = request.form["email"]
     if session.query(User).filter_by(email=email).first():
         flash("This email address is already in use, please choose another",
@@ -303,14 +307,14 @@ def create_user_post():
         flash("Password must be at least 8 characters", "danger")
         return redirect(url_for("create_user_post"))
 
-@app.route("/login", methods=["GET"])
+@app.route("/login")
 def login_get():
     """Return login page."""
     return render_template("login.html")
 
 @app.route("/login", methods=["POST"])
 def login_post():
-    """Log user in if credentials match database."""
+    """ Log user in if credentials match database """
     email = request.form["email"]
     password = request.form["password"]
     user = session.query(User).filter_by(email=email).first()
@@ -323,49 +327,59 @@ def login_post():
 @app.route("/logout")
 @login_required
 def logout():
-    """Logout current user."""
+    """ Logout current user """
     logout_user()
     return redirect(url_for("welcome"))
 
-"""API endpoints."""
-@app.route("/api/fighters", methods=["GET"])
+""" API endpoints """
+@app.route("/api/fighters")
 @decorators.accept("application/json")
 def fighters_all():
-    """Return all fighters."""
+    """ Return all fighters """
     fighters = session.query(Fighter).all()
     data = [fighter.as_dictionary() for fighter in fighters]
     data = sorted(data, key=lambda k: k['last_name'])
     data = json.dumps(data)
     return Response(data, 200, mimetype="application/json")
 
-@app.route("/api/fighter/<int:id>/", methods=["GET"])
+@app.route("/api/fighter/<int:id>/")
 @decorators.accept("application/json")
 def fighter_by_id(id):
-    """Return a fighter by their id."""
-    fighters = session.query(Fighter).filter(Fighter.id == id).all()
-    data = json.dumps([fighter.as_dictionary() for fighter in fighters])
+    """ Single fighter by id endpoint """
+    # Get fighter from database
+    fighter = session.query(Fighter).filter(Fighter.id == id).first()
+
+    # Check whether fighter exists
+    # If not, return a 404 with a helpful message
+    if not fighter:
+        message = "Could not find fighter with id {}".format(id)
+        data = json.dumps({"message": message})
+        return Response(data, 404, mimetype="application/json")
+
+    # Return fighter as JSON
+    data = json.dumps(fighter.as_dictionary())
     return Response(data, 200, mimetype="application/json")
 
-@app.route("/api/fighter/name/<last_name>/<first_name>/", methods=["GET"])
+@app.route("/api/fighter/name/<last_name>/<first_name>/")
 @decorators.accept("application/json")
 def fighter_by_name(last_name, first_name):
-    """Return a fighter by their full name."""
-    fighters = session.query(Fighter).filter(Fighter.last_name == last_name,
-            Fighter.first_name == first_name).all()
-    data = json.dumps([fighter.as_dictionary() for fighter in fighters])
+    """ Return a fighter by their full name """
+    fighter = session.query(Fighter).filter(Fighter.last_name == last_name,
+            Fighter.first_name == first_name).first()
+    data = json.dumps([fighter.as_dictionary()])
     return Response(data, 200, mimetype="application/json")
 
-@app.route("/api/fighters/<gender>/", methods=["GET"])
+@app.route("/api/fighters/<gender>/")
 @decorators.accept("application/json")
 def fighters_by_gender(gender):
-    """Return fighters by gender."""
+    """ Return fighters by gender """
     fighters = session.query(Fighter).filter(Fighter.gender == gender).all()
     data = [fighter.as_dictionary() for fighter in fighters]
     data = sorted(data, key=lambda k: k['last_name'])
     data = json.dumps(data)
     return Response(data, 200, mimetype="application/json")
 
-@app.route("/api/fighters/<gender>/<promotion>/", methods=["GET"])
+@app.route("/api/fighters/<gender>/<promotion>/")
 @decorators.accept("application/json")
 def fighters_gender_promotion(gender, promotion):
     """Return fighters by gender and promotion."""
@@ -376,7 +390,7 @@ def fighters_gender_promotion(gender, promotion):
     data = json.dumps(data)
     return Response(data, 200, mimetype="application/json")
 
-@app.route("/api/fighters/<gender>/<promotion>/<weight>/", methods=["GET"])
+@app.route("/api/fighters/<gender>/<promotion>/<weight>/")
 @decorators.accept("application/json")
 def fighters_gender_promotion_weight(gender, promotion, weight):
     """Return fighters by gender, promotion and weight."""
