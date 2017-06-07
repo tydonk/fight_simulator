@@ -11,56 +11,27 @@
       <div class="panel-heading">
         <h3 class="panel-title">Fights simulated by {{ current_user.email }}</h3>
       </div>
-      <div class="panel-body text-center">
-        <table id="history_table"
-            class="table table-hover table-responsive table-condensed">
+      <div class="scroll-table panel-body text-center">
+        <table class="table table-hover table-responsive table-condensed">
           <thead>
             <tr>
-              <th>Date</th>
-              <th class="danger">Red Corner</th>
-              <th class="info">Blue Corner</th>
-              <th class="success">Winner</th>
-              <th>Method</th>
-              <th>Time</th>
-              <th>Round</th>
+              <th class="text-center">Date</th>
+              <th class="text-center danger">Red Corner</th>
+              <th class="text-center info">Blue Corner</th>
+              <th class="text-center success">Winner</th>
+              <th class="text-center">Method</th>
+              <th class="text-center">Time</th>
+              <th class="text-center">Round</th>
             </tr>
           </thead>
           <tbody>
-            {% for event in user_history %}
-              {{ macros.render_event(event) }}
+            {% for user_fight in user_history %}
+              {{ macros.render_user_fight(user_fight) }}
             {% endfor %}
           </tbody>
         </table>
-        {% if count > 10 %}
-        <nav aria-label="User history results">
-          <ul class="pagination text-center">
-            {% if has_prev %}
-            <li>
-              <a href="{{ url_for('user_history', page=page-1) }}" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            {% endif %}
-            {% set count=1 %}
-            {% for page in range(0, total_pages) %}
-              <li><a href="{{ url_for('user_history') }}/{{count}}">{{ count }}</a></li>
-              {% set count=count+1 %}
-            {% endfor %}
-            {% if has_next %}
-            <li>
-              <a href="{{ url_for('user_history', page=page+1) }}" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-            {% endif %}
-          </ul>
-        </nav>
-        {% endif %}
       </div>
     </div>
-    <form id="delete_history" role="form" method="POST">
-      <button id="clear_history" type="submit" class="btn btn-primary btn-lg center-block">Clear history</button>
-    </form>
   </div>
 </div>
 
