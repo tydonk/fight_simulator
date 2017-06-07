@@ -59,7 +59,7 @@ body {
 }
 
 .navbar-brand>img {
-  height: 120%;
+  height: 110%;
   padding: 15px; /* firefox bug fix */
   width: auto;
 }
@@ -74,7 +74,7 @@ body {
 }
 
 .panel {
-	border: 1.5px solid black;
+	border: 1px solid black;
 }
 
 .table th {
