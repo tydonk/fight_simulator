@@ -49,7 +49,7 @@ class Fighter(Base):
             "loss": self.loss,
             "draw": self.draw,
             "no_contest": self.no_contest,
-            }
+        }
         return fighter
 
 class User(Base, UserMixin):
@@ -91,5 +91,30 @@ class History(Base):
             "user_id": self.user_id,
             }
         return results
+
+class Event(Base):
+    __tablename__ = "events"
+
+    id = Column(Integer, primary_key=True)
+    event_date = Column(String(256))
+    base_title = Column(String(1024), nullable=False)
+    title_tag_line = Column(String(1024))
+    #feature_image = Column(String(1024))
+    arena = Column(String(1024))
+    location = Column(String(1024))
+    event_id = Column(Integer)
+
+    def as_dictionary(self):
+        event = {
+            "id": self.id,
+            "event_date": self.event_date,
+            "base_title": self.base_title,
+            "title_tag_line": self.title_tag_line,
+            #"feature_image": self.feature_image,
+            "arena": self.arena,
+            "location": self.location,
+            "event_id": self.event_id
+        }
+        return event
 
 Base.metadata.create_all(engine)
