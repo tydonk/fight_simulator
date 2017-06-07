@@ -53,5 +53,4 @@ In your browser navigate to '0.0.0.0:8080' and page should be active.
 
 # License
 
-MIT License
-See [license file](license.md)
+[MIT License](license.md)
