@@ -46,10 +46,10 @@ In your browser navigate to '0.0.0.0:8080' and page should be active.
 
 - /api/fighters
 - /api/fighter/<int:id>/
-- /api/fighter/name/<last_name>/<first_name>/
-- /api/fighters/<gender>/
-- /api/fighters/<gender>/<promotion>/
-- /api/fighters/<gender>/<promotion>/<weight>/
+- /api/fighter/name/\<last_name\>/\<first_name\>/
+- /api/fighters/\<gender\>/
+- /api/fighters/\<gender\>/<promotion>/
+- /api/fighters/\<gender\>/\<promotion\>/\<weight\>/
 
 # License
 
