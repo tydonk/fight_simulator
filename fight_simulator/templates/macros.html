@@ -1,13 +1,24 @@
-{% macro render_event(event) %}
+{% macro render_user_fight(user_fight) %}
 
 <tr>
-  <td>{{ event.fight_date }}</td>
-  <td>{{ event.red_corner }}</td>
-  <td>{{ event.blue_corner }}</td>
-  <td>{{ event.winner }}</td>
-  <td>{{ event.method }}</td>
-  <td>{{ event.end_time }}</td>
-  <td>{{ event.end_round }}</td>
+  <td>{{ user_fight.fight_date }}</td>
+  <td>{{ user_fight.red_corner }}</td>
+  <td>{{ user_fight.blue_corner }}</td>
+  <td>{{ user_fight.winner }}</td>
+  <td>{{ user_fight.method }}</td>
+  <td>{{ user_fight.end_time }}</td>
+  <td>{{ user_fight.end_round }}</td>
+</tr>
+
+{% endmacro %}
+
+{% macro render_events(event) %}
+
+<tr>
+  <td class="event_td">{{ event.base_title }}</td>
+  <td class="event_td">{{ event.title_tag_line }}</td>
+  <td class="event_td">{{ event.arena }}</td>
+  <td class="event_td">{{ event.location }}</td>
 </tr>
 
 {% endmacro %}

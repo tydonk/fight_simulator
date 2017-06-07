@@ -1,0 +1,35 @@
+{% import "macros.html" as macros %}
+{% extends "index.html" %}
+{% block content %}
+
+<div class="container">
+  <div class="page-header">
+    <h1>Events</h1>
+  </div>
+  <div class="col-md-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">UFC Events</h3>
+      </div>
+      <div class="scroll-table panel-body">
+        <table class="table table-hover table-responsive table-condensed">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Tag line</th>
+              <th>Arena</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for event in events %}
+              {{ macros.render_events(event) }}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

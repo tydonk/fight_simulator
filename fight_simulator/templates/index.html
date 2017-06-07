@@ -11,21 +11,20 @@
 		<link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon">
 
 		<!-- CSS -->
-
 		<!-- Bootstrap CDN-->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<!-- Bootstrap Select CDN -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
 		<!-- Fight Simulator -->
     <link rel="stylesheet" href="../static/css/main.css">
 
-		<!-- JavaScript -->
+    <!-- JavaScript -->
 		<!--jQuery -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-		<!-- Bootstrap CDN-->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<!-- Bootstrap Select CDN-->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.js"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<!-- Bootstrap CDN-->
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  	<!-- Bootstrap Select CDN-->
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 
     </head>
 
@@ -50,14 +49,16 @@
 						<li><a href="{{ url_for('create_user_get') }}">Register</a></li>
 						<li><a href="{{ url_for('login_get') }}">Login</a></li>
 						<li><a href="{{ url_for('how_it_works') }}">Instructions</a></li>
+            <li><a href="{{ url_for('events') }}">Events</a></li>
 						{% endif %}
 
-			    		{% if current_user.is_authenticated %}
-			    		<li><a href="{{ url_for('fight') }}">Fight</a></li>
-			    		<li><a href="{{ url_for('user_history') }}">User History</a></li>
-			    		<li><a href="{{ url_for('how_it_works') }}">Instructions</a></li>
-			    		<li><a href="{{ url_for('logout') }}">Logout ({{ current_user.email }})</a></li>
-			    		{% endif %}
+		    		{% if current_user.is_authenticated %}
+		    		<li><a href="{{ url_for('fight') }}">Fight</a></li>
+		    		<li><a href="{{ url_for('user_history') }}">User History</a></li>
+		    		<li><a href="{{ url_for('how_it_works') }}">Instructions</a></li>
+            <li><a href="{{ url_for('events') }}">Events</a></li>
+		    		<li><a href="{{ url_for('logout') }}">Logout ({{ current_user.email }})</a></li>
+		    		{% endif %}
 
 					</ul>
 				</div>
