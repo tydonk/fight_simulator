@@ -17,3 +17,5 @@ __pycache__
 ###############
 _NO COMMIT/
 env/
+logs/
+ghostdriver.log
