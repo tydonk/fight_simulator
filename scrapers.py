@@ -7,33 +7,33 @@ import sys
 import untangle
 from manage import session
 from fight_simulator import database, config, __init__, views
-from fight_simulator.database import User, Fighter, History
+from fight_simulator.database import User, Fighter, History, Event
 from datetime import datetime
 
-promo = sys.argv[1].lower()
+api_to_scrape = sys.argv[1].lower()
 
 def config_logger():
     # Set log output file location and log level
     ftime = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
-    log_name = promo + '_' + ftime
+    log_name = api_to_scrape + '_' + ftime
     cwd = os.getcwd() + '/logs/'
     logging.basicConfig(filename=(cwd + log_name + ".log"), level=logging.DEBUG)
 
 # UFC scraper
 # JSON data from API, some entries need optimization
-if promo == 'ufc':
+if api_to_scrape.lower() == 'ufc':
     print('Scraping UFC fighters...')
     config_logger()
 
     response = requests.get("http://ufc-data-api.ufc.com/api/v3/iphone/fighters")
     txt = response.text
     json.dumps(txt)
-    fighters = json.loads(txt)
+    data = json.loads(txt)
     logging.info("Data request successful, JSON loaded")
     count = 0
     not_added = 0
 
-    for fighter in fighters:
+    for fighter in data:
         if fighter['fighter_status'] == 'Active':
             try:
                 nickname = fighter['nickname']
@@ -76,7 +76,7 @@ if promo == 'ufc':
                                         profile_image = profile_image,
                                         right_full = right_full,
                                         left_full = left_full,
-                                        )
+                                    )
                                     if "Women" in fighter.weight:
                                         fighter.gender = "female"
                                         fighter.weight = fighter.weight.split(' ')[1]
@@ -97,7 +97,7 @@ if promo == 'ufc':
 
 # Bellator scraper
 # XML data from Bellator 'API', some entries need optimization
-if promo == 'bellator':
+if api_to_scrape.lower() == 'bellator':
     print('Scraping Bellator fighters...')
     config_logger()
     xml = "http://api.spike.com/feeds/bellator/1.0/fighters?key=BELLATORAPPKEY&numberOfItems=500"
@@ -156,7 +156,7 @@ if promo == 'bellator':
                     loss = loss,
                     draw = draw,
                     height = height,
-                    )
+                )
                 session.add(fighter)
                 count += 1
         except IndexError as inst:
@@ -165,3 +165,25 @@ if promo == 'bellator':
     session.commit()
     logging.info(str(count) + ' fighters added to DB')
     print(str(count) + ' fighters added to DB')
+
+if api_to_scrape.lower() == 'ufc-events':
+    print('Scraping UFC events...')
+    response = requests.get("http://ufc-data-api.ufc.com/api/v3/iphone/events")
+    txt = response.text
+    json.dumps(txt)
+    data = json.loads(txt)
+
+    for event in data:
+        try:
+            event = Event(
+                event_date = event['event_date'],
+                base_title = event['base_title'],
+                title_tag_line = event['title_tag_line'],
+                arena = event['arena'],
+                location = event['location'],
+                event_id = event['id'],
+            )
+            session.add(event)
+        except (KeyError):
+            print(event['base_title'])
+        session.commit()
