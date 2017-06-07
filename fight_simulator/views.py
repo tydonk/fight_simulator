@@ -3,7 +3,7 @@ import random
 
 from flask import render_template, request, redirect, url_for, flash, Response
 from . import app, decorators
-from .database import session, User, Fighter, History
+from .database import session, User, Fighter, History, Event
 from flask_login import login_required, login_user, current_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from jsonschema import validate, ValidationError
@@ -236,39 +236,25 @@ def return_results():
                     results=result), 201)
 
 @app.route("/user_history")
-@app.route("/user_history/<int:page>")
 @login_required
-@decorators.accept("application/json")
-def user_history(page=1):
-    paginate_by = 20
+def user_history():
     user_id = current_user.id
-
-    # Zero-indexed page
-    page_index = page - 1
-    count = session.query(History).filter(History.user_id == user_id).count()
-    start = page_index * paginate_by
-    end = start + paginate_by
-    total_pages = (count - 1) // paginate_by + 1
-    has_next = page_index < total_pages - 1
-    has_prev = page_index > 0
-
     history = session.query(History).filter(History.user_id == user_id).all()
     user_history = []
-
     for fight in history:
         if fight.visible == True:
             user_history.append(fight.as_dictionary())
 
-    user_history = user_history[start:end]
+    return Response(render_template("user_history.html", user_history=user_history), 200)
 
-    return Response(render_template("user_history.html",
-        user_history=user_history,
-        page=page,
-        has_next=has_next,
-        has_prev=has_prev,
-        total_pages=total_pages,
-        count=count,
-        mimetype="application/json"), 200)
+@app.route("/events")
+def events():
+    all_events = session.query(Event).all()
+    events = []
+    for event in all_events:
+        events.append(event.as_dictionary())
+
+    return Response(render_template("events.html",events=events), 200)
 
 @app.route("/user_history", methods=["POST"])
 @login_required
