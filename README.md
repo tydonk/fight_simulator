@@ -44,9 +44,12 @@ In your browser navigate to '0.0.0.0:8080' and page should be active.
 
 # API Reference
 
-Fighters currently pulled from UFC API (http://ufc-data-api.ufc.com/api/v3/iphone/fighters).
-
-Fighters from other organizations will be added later as currently they don't offer API's.
+/api/fighters
+/api/fighter/<int:id>/
+/api/fighter/name/<last_name>/<first_name>/
+/api/fighters/<gender>/
+/api/fighters/<gender>/<promotion>/
+/api/fighters/<gender>/<promotion>/<weight>/
 
 # License
 
