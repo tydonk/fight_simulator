@@ -1,3 +1,11 @@
+body {
+  background: url("/../static/images/bg-img1.jpg") #1C2833 no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 div.metadata {
 	margin-top: 20px;
 	font-size: 1em;
@@ -18,25 +26,20 @@ div.metadata {
 	color: #ECF0F1;
 }
 
-body {
-  background: url("/../static/images/bg-img1.jpg") #1C2833;
-	background-position: -120px 0px;
-}
-
 .scrollable-menu {
     height: auto;
     max-height: 200px;
     overflow-x: hidden;
 }
 
+.jumbotron {
+	min-height: 50em;
+}
+
 #jumbo {
 	background-image: url("/../static/images/MMAfight.jpg");
 	background-size: 120em auto;
 	background-position: -4em -4em;
-}
-
-.jumbotron {
-	min-height: 50em;
 }
 
 #welcome {
@@ -67,6 +70,7 @@ body {
 .page-header {
 	color: white;
 	margin-top: 1em;
+  text-shadow: 3px 3px 5px black;
 }
 
 .panel-body {
@@ -77,10 +81,19 @@ body {
 	border: 1px solid black;
 }
 
-.table th {
+.history_th {
 	text-align: center;
+}
+
+.event_td {
+	text-align: left;
 }
 
 #login-btn {
 	margin-bottom: 1em;
+}
+
+.scroll-table {
+	max-height: 600px;
+	overflow: auto;
 }
