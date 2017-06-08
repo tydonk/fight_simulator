@@ -9,16 +9,15 @@
 
 		<!-- Basic favicon -->
 		<link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/b539d4ec43.js"></script>
 
-		<!-- CSS -->
 		<!-- Bootstrap CDN-->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<!-- Bootstrap Select CDN -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
 		<!-- Fight Simulator -->
     <link rel="stylesheet" href="../static/css/main.css">
-
-    <!-- JavaScript -->
 		<!--jQuery -->
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   	<!-- Bootstrap CDN-->
@@ -29,7 +28,7 @@
     </head>
 
     <body>
-		<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		    <div class="container">
 				<div class="navbar-header">
 			    	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -61,6 +60,18 @@
 		    		{% endif %}
 
 					</ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="https://github.com/tydonk/fight_simulator">
+                <i class="fa fa-github fa-lg" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/tydon-kommel-974044137/">
+                <i class="fa fa-linkedin fa-lg" aria-hidden="true"></i>
+              </a>
+            </li>
+          </ul>
 				</div>
 			</div>
 		</div>
@@ -80,5 +91,12 @@
 		<div class="container">
 			{% block content %}{% endblock %}
 		</div>
+    <nav class="navbar navbar-inverse navbar-fixed-bottom">
+      <div class="container text-center">
+        <h4>Created by TK
+          <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+        </h4>
+      </div>
+    </nav>
 	</body>
 </html>

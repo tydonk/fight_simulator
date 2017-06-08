@@ -4,6 +4,8 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+	padding-top: 70px;
+	padding-bottom: 70px;
 }
 
 div.metadata {
@@ -24,6 +26,7 @@ div.metadata {
 	padding-bottom: 1em;
 	font-size: 6em;
 	color: #ECF0F1;
+	text-shadow: 3px 3px 5px black;
 }
 
 .scrollable-menu {
@@ -96,4 +99,8 @@ div.metadata {
 .scroll-table {
 	max-height: 600px;
 	overflow: auto;
+}
+
+.glyphicon-flash {
+ color: #FFF862;
 }
