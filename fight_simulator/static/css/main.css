@@ -21,12 +21,14 @@ div.metadata {
 	background-color: #42423B;
 }
 
-#red_reset, #blue_reset {
+#red_reset, #blue_reset, .list-group {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 5px;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 5px;
-
+  -moz-box-shadow:    3px 3px 8px 1px #000000;
+  -webkit-box-shadow: 3px 3px 8px 1px #000000;
+  box-shadow:         3px 3px 8px 1px #000000;
 }
 
 #vs {
@@ -66,7 +68,7 @@ div.metadata {
 	font-size: 1.5em;
 }
 
-.list-group-item {
+.list-group-item{
   border: 0px solid black;
 }
 
