@@ -48,6 +48,7 @@
 						<li><a href="{{ url_for('create_user_get') }}">Register</a></li>
 						<li><a href="{{ url_for('login_get') }}">Login</a></li>
 						<li><a href="{{ url_for('how_it_works') }}">Instructions</a></li>
+            <li><a href="{{ url_for('fighters') }}">Fighters</a></li>
             <li><a href="{{ url_for('events') }}">Events</a></li>
 						{% endif %}
 
@@ -55,6 +56,7 @@
 		    		<li><a href="{{ url_for('fight') }}">Fight</a></li>
 		    		<li><a href="{{ url_for('user_history') }}">User History</a></li>
 		    		<li><a href="{{ url_for('how_it_works') }}">Instructions</a></li>
+            <li><a href="{{ url_for('fighters') }}">Fighters</a></li>
             <li><a href="{{ url_for('events') }}">Events</a></li>
 		    		<li><a href="{{ url_for('logout') }}">Logout ({{ current_user.email }})</a></li>
 		    		{% endif %}

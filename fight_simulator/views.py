@@ -256,6 +256,10 @@ def events():
 
     return Response(render_template("events.html",events=events), 200)
 
+@app.route("/fighters")
+def fighters():
+    return render_template("fighters.html")
+
 @app.route("/user_history", methods=["POST"])
 @login_required
 def clear_history():

@@ -13,11 +13,7 @@ div.metadata {
 	font-size: 1em;
 }
 
-#blue_corner {
-	background-color: #42423B;
-}
-
-#red_corner {
+#blue_corner, #red_corner, .fighter-panel {
 	background-color: #42423B;
 }
 
