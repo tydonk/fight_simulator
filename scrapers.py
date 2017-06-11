@@ -37,7 +37,7 @@ if api_to_scrape.lower() == 'ufc':
         if fighter['fighter_status'] == 'Active':
             try:
                 nickname = fighter['nickname']
-                weight = fighter['weight_class']
+                weight_class = fighter['weight_class']
                 promotion = 'UFC'
                 gender = ''
                 win = fighter['wins']
@@ -64,12 +64,13 @@ if api_to_scrape.lower() == 'ufc':
                                 fighter['draws'] != "null" and
                                 fighter['weight_class'] != None):
                                     fighter = Fighter(
+                                        fighter_id = fighter['id'],
                                         first_name = fighter['first_name'].rstrip(),
                                         last_name = fighter['last_name'].rstrip(),
                                         nickname = fighter['nickname'],
                                         promotion = promotion,
                                         gender = gender,
-                                        weight = weight.replace("_", " "),
+                                        weight_class = weight_class.replace("_", " "),
                                         win = win,
                                         loss = loss,
                                         draw = draw,
@@ -79,7 +80,7 @@ if api_to_scrape.lower() == 'ufc':
                                     )
                                     if "Women" in fighter.weight:
                                         fighter.gender = "female"
-                                        fighter.weight = fighter.weight.split(' ')[1]
+                                        fighter.weight_class = fighter.weight_class.split(' ')[1]
                                     else:
                                         fighter.gender = "male"
                                     count += 1
@@ -150,7 +151,7 @@ if api_to_scrape.lower() == 'bellator':
                     dob = dob,
                     gender = gender,
                     promotion = "Bellator",
-                    weight = weight,
+                    weight_class = weight,
                     profile_image = "/static/images/Body-1.png",
                     win = win,
                     loss = loss,

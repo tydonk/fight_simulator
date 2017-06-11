@@ -14,6 +14,7 @@ class Fighter(Base):
     __tablename__ = "fighters"
 
     id = Column(Integer, primary_key=True)
+    fighter_id = Column(Integer)
     first_name = Column(String(1024), nullable=False)
     last_name = Column(String(1024), nullable=False)
     nickname = Column(String(1024))
@@ -24,16 +25,18 @@ class Fighter(Base):
     profile_image = Column(String(1024))
     right_full = Column(String(1024))
     left_full = Column(String(1024))
-    height = Column(Integer)
-    weight = Column(String(128), nullable=False)
+    weight_class = Column(String(128), nullable=False)
     win = Column(Integer, nullable=False)
     loss = Column(Integer, nullable=False)
     draw = Column(Integer)
     no_contest = Column(Integer)
 
+    stat = relationship("Stats", uselist=False, backref="fighter")
+
     def as_dictionary(self):
         fighter = {
             "id": self.id,
+            "fighter_id": self.fighter_id,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "nickname": self.nickname,
@@ -44,13 +47,52 @@ class Fighter(Base):
             "right_full": self.right_full,
             "left_full": self.left_full,
             "height": self.height,
-            "weight": self.weight,
+            "weight_class": self.weight,
             "win": self.win,
             "loss": self.loss,
             "draw": self.draw,
             "no_contest": self.no_contest,
         }
         return fighter
+
+class Stats(Base):
+    __tablename__ = "stats"
+
+    id = Column(Integer, primary_key=True)
+    weight = Column(Float)
+    height = Column(Float)
+    reach = Column(Float)
+    avg_fight_time = Column(Float)
+    kd_avg = Column(Float)
+    slpm = Column(Float)
+    sapm = Column(Float)
+    strike_accuracy = Column(Float)
+    strike_defense = Column(Float)
+    td_avg = Column(Float)
+    td_accuracy = Column(Float)
+    td_defense = Column(Float)
+    sub_avg = Column(Float)
+
+    fighter_id = Column(Integer, ForeignKey('fighters.fighter_id'), nullable=False)
+
+    def as_dictionary(self):
+        stats = {
+            "id": self.id,
+            "weight": self.weight,
+            "height": self.height,
+            "reach": self.reach,
+            "avg_fight_time": self.avg_fight_time,
+            "kd_avg": self.kd_avg,
+            "slpm": self.slpm,
+            "sapm": self.sapm,
+            "strike_accuracy": self.strike_accuracy,
+            "strike_defense": self.strike_defense,
+            "td_avg": self.td_avg,
+            "td_accuracy": self.td_accuracy,
+            "td_defense": self.td_defense,
+            "sub_avg": self.sub_avg,
+        }
+        return stats
 
 class User(Base, UserMixin):
     __tablename__ = "users"
