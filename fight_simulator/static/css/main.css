@@ -31,6 +31,12 @@ div.metadata {
   box-shadow:         3px 3px 8px 1px #000000;
 }
 
+.profile_image {
+  border: 0px solid #000000;
+  border-radius: 20px;
+  padding-top: 25px;
+}
+
 #vs {
 	padding-top: 3em;
 	padding-bottom: 1em;
@@ -98,7 +104,6 @@ div.metadata {
 	padding-bottom: 0em;
 }
 
-
 .panel {
 	border: 1px solid black;
   -moz-box-shadow:    3px 3px 8px 1px #000000;
@@ -121,4 +126,15 @@ div.metadata {
 
 .glyphicon-flash {
  color: #FFF862;
+}
+
+.shadow {
+	border: 0px solid black;
+  -moz-box-shadow:    3px 3px 8px 1px #000000;
+  -webkit-box-shadow: 3px 3px 8px 1px #000000;
+  box-shadow:         3px 3px 8px 1px #000000;
+}
+
+.footer {
+  color: #ffffff;
 }
