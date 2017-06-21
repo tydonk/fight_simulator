@@ -21,28 +21,42 @@ div.metadata {
 	background-color: #42423B;
 }
 
+#red_reset, #blue_reset, .list-group {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 5px;
+  -moz-box-shadow:    3px 3px 8px 1px #000000;
+  -webkit-box-shadow: 3px 3px 8px 1px #000000;
+  box-shadow:         3px 3px 8px 1px #000000;
+}
+
+.profile_image {
+  border: 0px solid #000000;
+  border-radius: 20px;
+  padding-top: 25px;
+}
+
 #vs {
 	padding-top: 3em;
 	padding-bottom: 1em;
 	font-size: 6em;
 	color: #ECF0F1;
-	text-shadow: 3px 3px 5px black;
+	text-shadow: 5px 5px 5px black;
 }
 
-.scrollable-menu {
-    height: auto;
-    max-height: 200px;
-    overflow-x: hidden;
-}
-
-.jumbotron {
-	min-height: 50em;
+#login-btn {
+	margin-bottom: 1em;
 }
 
 #jumbo {
 	background-image: url("/../static/images/MMAfight.jpg");
 	background-size: 120em auto;
 	background-position: -4em -4em;
+}
+
+.jumbotron {
+	min-height: 50em;
 }
 
 #welcome {
@@ -60,6 +74,16 @@ div.metadata {
 	font-size: 1.5em;
 }
 
+.list-group-item{
+  border: 0px solid black;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
 .navbar-brand {
   padding: 0px; /* firefox bug fix */
 }
@@ -73,7 +97,7 @@ div.metadata {
 .page-header {
 	color: white;
 	margin-top: 1em;
-  text-shadow: 3px 3px 5px black;
+  text-shadow: 3px 3px 10px #000000;
 }
 
 .panel-body {
@@ -82,6 +106,9 @@ div.metadata {
 
 .panel {
 	border: 1px solid black;
+  -moz-box-shadow:    3px 3px 8px 1px #000000;
+  -webkit-box-shadow: 3px 3px 8px 1px #000000;
+  box-shadow:         3px 3px 8px 1px #000000;
 }
 
 .history_th {
@@ -92,10 +119,6 @@ div.metadata {
 	text-align: left;
 }
 
-#login-btn {
-	margin-bottom: 1em;
-}
-
 .scroll-table {
 	max-height: 600px;
 	overflow: auto;
@@ -103,4 +126,15 @@ div.metadata {
 
 .glyphicon-flash {
  color: #FFF862;
+}
+
+.shadow {
+	border: 0px solid black;
+  -moz-box-shadow:    3px 3px 8px 1px #000000;
+  -webkit-box-shadow: 3px 3px 8px 1px #000000;
+  box-shadow:         3px 3px 8px 1px #000000;
+}
+
+.footer {
+  color: #ffffff;
 }

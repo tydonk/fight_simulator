@@ -1,6 +1,34 @@
 {% extends "fight.html" %}
 {% block js_content %}
 
+<div class="panel panel-success shadow">
+  <div class="panel-heading">
+    <h3 class="panel-title text-center">Results</h3>
+  </div>
+  <div id="results" class="panel-body">
+    <table class="table table-hover table-bordered table-responsive">
+      <tbody>
+        <tr>
+          <td class="col-md-3"><b>Winner</b></td>
+          <td id="win_name"></td>
+        </tr>
+        <tr>
+          <td class="col-md-3"><b>Round</b></td>
+          <td id="win_round"></td>
+        </tr>
+        <tr>
+          <td class="col-md-3"><b>Time</b></td>
+          <td id="win_time"></td>
+        </tr>
+        <tr>
+          <td class="col-md-3"><b>Method</b></td>
+          <td id="win_method"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <script>
 None = "";
 resultsData = {{ results|safe }}
@@ -47,7 +75,7 @@ function reload_menu_data() {
 }
 
 function change_button() {
-  $('#fight').replaceWith('<a href="/fight" class="btn btn-danger btn-lg btn-block" role="button">Fight Again</a>');
+  $('#fight').replaceWith('<a href="/fight" class="btn btn-danger btn-lg btn-block shadow" role="button">Fight Again</a>');
 }
 
 function disable_menus_btns() {
@@ -63,33 +91,5 @@ $(document).ready(function() {
 
 });
 </script>
-
-<div class="panel panel-success">
-  <div class="panel-heading">
-    <h3 class="panel-title text-center">Results</h3>
-  </div>
-  <div id="results" class="panel-body">
-    <table class="table table-hover table-bordered table-responsive">
-      <tbody>
-        <tr>
-          <td class="col-md-3"><b>Winner</b></td>
-          <td id="win_name"></td>
-        </tr>
-        <tr>
-          <td class="col-md-3"><b>Round</b></td>
-          <td id="win_round"></td>
-        </tr>
-        <tr>
-          <td class="col-md-3"><b>Time</b></td>
-          <td id="win_time"></td>
-        </tr>
-        <tr>
-          <td class="col-md-3"><b>Method</b></td>
-          <td id="win_method"></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
 
 {% endblock js_content %}
