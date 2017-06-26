@@ -1,5 +1,5 @@
 import datetime
-from sqlalchemy import create_engine, ForeignKey, Column, Integer, String, Text, Date, Table, Boolean
+from sqlalchemy import create_engine, ForeignKey, Column, Integer, String, Text, Date, Table, Boolean, Float
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from . import app
@@ -31,7 +31,7 @@ class Fighter(Base):
     draw = Column(Integer)
     no_contest = Column(Integer)
 
-    stat = relationship("Stats", uselist=False, backref="fighter")
+    stats = relationship("Stats", uselist=False, back_populates="fighter")
 
     def as_dictionary(self):
         fighter = {
@@ -73,7 +73,8 @@ class Stats(Base):
     td_defense = Column(Float)
     sub_avg = Column(Float)
 
-    fighter_id = Column(Integer, ForeignKey('fighters.fighter_id'), nullable=False)
+    fighter_id = Column(Integer, ForeignKey('fighters.id'))
+    fighter = relationship("Fighter", back_populates="stats")
 
     def as_dictionary(self):
         stats = {

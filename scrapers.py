@@ -167,6 +167,7 @@ if api_to_scrape.lower() == 'bellator':
     logging.info(str(count) + ' fighters added to DB')
     print(str(count) + ' fighters added to DB')
 
+# UFC Event scraper
 if api_to_scrape.lower() == 'ufc-events':
     print('Scraping UFC events...')
     response = requests.get("http://ufc-data-api.ufc.com/api/v3/iphone/events")
@@ -188,3 +189,8 @@ if api_to_scrape.lower() == 'ufc-events':
         except (KeyError):
             print(event['base_title'])
         session.commit()
+
+# UFC Fighter Stat scraper - takes states from events
+if api_to_scrape.lower() == 'ufc-fighter-stats':
+    print('Scraping UFC fighter stats from events API...')
+    response = requests.get("")
