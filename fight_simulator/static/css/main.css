@@ -60,10 +60,9 @@ div.metadata {
 }
 
 #welcome {
-	position: relative;
-	top: 20em;
-	right: 2em;
+  margin-left: 0px;
 	color: white;
+  max-width: 500px;
 }
 
 #result_row {
